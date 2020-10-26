@@ -455,6 +455,35 @@
             });
             $("#vm_ver_productos").modal("show");
         });
+        $(".ver-productos-remision").on('click', function() {
+            $("#body_tbl_remision > tbody").empty();
+            var obj = new Object();
+            obj.remision_id = $(this).attr("remision_id");
+            $.ajax({
+                url: '<?= base_url('remision/obtener_productos_remision') ?>',
+                method: 'POST',
+                dataType: "json",
+                data: obj
+            }).then(function(data) {
+                console.log(data);
+                data.forEach(function(cp, index) {
+                   
+                        $('#body_tbl_remision > tbody:last-child').append('<tr>' +
+                            '<td>' + cp.id + '</td>' +
+                            '<td>' + cp.cod + '</td>' +
+                            '<td><h4 class="m-b-0 font-16">' + cp.descripcion + '</h4></td>' +
+                            '<td>' + cp.unidad_medida + '</td>' +
+                            '<td>' + cp.cantidad + '</td>' +
+                           
+                            '</tr>');
+                   
+                    
+                });
+            }, function(reason) {
+                console.log(reason);
+            });
+            $("#vm_ver_productos_remision").modal("show");
+        });
     });
 </script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
@@ -2320,6 +2349,7 @@
         $("#unidad_medida").val('');
         $('#vm_add_producto').modal('toggle');
         document.getElementById("frm-add-producto-remision").reset();
+        updating=false;
     });
 
     function CargarUbigeo() {

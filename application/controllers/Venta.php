@@ -540,7 +540,8 @@ class Venta extends CI_Controller
                 'codigo_moneda' => $data['codmoneda_comprobante'],
                 'total_letras' => $data['txt_total_letras'],
                 'cliente_direccion' => $data['cliente_direccion'],
-                'cliente_ubigeo' => $data['tarjeta_bonus']
+                'cliente_ubigeo' => $data['tarjeta_bonus'],
+                'observacion' => $data["observacion_documento"] 
             );
             $rutas = array();
             $rutas['nombre_archivo'] = $archivo;

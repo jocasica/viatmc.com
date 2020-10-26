@@ -10,7 +10,7 @@ class Remision extends CI_Controller {
         $this->load->library(array('ion_auth', 'form_validation'));
         $this->load->helper(array('url', 'language'));
         // $this->load->model('Guia_model');
-
+        $this->load->model(array('cliente_model', 'remision_producto_model'));
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
         $this->lang->load('auth');
@@ -543,6 +543,15 @@ class Remision extends CI_Controller {
             redirect('auth/login', 'refresh');
         }//end else
     }
+    public function obtener_productos_remision()
+    {
+        $data = $_POST;
+        $productos = $this->remision_producto_model->getRemisionProductosByRemision($data["remision_id"]);
+        echo json_encode($productos);
+        exit;
+    }
+	
+	
 
 //end subir_documento_conformidad
 }

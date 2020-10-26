@@ -45,6 +45,20 @@
                 return '';
             }//end else
         }//end obtener_remision
-        
+        public function getRemisionProductosByRemision($id_remision)
+        {
+            $this->db->select('*');
+            $this->db->from($this->tabla);
+            $this->db->where('remision_id', $id_remision);
+            return $this->db->get()->result();
+        }
+    
+        public function updateCPE_remision($id, $external_id, $estado_api, $mensaje_api)
+        {
+            $query = "update remision set external_id ='" . $external_id . "',mensaje_api ='" . $mensaje_api . "', estado_api='" . $estado_api . "' "
+                . " where id=" . $id;
+            //echo $query;
+            return $this->db->query($query);
+        }
     }//end class Remision_producto_model
 ?>
