@@ -1,0 +1,18 @@
+.btn { width: auto; }
+.cursor_pointer { cursor: pointer; }
+#tbody_productos_cotizacion td { vertical-align: middle; }
+#tabla_cotizaciones td, #tabla_cotizaciones th { vertical-align: middle; text-align: center; }
+#tabla_productos td, #tabla_productos th { vertical-align: middle; text-align: center; }
+#tabla_lista_compras td, #tabla_lista_compras th { vertical-align: middle; text-align: center; }
+#tabla_lista_proveedores td, #tabla_lista_proveedores th { vertical-align: middle; text-align: center; }
+#tabla_productos_compra td, #tabla_productos_compra th { vertical-align: middle; text-align: center; }
+#PrincipalSectionTable td, #PrincipalSectionTable th { vertical-align: middle; text-align: center; }
+#tabla_lista_clientes td, #tabla_lista_clientes th { vertical-align: middle; text-align: center; }
+#tabla_lista_vendedores td, #tabla_lista_vendedores th { vertical-align: middle; text-align: center; }
+#tabla_productos_registrar_cotizacion td, #tabla_productos_registrar_cotizacion th { vertical-align: middle; text-align: center; }
+#tabla_verificar_productos_cotizacion td, #tabla_verificar_productos_cotizacion th { vertical-align: middle; text-align: center; }
+/* Select2 -> height */
+.select2-container .select2-selection--single { height: 36px !important; padding-top: 4px !important;}
+.select2-search--dropdown:after { content: '' !important; }
+.mi_input { font-size: 12px; border: #d1d1d1 1px; margin: 2px 0px 2px 0px; height: 20px; }
+.mi_input:focus {color:#495057; background-color:#fff;border-color:#80bdff;outline:0;box-shadow:0 0 0 .1rem rgba(0,123,255,.25)}

@@ -1,0 +1,21 @@
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond $1 !^(index.php|robots\.txt|sitemap\.xml|plantilla)
+RewriteCond $1 !^(index.php|robots\.txt|sitemap\.xml|application|archivos_xml_sunat)
+RewriteCond $1 !^(index.php|robots\.txt|sitemap\.xml|application)
+RewriteRule ^(.*)$ index.php/$1[L]
+#Adjust default time zone 
+SetEnv TZ America/Lima
+setEnv APP_URL              "http://localhost/tmc/"
+setEnv APP_ENV              "production"
+setEnv APP_DB_CONNECTION    "mysql"
+setEnv APP_DB_HOST          "127.0.0.1"
+setEnv APP_DB_PORT          "3306"
+setEnv APP_DB_DATABASE      "db_tmc"
+setEnv APP_DB_USERNAME      "root"
+setEnv APP_DB_PASSWORD      ""
+setEnv APP_EMPRESA_RUC      "12345678912"
+#config CPE
+setEnv APP_CPE_URL                  "https://demo.escienza.pro/api"
+setEnv APP_CPE_TOKEN                "VcoOg2u1ExqyyugwKlBiPptTJWmlGgrNGlABsJKUoglYLTEhi3"
