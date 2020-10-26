@@ -640,7 +640,7 @@ class Venta_model extends CI_Model
         $result = $this->db->query("select f.estado_api,v.codigo_moneda, f.fecha, f.vencimiento,f.hash, f.ruc docum, f.direccion,f.cliente, f.serie, LPAD(f.numero, 8, '0') numero, v.created_at,v.guia_remision,v.orden_servicio
     ,case when f.envio = 'enviado' then 'Aceptado'
     when f.envio = 'rechazado' then 'Rechazado' when f.envio = 'pendiente' then 'Pendiente'
-    end as envio,v.tipo_venta, v.metodo_pago
+    end as envio,v.tipo_venta, v.metodo_pago,v.observacion
     from venta v inner join factura f on f.venta_id=v.id where v.id=" . $venta_id . " LIMIT 1");
         return $result->row();
     }

@@ -22,6 +22,40 @@
             </div>
         </div>
     </div>
+    <div id="vm_ver_productos_remision" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h6 class="modal-title" style="color:white">Productos de la remision</h6>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div hidden class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+                            Agregue la serie del producto comprado.
+                        </div>
+                    </div>
+                    <table class="table v-middle" id="body_tbl_remision">
+                        <thead>
+                            <tr class="bg-light">
+                                <th class="border-top-0">ID</th>
+                                <th class="border-top-0">Codigo Producto</th>
+                                <th class="border-top-0">Descripcion</th>
+                                <th class="border-top-0">Unidad medida</th>
+                                <th class="border-top-0">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="row">
             <!-- column -->
@@ -155,7 +189,10 @@
                                                     </a>
                                                     <!-- - <a href="<?= base_url('remision/delete/' . $c->id) ?>" >
                                             <i class="ti-trash"></i> Eliminar
-                                    </a> -->
+                                    </a> -->	<br >
+													<a href="#" remision_id="<?= $c->id ?>" class="ver-productos-remision">
+														<i class="ti-menu"></i> Ver Productos
+													</a>
                                                 </td>
                                             </tr>
                                     <?php

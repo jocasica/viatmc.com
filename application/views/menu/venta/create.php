@@ -475,7 +475,7 @@
 						</div>
 
 						<!-- Observaciones del documento NO VISIBLE -->
-						<div class="col-sm-12" hidden>
+						<div class="col-sm-12">
 							<div class="content-group">
 								<h6><i class="icon-notebook position-left"></i> Observación:</h6>
 								<div class="mb-15 mt-15">

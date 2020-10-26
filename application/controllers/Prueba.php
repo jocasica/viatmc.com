@@ -107,6 +107,7 @@ class Prueba extends CI_Controller
         if ($tipo_cpe == 'facturaA4') {
             $prods = $this->venta_model->getProductosVentaA4($venta_id);
             $data = $this->venta_model->getDatosVentaFacturaA4($venta_id);
+            /*
             $this->load->library('../controllers/fe/documentos_html');
             $html_documentos = $this->documentos_html;
             $html = $html_documentos->get_html_factura($data, $prods);
@@ -115,6 +116,11 @@ class Prueba extends CI_Controller
             $dompdf->setPaper('A4');
             $dompdf->render();
             $dompdf->stream($data->serie . " - " . $data->numero . ".pdf", array('Attachment' => 0));
+            */ $this->load->library('pdfdos');
+            $pdf = $this->pdfdos;
+            //$compras = $this->Compra_model->getComprasReporte();
+
+            $pdf->reporte_factura_A4($data, $prods);
         }
         if ($tipo_cpe == 'factura_nota_creditoA4') {
             $prods = $this->venta_model->getProductosVentaA4($venta_id);
