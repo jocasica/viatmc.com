@@ -34,4 +34,4 @@ tests/results/
 error_log
 .htaccess
 /.htaccess
-/application/third_party/
+application/third_party/
