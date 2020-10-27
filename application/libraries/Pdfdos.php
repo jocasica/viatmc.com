@@ -890,7 +890,7 @@ class Pdfdos
         $pdf->Ln(10);
         $pdf->SetX(5);
         $pdf->Cell(15, 6, utf8_decode('Nro.'), 0, 0, 'C', true);
-        $pdf->Cell(25, 6, utf8_decode('Cdo. bien'), 0, 0, 'C', true);
+        $pdf->Cell(25, 6, utf8_decode('Cod. bien'), 0, 0, 'C', true);
         $pdf->Cell(105, 6, utf8_decode('Descripcion'), 0, 0, 'C', true);
         $pdf->Cell(20, 6, utf8_decode('Uni. med.'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Cantidad'), 0, 0, 'C', true);
