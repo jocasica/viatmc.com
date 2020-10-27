@@ -1038,7 +1038,7 @@ class Pdfdos
         $pdf->SetX(5);
         $pdf->Cell(15, 6, utf8_decode('Item.'), 1, 0, 'C', true);
         $pdf->Cell(20, 6, utf8_decode('Código'), 1, 0, 'C', true);
-        $pdf->Cell(85, 6, utf8_decode('Descripción'), 1, 0, 'C', true);
+        $pdf->Cell(90, 6, utf8_decode('Descripción'), 1, 0, 'C', true);
         $pdf->Cell(15, 6, utf8_decode('U.M. '), 1, 0, 'C', true);
         $pdf->Cell(15, 6, utf8_decode('Cantidad'), 1, 0, 'C', true);
         $pdf->Cell(20, 6, utf8_decode('Precio'), 1, 0, 'C', true);
@@ -1077,13 +1077,13 @@ class Pdfdos
             $pdf->SetX(5);
             $pdf->Cell(15, 4, $f, 0, 0, 'C', true);
             $pdf->Cell(20, 4, utf8_decode($pro->codigo_producto), 0, 0, 'C', true);
-            $pdf->Cell(85, 4, "", 0, 0, 'C', true);
+            $pdf->Cell(90, 4, "", 0, 0, 'C', true);
             $pdf->Cell(15, 4, utf8_decode($pro->unidad), 0, 0, 'C', true);
             $pdf->Cell(15, 4, round($pro->cantidad, 2), 0, 0, 'C', true);
             $pdf->Cell(20, 4, number_format($pro->precio_unidad, 2), 0, 0, 'R', true);
             $pdf->Cell(25, 4, number_format($pro->total, 2), 0, 0, 'R', true);
             $pdf->setX(40);
-            $pdf->MultiCell(85, 4, utf8_decode($pro->nombre_producto),  0, 'L', true);
+            $pdf->MultiCell(90, 4, utf8_decode($pro->nombre_producto),  0, 'L', true);
             $pdf->Line(5, $pdf->GetY(), 205, $pdf->GetY());
             $pdf->setY($pdf->GetY() - 4);
             $pdf->SetDrawColor(0, 0, 0);
