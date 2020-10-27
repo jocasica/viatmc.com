@@ -861,7 +861,10 @@ class Pdfdos
         $pdf->Ln(10);
         $pdf->SetX(5);
         $pdf->Cell(190, 4, utf8_decode('DATOS DEL TRANSPORTE'), 0, 0, 'L');
-
+        $pdf->Ln(4);
+        $pdf->SetX(5);
+        $pdf->Cell(190, 4, utf8_decode('DATOS DE LOS VEHÍCULOS - DATOS DE LOS CONDUCTORES'), 0, 0, 'L');
+       
 
         //tabla vehículos
         $pdf->SetFillColor(153, 153, 153);
