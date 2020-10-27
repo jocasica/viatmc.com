@@ -808,56 +808,72 @@ class Pdfdos
         $pdf->Cell(78, 4, utf8_decode('www.viatmc.com'), 0, 0, 'L');
 
         $pdf->SetFont('Arial', '', 10);
+        $pdf->SetTextColor(68, 68, 68);
         $pdf->Ln(7);
-        $pdf->Cell(60, 6, utf8_decode('DATOS DEL TRASLADO'), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('DATOS DEL TRASLADO'), 0, 0, 'L');
+        $pdf->Ln(4);
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Fecha emision:'), 0, 0, 'L');
+        $pdf->Cell(40, 4, $data->fecha_remision, 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(60, 5, utf8_decode('Fecha emision:'), 0, 0, 'L');
-        $pdf->Cell(40, 5, $data->fecha_remision, 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Fecha de inicio del traslado:'), 0, 0, 'L');
+        $pdf->Cell(40, 4, $data->fecha_inicio_traslado, 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(60, 5, utf8_decode('Fecha de inicio del traslado:'), 0, 0, 'L');
-        $pdf->Cell(40, 5, $data->fecha_inicio_traslado, 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Motivo de traslado:'), 0, 0, 'L');
+        $pdf->Cell(40, 4, utf8_decode($data->motivo_traslado_descripcion), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(60, 5, utf8_decode('Motivo de traslado:'), 0, 0, 'L');
-        $pdf->Cell(40, 5, utf8_decode($data->motivo_traslado_descripcion), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Modalidad Transporte:'), 0, 0, 'L');
+        $pdf->Cell(40, 4, utf8_decode($data->modalidad_transporte), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(60, 5, utf8_decode('Modalidad Transporte:'), 0, 0, 'L');
-        $pdf->Cell(40, 5, utf8_decode($data->modalidad_transporte), 0, 0, 'L');
-        $pdf->Ln();
-        $pdf->Cell(60, 5, utf8_decode('Peso bruto(KGM):'), 0, 0, 'L');
-        $pdf->Cell(40, 5,  $data->peso_bruto, 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Peso bruto(KGM):'), 0, 0, 'L');
+        $pdf->Cell(40, 4,  $data->peso_bruto, 0, 0, 'L');
 
         $pdf->Ln(8);
-        $pdf->Cell(190, 6, utf8_decode('DATOS DEL DESTINATARIO'), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(190, 4, utf8_decode('DATOS DEL DESTINATARIO'), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(60, 5, utf8_decode('Razón Social o Denominación:'), 0, 0, 'L');
-        $pdf->Cell(130, 5, utf8_decode($data->destinatario_nombre), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Razón Social o Denominación:'), 0, 0, 'L');
+        $pdf->Cell(130, 4, utf8_decode($data->destinatario_nombre), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(60, 5, utf8_decode('Documento de identidad:'), 0, 0, 'L');
-        $pdf->Cell(130, 5, utf8_decode($data->destinatario_identidad_numero), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Documento de identidad:'), 0, 0, 'L');
+        $pdf->Cell(130, 4, utf8_decode($data->destinatario_identidad_numero), 0, 0, 'L');
 
         $pdf->Ln(10);
-        $pdf->Cell(190, 6, utf8_decode('DATOS DEL PUNTO DE PARTIDA Y PUNTO DE LLEGADA'), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(190, 4, utf8_decode('DATOS DEL PUNTO DE PARTIDA Y PUNTO DE LLEGADA'), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(60, 6, utf8_decode('Direccion del punto de partida:'), 0, 0, 'L');
-        $pdf->Cell(130, 6, utf8_decode($data->partida_ubigeo . " " . $data->partida_direccion), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Direccion del punto de partida:'), 0, 0, 'L');
+        $pdf->Cell(130, 4, utf8_decode($data->partida_ubigeo . " " . $data->partida_direccion), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(60, 6, utf8_decode('Direccion del punto de llegada:'), 0, 0, 'L');
-        $pdf->Cell(130, 6, utf8_decode($data->llegada_ubigeo . " " . $data->llegada_direccion), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(60, 4, utf8_decode('Direccion del punto de llegada:'), 0, 0, 'L');
+        $pdf->Cell(130, 4, utf8_decode($data->llegada_ubigeo . " " . $data->llegada_direccion), 0, 0, 'L');
 
 
         $pdf->Ln(10);
-        $pdf->Cell(190, 6, utf8_decode('DATOS DE LOS VEHÍCULOS - DATOS DE LOS CONDUCTORES'), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(190, 4, utf8_decode('DATOS DE LOS VEHÍCULOS - DATOS DE LOS CONDUCTORES'), 0, 0, 'L');
 
        
         //tabla vehículos
         $pdf->SetFillColor(153, 153, 153);
         $pdf->SetTextColor(250, 250, 250);
         $pdf->Ln(10);
+        $pdf->SetX(5);
         $pdf->Cell(50, 6, utf8_decode('Nro. Placa'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Nro.'), 0, 0, 'C', true);
         $pdf->Cell(50, 6, utf8_decode('Tipo doc'), 0, 0, 'C', true);
         $pdf->Cell(65, 6, utf8_decode('Nro. docu'), 0, 0, 'C', true);
         $pdf->Ln();
+        $pdf->SetX(5);
         $pdf->SetTextColor(68, 68, 68);
         $pdf->Cell(50, 8, utf8_decode($data->placa_vehiculo_transporte), 0, 0, 'C');
         $pdf->Cell(25, 8, utf8_decode("1"), 0, 0, 'C');
@@ -866,14 +882,16 @@ class Pdfdos
        
 
         $pdf->Ln(10);
+        $pdf->SetX(5);
         $pdf->Cell(190, 6, utf8_decode('DATOS DE LOS BIENES'), 0, 0, 'L');
         //tabla bienes
         $pdf->SetFillColor(153, 153, 153);
         $pdf->SetTextColor(250, 250, 250);
         $pdf->Ln(10);
+        $pdf->SetX(5);
         $pdf->Cell(15, 6, utf8_decode('Nro.'), 0, 0, 'C', true);
-        $pdf->Cell(30, 6, utf8_decode('Cdo. bien'), 0, 0, 'C', true);
-        $pdf->Cell(100, 6, utf8_decode('Descripcion'), 0, 0, 'C', true);
+        $pdf->Cell(25, 6, utf8_decode('Cdo. bien'), 0, 0, 'C', true);
+        $pdf->Cell(105, 6, utf8_decode('Descripcion'), 0, 0, 'C', true);
         $pdf->Cell(20, 6, utf8_decode('Uni. med.'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Cantidad'), 0, 0, 'C', true);
         //$pdf->Ln();
@@ -885,24 +903,25 @@ class Pdfdos
                 $pro->unidad_medida = '';
             }
             if ($f % 2 == 0) {
-                $pdf->SetFillColor(240, 240, 240);
+                $pdf->SetFillColor(255, 255, 255);
             } else {
                 $pdf->SetFillColor(255, 255, 255);
             }
-            $pdf->Ln(6);
-            $pdf->Cell(15, 6, $f, 0, 0, 'L', true);
-            $pdf->Cell(30, 6, utf8_decode($pro->cod), 0, 0, 'L', true);
-            $pdf->Cell(100, 6, "", 0, 0, 'L');
-            $pdf->Cell(20, 6, utf8_decode($pro->unidad_medida), 0, 0, 'L', true);
-            $pdf->Cell(25, 6, $pro->cantidad, 0, 0, 'L', true);
-            $pdf->setX(55);
-            $pdf->MultiCell(100, 6, utf8_decode($pro->descripcion),  0, 'L', true);
-            $pdf->setY($pdf->GetY() - 6);
+            $pdf->Ln(7);
+            $pdf->SetX(5);
+            $pdf->Cell(15, 4, $f, 0, 0, 'C', true);
+            $pdf->Cell(30, 4, utf8_decode($pro->cod), 0, 0, 'C', true);
+            $pdf->Cell(100, 4, "", 0, 0, 'L');
+            $pdf->Cell(20, 4, utf8_decode($pro->unidad_medida), 0, 0, 'C', true);
+            $pdf->Cell(25, 4, $pro->cantidad, 0, 0, 'C', true);
+            $pdf->setX(50);
+            $pdf->MultiCell(100, 4, utf8_decode($pro->descripcion),  0, 'L', true);
+            $pdf->setY($pdf->GetY() - 4);
             $f = $f + 1;
         }
         $pdf->Ln(12);
-        $pdf->Cell(35, 6, utf8_decode('OBSERVACIONES:'), 0, 0, 'L');
-        $pdf->Cell(155, 6, utf8_decode($data->observaciones), 0, 0, 'L');
+        $pdf->SetX(5);
+        $pdf->Cell(190, 6, utf8_decode('OBSERVACIONES: '.$data->observaciones), 0, 0, 'C');
         $pdf->output('', $data->serie . '-' . $data->numero . "_" . $data->destinatario_nombre . '.pdf');
     }
     public function reporte_factura_A4($data, $prods)
