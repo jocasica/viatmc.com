@@ -115,7 +115,7 @@
 															echo '<label class="badge badge-info">Por Anular</label>';
 															break;
 														default:
-															echo ''
+															echo '<label'
 																. ' data-cpe="enviar" '
 																. ' data-id="' . $n->id . '"'
 																. ' data-serie="' . $n->serie . '"'
