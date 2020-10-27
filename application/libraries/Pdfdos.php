@@ -863,7 +863,7 @@ class Pdfdos
         $pdf->Cell(190, 4, utf8_decode('DATOS DEL TRANSPORTE'), 0, 0, 'L');
         $pdf->Ln(4);
         $pdf->SetX(5);
-        $pdf->Cell(190, 4, utf8_decode('DATOS DE LOS VEHÍCULOS - DATOS DE LOS CONDUCTORES'), 0, 0, 'L');
+        $pdf->Cell(190, 4, utf8_decode('Datos de los vehículos     |    Datos de los conductores'), 0, 0, 'L');
        
 
         //tabla vehículos
