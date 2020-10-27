@@ -830,7 +830,7 @@ class Pdfdos
         $pdf->Cell(40, 4, utf8_decode($data->modalidad_transporte), 0, 0, 'L');
         $pdf->Ln();
         $pdf->SetX(5);
-        $pdf->Cell(60, 4, utf8_decode('Peso bruto(KGM):'), 0, 0, 'L');
+        $pdf->Cell(60, 4, utf8_decode('Peso bruto (kg):'), 0, 0, 'L');
         $pdf->Cell(40, 4,  $data->peso_bruto, 0, 0, 'L');
 
         $pdf->Ln(8);
@@ -874,7 +874,7 @@ class Pdfdos
         $pdf->Cell(50, 6, utf8_decode('Nro. Placa'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Nro.'), 0, 0, 'C', true);
         $pdf->Cell(50, 6, utf8_decode('Tipo Doc.'), 0, 0, 'C', true);
-        $pdf->Cell(65, 6, utf8_decode('Nro Doc.'), 0, 0, 'C', true);
+        $pdf->Cell(65, 6, utf8_decode('Nro. Doc.'), 0, 0, 'C', true);
         $pdf->Ln();
         $pdf->SetX(5);
         $pdf->SetTextColor(68, 68, 68);
@@ -893,7 +893,7 @@ class Pdfdos
         $pdf->Ln(6);
         $pdf->SetX(5);
         $pdf->Cell(15, 6, utf8_decode('Nro.'), 0, 0, 'C', true);
-        $pdf->Cell(25, 6, utf8_decode('Cod bien'), 0, 0, 'C', true);
+        $pdf->Cell(25, 6, utf8_decode('Cod. Bien'), 0, 0, 'C', true);
         $pdf->Cell(105, 6, utf8_decode('Descripción'), 0, 0, 'C', true);
         $pdf->Cell(20, 6, utf8_decode('Und. Med.'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Cantidad'), 0, 0, 'C', true);
