@@ -814,7 +814,7 @@ class Pdfdos
         $pdf->Cell(60, 4, utf8_decode('DATOS DEL TRASLADO'), 0, 0, 'L');
         $pdf->Ln(4);
         $pdf->SetX(5);
-        $pdf->Cell(60, 4, utf8_decode('Fecha emisión:'), 0, 0, 'L');
+        $pdf->Cell(60, 4, utf8_decode('Fecha de emisión:'), 0, 0, 'L');
         $pdf->Cell(40, 4, $data->fecha_remision, 0, 0, 'L');
         $pdf->Ln();
         $pdf->SetX(5);
@@ -850,11 +850,11 @@ class Pdfdos
         $pdf->Cell(190, 4, utf8_decode('DATOS DEL PUNTO DE PARTIDA Y PUNTO DE LLEGADA'), 0, 0, 'L');
         $pdf->Ln();
         $pdf->SetX(5);
-        $pdf->Cell(60, 4, utf8_decode('Direccion del punto de partida:'), 0, 0, 'L');
+        $pdf->Cell(60, 4, utf8_decode('Dirección del punto de partida:'), 0, 0, 'L');
         $pdf->Cell(130, 4, utf8_decode($data->partida_ubigeo . " " . $data->partida_direccion), 0, 0, 'L');
         $pdf->Ln();
         $pdf->SetX(5);
-        $pdf->Cell(60, 4, utf8_decode('Direccion del punto de llegada:'), 0, 0, 'L');
+        $pdf->Cell(60, 4, utf8_decode('Dirección del punto de llegada:'), 0, 0, 'L');
         $pdf->Cell(130, 4, utf8_decode($data->llegada_ubigeo . " " . $data->llegada_direccion), 0, 0, 'L');
 
 
@@ -893,8 +893,8 @@ class Pdfdos
         $pdf->Ln(6);
         $pdf->SetX(5);
         $pdf->Cell(15, 6, utf8_decode('Nro.'), 0, 0, 'C', true);
-        $pdf->Cell(25, 6, utf8_decode('Cod. bien'), 0, 0, 'C', true);
-        $pdf->Cell(105, 6, utf8_decode('Descripcion'), 0, 0, 'C', true);
+        $pdf->Cell(25, 6, utf8_decode('Cod bien'), 0, 0, 'C', true);
+        $pdf->Cell(105, 6, utf8_decode('Descripción'), 0, 0, 'C', true);
         $pdf->Cell(20, 6, utf8_decode('Und. Med.'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Cantidad'), 0, 0, 'C', true);
         //$pdf->Ln();
