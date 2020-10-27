@@ -781,7 +781,7 @@ class Pdfdos
         $pdf->Cell(110, 7, "", 0, 0, 'L');
         $pdf->Cell(90, 7, $data->serie . ' - ' . $data->numero, 0, 0, 'C');
 
-        $pdf->SetFont('Arial', '',8.8);
+        $pdf->SetFont('Arial', '', 8.8);
         $pdf->Ln(13);
         $pdf->Cell(55, 4, utf8_decode('Jr. Pataz Nº 1243 Mz. Q Lt. 30'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
@@ -862,7 +862,7 @@ class Pdfdos
         $pdf->SetX(5);
         $pdf->Cell(190, 4, utf8_decode('DATOS DE LOS VEHÍCULOS - DATOS DE LOS CONDUCTORES'), 0, 0, 'L');
 
-       
+
         //tabla vehículos
         $pdf->SetFillColor(153, 153, 153);
         $pdf->SetTextColor(250, 250, 250);
@@ -878,8 +878,8 @@ class Pdfdos
         $pdf->Cell(50, 8, utf8_decode($data->placa_vehiculo_transporte), 0, 0, 'C');
         $pdf->Cell(25, 8, utf8_decode("1"), 0, 0, 'C');
         $pdf->Cell(50, 8, utf8_decode($data->transportista_identidad_tipo), 0, 0, 'C');
-        $pdf->Cell(65, 8, utf8_decode($data->conductor_identidad_numero),0, 0, 'C');
-       
+        $pdf->Cell(65, 8, utf8_decode($data->conductor_identidad_numero), 0, 0, 'C');
+
 
         $pdf->Ln(10);
         $pdf->SetX(5);
@@ -921,7 +921,7 @@ class Pdfdos
         }
         $pdf->Ln(12);
         $pdf->SetX(5);
-        $pdf->Cell(190, 6, utf8_decode('OBSERVACIONES: '.$data->observaciones), 0, 0, 'C');
+        $pdf->Cell(190, 6, utf8_decode('OBSERVACIONES: ' . $data->observaciones), 0, 0, 'C');
         $pdf->output('', $data->serie . '-' . $data->numero . "_" . $data->destinatario_nombre . '.pdf');
     }
     public function reporte_factura_A4($data, $prods)
@@ -960,7 +960,7 @@ class Pdfdos
         $pdf->Cell(115, 7, "", 0, 0, 'L');
         $pdf->Cell(78, 7, $data->serie . ' - ' . $data->numero, 0, 0, 'C');
 
-        $pdf->SetFont('Arial', '',8.8);
+        $pdf->SetFont('Arial', '', 8.8);
         $pdf->Ln(12);
         $pdf->Cell(55, 4, utf8_decode('Jr. Pataz Nº 1243 Mz. Q Lt. 30'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
@@ -994,7 +994,7 @@ class Pdfdos
         $pdf->Cell(82, 4, "", 0, 0, 'L');
         $pdf->Cell(38, 4, utf8_decode('RUC N°:'), 0, 0, 'L');
         $pdf->Cell(27, 4, utf8_decode($data->docum), 0, 0, 'L');
-        $pdf->setX(50 );
+        $pdf->setX(50);
         $pdf->MultiCell(82, 4,  utf8_decode($data->cliente),  0, 'L');
         $pdf->setY($pdf->GetY() - 4);
         //$pdf->Cell(130, 6, utf8_decode($data->partida_ubigeo . " " . $data->partida_direccion), 0, 0, 'L');
@@ -1028,9 +1028,9 @@ class Pdfdos
         $pdf->SetTextColor(68, 68, 68);
 
         $pdf->SetFont('Arial', 'B', 9);
-        $pdf->Ln(5);
-        $pdf->SetX(5);
-        //$pdf->Row();
+    
+
+
         $pdf->Ln(5);
         $pdf->SetX(5);
         $pdf->Cell(15, 6, utf8_decode('Item.'), 1, 0, 'C', true);
@@ -1038,15 +1038,25 @@ class Pdfdos
         $pdf->Cell(85, 6, utf8_decode('Descripción'), 1, 0, 'C', true);
         $pdf->Cell(15, 6, utf8_decode('U.M. '), 1, 0, 'C', true);
         $pdf->Cell(15, 6, utf8_decode('Cantidad'), 1, 0, 'C', true);
-        $pdf->Cell(20, 6, utf8_decode('Precio'), 1, 0, 'R', true);
-        $pdf->Cell(25, 6, utf8_decode('Total'), 1, 0, 'R', true);
+        $pdf->Cell(20, 6, utf8_decode('Precio'), 1, 0, 'C', true);
+        $pdf->Cell(25, 6, utf8_decode('Total'), 1, 0, 'C', true);
         //$pdf->Ln();
         $pdf->SetTextColor(68, 68, 68);
         //contenido tablas
         $pdf->SetFont('Arial', '', 8);
+        /*
+        $pdf->Ln(6);
+        $pdf->SetX(5);
+         $pdf->SetWidths(array(15, 20, 85, 15, 15, 20, 25));
+        $i = 1;
+        foreach ($prods->result() as $pro) {
+            $pdf->Row(array($i, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2),number_format($pro->total, 2)));
+            $i++;
+        }
+
+*/
         $pdf->Ln(1);
         $pdf->SetX(5);
-        
         $f = 1;
         $subtotal = 0;
         $total = 0;
@@ -1063,16 +1073,16 @@ class Pdfdos
             $pdf->Ln(6);
             $pdf->SetX(5);
             $pdf->Cell(15, 4, $f, 0, 0, 'C', true);
-            $pdf->Cell(20, 5, utf8_decode($pro->codigo_producto), 0, 0, 'C', true);
-            $pdf->Cell(85, 5, "", 0, 0, 'C', true);
-            $pdf->Cell(15, 5, utf8_decode($pro->unidad), 0, 0, 'C', true);
-            $pdf->Cell(15, 5, round($pro->cantidad, 2), 0, 0, 'C', true);
-            $pdf->Cell(20, 5, number_format($pro->precio_unidad, 2), 0, 0, 'R', true);
-            $pdf->Cell(25, 5, number_format($pro->total, 2), 0, 0, 'R', true);
+            $pdf->Cell(20, 4, utf8_decode($pro->codigo_producto), 0, 0, 'C', true);
+            $pdf->Cell(85, 4, "", 0, 0, 'C', true);
+            $pdf->Cell(15, 4, utf8_decode($pro->unidad), 0, 0, 'C', true);
+            $pdf->Cell(15, 4, round($pro->cantidad, 2), 0, 0, 'C', true);
+            $pdf->Cell(20, 4, number_format($pro->precio_unidad, 2), 0, 0, 'R', true);
+            $pdf->Cell(25, 4, number_format($pro->total, 2), 0, 0, 'R', true);
             $pdf->setX(40);
-            $pdf->MultiCell(85, 5, utf8_decode($pro->nombre_producto),  0, 'L', true);
+            $pdf->MultiCell(85, 4, utf8_decode($pro->nombre_producto),  0, 'L', true);
             $pdf->Line(5, $pdf->GetY(), 205, $pdf->GetY());
-            $pdf->setY($pdf->GetY() - 5);
+            $pdf->setY($pdf->GetY() - 4);
             $pdf->SetDrawColor(0, 0, 0);
 
             $f = $f + 1;
@@ -1116,7 +1126,7 @@ class Pdfdos
         $pdf->Cell(10, 5, utf8_decode($data->codigo_moneda), 0, 0, 'L');
         $pdf->Cell(50, 5, number_format($total, 2), 'T', 0, 'R');
 
-        
+
 
         $CI = &get_instance();
         $CI->load->library('numero_a_letras');
@@ -1127,34 +1137,43 @@ class Pdfdos
         $pdf->MultiCell(185, 6,  utf8_decode($numero_letra),  0, 'L');
         $pdf->setY($pdf->GetY() - 6);
 
-        $pdf->SetFont('Arial', '', 9);
-        $pdf->Ln(6);
-        $pdf->SetX(5);
-        $pdf->Cell(50, 6, utf8_decode('Observaciones de SUNAT:'), 1, 0, 'L');
-        $pdf->MultiCell(140, 6,  utf8_decode("El comprobante numero " . $data->serie . " - " . $data->numero . " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado'). " - ".$data->observacion),  1, 'L');
-        $pdf->setY($pdf->GetY() - 6);
-
-       // $pdf->Ln(6);
-       // $pdf->Cell(50, 6, utf8_decode('Observaciones comprobante:'), 0, 0, 'L');
-        //$pdf->MultiCell(140, 6,  utf8_decode($data->observacion),  0, 'L');
-       // $pdf->setY($pdf->GetY() - 6);
-
-        $pdf->SetFont('Arial', '', 9);
+        $pdf->SetFont('Arial', '', 10);
         $pdf->Ln(6);
         $pdf->SetX(5);
         $pdf->Cell(50, 6, utf8_decode('Información Adicional'), 0, 0, 'L');
 
-        
+        /*
+
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Ln(6);
+        $pdf->SetX(5);
+        $pdf->Cell(50, 6, utf8_decode('Observación'), 1, 0, 'L');
+        $pdf->MultiCell(145, 6,  utf8_decode("El comprobante numero " . $data->serie . " - " . $data->numero . " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
+        $pdf->setY($pdf->GetY() - 6);
+
+        // $pdf->Ln(6);
+        // $pdf->Cell(50, 6, utf8_decode('Observaciones comprobante:'), 0, 0, 'L');
+        //$pdf->MultiCell(140, 6,  utf8_decode($data->observacion),  0, 'L');
+        // $pdf->setY($pdf->GetY() - 6);
+*/
+      
+
+        $pdf->Ln(6);
+        $pdf->SetX(5);
+        $pdf->Cell(5, 6, "1", 1, 0, 'L');
+        $pdf->Cell(45, 6, utf8_decode('Guía de Remisión'), 1, 0, 'L');
+        $pdf->Cell(150, 6, utf8_decode($data->guia_remision), 1, 0, 'L');
+    
+
         $pdf->Ln(6);
         $pdf->SetX(5);
         $pdf->Cell(5, 6, "2", 1, 0, 'L');
-        $pdf->Cell(45, 6, utf8_decode('Guía de Remisión'), 1, 0, 'L');
-        $pdf->Cell(145, 6, utf8_decode($data->guia_remision), 1, 0, 'L');
-        $pdf->setY($pdf->GetY()+10);
-      
-       
+        $pdf->Cell(45, 6, utf8_decode('Observación'), 1, 0, 'L');
+        $pdf->MultiCell(150, 6,  utf8_decode("El comprobante numero " . $data->serie . " - " . $data->numero . " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
+        $pdf->setY($pdf->GetY() + 10);
+
+
         $pdf->output('', $data->serie . '-' . $data->numero . "_" . $data->cliente . '.pdf');
-        
     }
 
     public function reporte_boleta_A4($data, $prods)
@@ -1339,7 +1358,7 @@ class Pdfdos
         $pdf->Cell(10, 6, utf8_decode($data->codigo_moneda), 0, 0, 'L');
         $pdf->Cell(50, 6, number_format($total, 2), 'T', 0, 'R');
 
-        
+
 
         $CI = &get_instance();
         $CI->load->library('numero_a_letras');
@@ -1364,20 +1383,18 @@ class Pdfdos
         $pdf->Ln(6);
         $pdf->Cell(50, 6, utf8_decode('Información Adicional'), 0, 0, 'L');
 
-        
+
         $pdf->Ln(8);
         $pdf->Cell(5, 6, "2", 1, 0, 'L');
         $pdf->Cell(45, 6, utf8_decode('Guía de Remisión'), 1, 0, 'L');
         $pdf->Cell(145, 6, utf8_decode($data->guia_remision), 1, 0, 'L');
-        $pdf->setY($pdf->GetY()+10);
-      
-       
+        $pdf->setY($pdf->GetY() + 10);
+
+
         $pdf->output('', $data->serie . '-' . $data->numero . "_" . $data->cliente . '.pdf');
-        
     }
     private $_moneda = array(
         'PEN' => 'SOLES',
         'USD' => 'DÓLARES AMERICANOS'
     );
-
 }
