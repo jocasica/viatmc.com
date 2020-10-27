@@ -995,7 +995,7 @@ class Pdfdos
         $pdf->Cell(38, 4, utf8_decode('RUC N°:'), 0, 0, 'L');
         $pdf->Cell(27, 4, utf8_decode($data->docum), 0, 0, 'L');
         $pdf->setX(50 );
-        $pdf->MultiCell(82, 4,  utf8_decode($data->cliente."sssss adasd asdas asd as asdasdsa asdasd asd asd asd asdas  asdada s asd"),  0, 'L');
+        $pdf->MultiCell(82, 4,  utf8_decode($data->cliente),  0, 'L');
         $pdf->setY($pdf->GetY() - 4);
         //$pdf->Cell(130, 6, utf8_decode($data->partida_ubigeo . " " . $data->partida_direccion), 0, 0, 'L');
         $pdf->Ln(4);
@@ -1006,7 +1006,7 @@ class Pdfdos
         $date = new DateTime($data->fecha);
         $pdf->Cell(27, 4, utf8_decode($date->format('d/m/Y')), 0, 0, 'L');
         $pdf->setX(50);
-        $pdf->MultiCell(82, 4,  utf8_decode($data->direccion."sssss adasd asdas asd as asdasdsa asdasd asd asd asd asdas  asdada s asd"),  0, 'L');
+        $pdf->MultiCell(82, 4,  utf8_decode($data->direccion),  0, 'L');
         $pdf->setY($pdf->GetY() - 4);
 
         $pdf->Ln(4);
