@@ -814,7 +814,7 @@ class Pdfdos
         $pdf->Cell(60, 4, utf8_decode('DATOS DEL TRASLADO'), 0, 0, 'L');
         $pdf->Ln(4);
         $pdf->SetX(5);
-        $pdf->Cell(60, 4, utf8_decode('Fecha emision:'), 0, 0, 'L');
+        $pdf->Cell(60, 4, utf8_decode('Fecha emisión:'), 0, 0, 'L');
         $pdf->Cell(40, 4, $data->fecha_remision, 0, 0, 'L');
         $pdf->Ln();
         $pdf->SetX(5);
@@ -860,18 +860,18 @@ class Pdfdos
 
         $pdf->Ln(10);
         $pdf->SetX(5);
-        $pdf->Cell(190, 4, utf8_decode('DATOS DE LOS VEHÍCULOS - DATOS DE LOS CONDUCTORES'), 0, 0, 'L');
+        $pdf->Cell(190, 4, utf8_decode('DATOS DEL TRANSPORTE'), 0, 0, 'L');
 
 
         //tabla vehículos
         $pdf->SetFillColor(153, 153, 153);
         $pdf->SetTextColor(250, 250, 250);
-        $pdf->Ln(10);
+        $pdf->Ln(4);
         $pdf->SetX(5);
         $pdf->Cell(50, 6, utf8_decode('Nro. Placa'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Nro.'), 0, 0, 'C', true);
-        $pdf->Cell(50, 6, utf8_decode('Tipo doc'), 0, 0, 'C', true);
-        $pdf->Cell(65, 6, utf8_decode('Nro. docu'), 0, 0, 'C', true);
+        $pdf->Cell(50, 6, utf8_decode('Tipo Doc.'), 0, 0, 'C', true);
+        $pdf->Cell(65, 6, utf8_decode('Nro Doc.'), 0, 0, 'C', true);
         $pdf->Ln();
         $pdf->SetX(5);
         $pdf->SetTextColor(68, 68, 68);
@@ -887,12 +887,12 @@ class Pdfdos
         //tabla bienes
         $pdf->SetFillColor(153, 153, 153);
         $pdf->SetTextColor(250, 250, 250);
-        $pdf->Ln(10);
+        $pdf->Ln(6);
         $pdf->SetX(5);
         $pdf->Cell(15, 6, utf8_decode('Nro.'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Cod. bien'), 0, 0, 'C', true);
         $pdf->Cell(105, 6, utf8_decode('Descripcion'), 0, 0, 'C', true);
-        $pdf->Cell(20, 6, utf8_decode('Uni. med.'), 0, 0, 'C', true);
+        $pdf->Cell(20, 6, utf8_decode('Und. Med.'), 0, 0, 'C', true);
         $pdf->Cell(25, 6, utf8_decode('Cantidad'), 0, 0, 'C', true);
         //$pdf->Ln();
         $pdf->SetTextColor(68, 68, 68);
@@ -1140,7 +1140,7 @@ class Pdfdos
         $pdf->SetFont('Arial', '', 10);
         $pdf->Ln(6);
         $pdf->SetX(5);
-        $pdf->Cell(50, 6, utf8_decode('Información Adicional'), 0, 0, 'L');
+        $pdf->Cell(50, 6, utf8_decode('Información Adicional:'), 0, 0, 'L');
 
         /*
 
