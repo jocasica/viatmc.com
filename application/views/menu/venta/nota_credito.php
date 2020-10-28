@@ -53,8 +53,9 @@
 										<th class="border-top-0" width="15%">Personal</th>
 										<th class="border-top-0">Guía de remisión</th>
 										<th class="border-top-0">Estado API</th>
-										<th class="border-top-0">SUNAT</th>
+										<th hidden class="border-top-0">SUNAT</th>
 										<th class="border-top-0">Monto total</th>
+										<th class="border-top-0">Opciones</th>
 										<!-- <th class="border-top-0">Acciones</th> -->
 									</tr>
 								</thead>
@@ -125,7 +126,7 @@
 															break;
 													} ?>
 											</td>
-											<td>
+											<td hidden>
 											<label class="label label-<?php if (strtoupper($n->estado_sunat) == "ACEPTADO") {
 															echo "success";
 														} else {
