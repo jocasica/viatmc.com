@@ -151,16 +151,16 @@
                                             $total = 0;
                                             $igv = ($vp->precio_unidad * $vp->cantidad) - $vp->subtotal;
                                             $total = $vp->precio_unidad * $vp->cantidad;
-                                            $igv = number_format($igv, 2);
-                                            $total = number_format($total, 2);
+                                            $igv = number_format($igv, 2, '.', '');
+                                            $total = number_format($total, 2 ,'.', '');
                                             ?>
                                             <tr>
                                                 <td><?= $vp->producto_id ?></td>
                                                 <td><?= $vp->texto_ref ?></td>
                                                 <td><?= $vp->unidad_medidad_descripcion ?></td>
-                                                <td><?= number_format($vp->precio_unidad, 2) ?></td>
-                                                <td><?= number_format($vp->cantidad, 2) ?></td>
-                                                <td><?= number_format($vp->subtotal, 2) ?></td>
+                                                <td><?= number_format($vp->precio_unidad, 2,'.', '') ?></td>
+                                                <td><?= number_format($vp->cantidad, 2,'.', '') ?></td>
+                                                <td><?= number_format($vp->subtotal, 2,'.', '') ?></td>
                                                 <td><?= $igv  ?></td>
                                                 <td><?= $total ?></td>
 
@@ -305,6 +305,7 @@
 <script src="<?php echo base_url() . 'js/viatmc/viatmc.js'; ?>"></script>
 
 <script>
+$('document').ready(function(){
     $(function() {
         calcular_totales_documento_nota_credito();
         $('#producto_descripcion_nota_credito').on('change', function() {
@@ -585,5 +586,5 @@
         }
 
        
-    });
+    });});
 </script>
