@@ -851,11 +851,16 @@ class Pdfdos
         $pdf->Ln();
         $pdf->SetX(5);
         $pdf->Cell(60, 4, utf8_decode('Dirección del punto de partida:'), 0, 0, 'L');
-        $pdf->Cell(130, 4, utf8_decode($data->partida_ubigeo . " " . $data->partida_direccion), 0, 0, 'L');
+        $pdf->setX(65);
+        $pdf->MultiCell(135, 4, utf8_decode($data->partida_ubigeo . " " . $data->partida_direccion),  0, 'L');
+        $pdf->setY($pdf->GetY() - 4);
+
         $pdf->Ln();
         $pdf->SetX(5);
         $pdf->Cell(60, 4, utf8_decode('Dirección del punto de llegada:'), 0, 0, 'L');
-        $pdf->Cell(130, 4, utf8_decode($data->llegada_ubigeo . " " . $data->llegada_direccion), 0, 0, 'L');
+        $pdf->setX(65);
+        $pdf->MultiCell(135, 4, utf8_decode($data->llegada_ubigeo . " " . $data->llegada_direccion),  0, 'L');
+        $pdf->setY($pdf->GetY() - 4);
 
 
         $pdf->Ln(10);
