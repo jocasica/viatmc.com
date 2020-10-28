@@ -1532,11 +1532,11 @@ class Pdfdos
         $pdf->Ln(4);
         $pdf->SetX(5);
         $pdf->Cell(45, 4, utf8_decode('TIPO DE NOTA: '), 0, 0, 'L');
-        $pdf->Cell(82, 4, $descripcion_tipo_nota, 0, 0, 'L');
+        $pdf->Cell(82, 4, utf8_decode($descripcion_tipo_nota), 0, 0, 'L');
         $pdf->Ln(4);
         $pdf->SetX(5);
         $pdf->Cell(45, 4, utf8_decode('DESCRIPCION: '), 0, 0, 'L');
-        $pdf->Cell(150, 4, $data->descripcion_nota, 0, 0, 'L');
+        $pdf->Cell(150, 4, utf8_decode($data->descripcion_nota), 0, 0, 'L');
 
 
         $pdf->SetFillColor(153, 153, 153);
@@ -1684,7 +1684,7 @@ class Pdfdos
         $pdf->SetX(5);
         $pdf->Cell(5, 6, "2", 1, 0, 'L');
         $pdf->Cell(45, 6, utf8_decode('Observación'), 1, 0, 'L');
-        $pdf->MultiCell(150, 6,  utf8_decode("El comprobante numero " . $data->serie . " - " . $data->numero . " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
+        $pdf->MultiCell(150, 6,  utf8_decode("El comprobante numero " . $data->serie_nota . " - " . str_pad($data->numero_nota, 8, "0", STR_PAD_LEFT). " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
         $pdf->setY($pdf->GetY() + 10);
 
 
