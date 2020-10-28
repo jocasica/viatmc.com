@@ -194,6 +194,7 @@ class Venta_model extends CI_Model
         $this->db->select('nc.*, CONCAT(u.first_name, " ", u.last_name) as vendedor_name, v.guia_remision, "factura" tipo, v.total, v.codigo_moneda');
         $this->db->join('venta v', 'v.id = nc.venta_id');
         $this->db->join('users u', 'u.id = v.users_id');
+        $this->db->order_by('nc.id','DESC');
         $res = $this->db->get('factura_nota_credito nc');
         return $res->result();
     }

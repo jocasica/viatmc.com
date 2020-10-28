@@ -66,7 +66,7 @@
 										?>
 										<tr>
 											<td><strong><?= $n->serie_nota; ?></strong></td>
-											<td><?= $n->numero_nota; ?></td>
+											<td><?= str_pad($n->numero_nota, 8, "0", STR_PAD_LEFT); ?></td>
 											<td><?= $n->cliente; ?> <small><?= $n->ruc; ?></small></td>
 											<td><?= $n->fecha; ?></td>
 											<td><?= $n->vendedor_name; ?></td>
