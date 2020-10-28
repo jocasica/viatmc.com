@@ -1984,6 +1984,7 @@ function Row($data)
 	//Draw the cells of the row
 	for($i=0;$i<count($data);$i++)
 	{
+		
 		$w=$this->widths[$i];
 		$a=isset($this->aligns[$i]) ? $this->aligns[$i] : 'L';
 		//Save the current position
@@ -1992,7 +1993,7 @@ function Row($data)
 		//Draw the border
 		$this->Rect($x,$y,$w,$h);
 		//Print the text
-		$this->MultiCell($w,5,$data[$i],0,$a);
+		$this->MultiCell($w,4,$data[$i],0,$a);
 		//Put the position to the right of the cell
 		$this->SetXY($x+$w,$y);
 	}
@@ -2005,6 +2006,7 @@ function CheckPageBreak($h)
 	//If the height h would cause an overflow, add a new page immediately
 	if($this->GetY()+$h>$this->PageBreakTrigger)
 		$this->AddPage($this->CurOrientation);
+		$this->SetX(5);
 }
 
 function NbLines($w,$txt)
