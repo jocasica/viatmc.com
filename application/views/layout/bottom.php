@@ -847,6 +847,33 @@
             }
         }, 'json');
     });
+    $(document).on('click', 'label[data-cpe="enviar_nota_credito"]', function(e) {
+        var serie = $(this).data('serie');
+        var numero = $(this).data('numero');
+        var id = $(this).data('id');
+        var tipo = $(this).data('tipo');
+        var template = '';
+        $('#modal_cpe .modal-body').html('<h1>Por favor espere</h1>');
+        $('#modal_cpe').modal('show');
+        $.post('<?php echo base_url("cpe/enviar_nota_credito"); ?>', {
+            id: id,
+            serie: serie,
+            numero: numero,
+            tipo: tipo
+        }, function(r) {
+            if (r.success) {
+                template += r.data.number + ' ';
+                template += r.data.state_type_description + '<br>';
+                template += '<a target="_blank" href=' + r.links.pdf + '>PDF</a><br>';
+                template += '<a target="_blank" href=' + r.links.xml + '>XML</a><br>';
+                template += '<a target="_blank" href=' + r.links.cdr + '>CDR</a><br>';
+                $('#modal_cpe .modal-body').html(template);
+                window.location.reload();
+            } else {
+                $('#modal_cpe .modal-body').html(r.message);
+            }
+        }, 'json');
+    });
     $(document).on('click', 'label[data-cpe="anular"]', function(e) {
         var serie = $(this).data('serie');
         var numero = $(this).data('numero');

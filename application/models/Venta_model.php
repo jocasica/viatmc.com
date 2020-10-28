@@ -163,6 +163,23 @@ class Venta_model extends CI_Model
         $res = $this->db->get('factura f');
         return $res->row();
     }
+    public function getVentaGeneralById($id) {
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $res = $this->db->get('venta');
+        return $res->row();
+    }
+
+    public function getDetalleVentaById($id) {
+        $this->db->select('vp.*,um.descripcion as unidad_medidad_descripcion');
+        $this->db->from('venta_producto vp');
+        $this->db->join('producto p','p.id=vp.producto_id');
+        $this->db->join('unidad_medida um','um.id=p.unidad_medida_id');
+        $this->db->where('vp.venta_id', $id);
+        return $this->db->get()->result();
+        
+        //print_r($this->db->last_query());
+    }
     public function getFacturaNotaCreditoById($id) {
         $this->db->select('fnc.*');
         $this->db->where('fnc.venta_id', $id);
@@ -649,7 +666,7 @@ class Venta_model extends CI_Model
         $result = $this->db->query("select f.estado_api,v.codigo_moneda, f.fecha, f.vencimiento,f.hash, f.ruc docum, f.direccion,f.cliente, f.serie, LPAD(f.numero, 8, '0') numero, v.created_at,v.guia_remision,v.orden_servicio, f.fecha_nota_credito, f.tipo_nota, f.descripcion_nota, f.id id_factura_nota_credito, f.serie_nota
     ,case when f.envio = 'enviado' then 'Aceptado'
     when f.envio = 'rechazado' then 'Rechazado' when f.envio = 'pendiente' then 'Pendiente'
-    end as envio,v.tipo_venta, v.metodo_pago
+    end as envio,v.tipo_venta, v.metodo_pago,f.numero_nota,v.observacion
     from venta v inner join factura_nota_credito f on f.venta_id=v.id where v.id=" . $venta_id . " LIMIT 1");
         return $result->row();
     }
@@ -682,7 +699,7 @@ class Venta_model extends CI_Model
 
     public function getUltimoNumeroComprobante()
     {
-        return $this->db->query("select case when max(numero) IS NULL then LPAD(1, 8, '0') else LPAD(max(numero)+1, 8, '0') end as numero,'factura' tipo from factura UNION select case when max(numero) IS NULL then LPAD(1, 8, '0') else LPAD(max(numero)+1, 8, '0') end as numero,'boleta' tipo from boleta UNION SELECT IFNULL(LPAD(max(numero)+1, 8, '0'),'000001') as numero, 'nota_credito' as tipo FROM nota_credito UNION SELECT IFNULL(LPAD(max(numero)+1, 8, '0'),'000001') as numero, 'nota_debito' as tipo FROM nota_debito");
+        return $this->db->query("select case when max(numero) IS NULL then LPAD(1, 8, '0') else LPAD(max(numero)+1, 8, '0') end as numero,'factura' tipo from factura UNION select case when max(numero) IS NULL then LPAD(1, 8, '0') else LPAD(max(numero)+1, 8, '0') end as numero,'boleta' tipo from boleta UNION SELECT IFNULL(LPAD(max(numero_nota)+1, 8, '0'),'000001') as numero, 'factura_nota_credito' as tipo FROM factura_nota_credito UNION SELECT IFNULL(LPAD(max(numero)+1, 8, '0'),'000001') as numero, 'nota_debito' as tipo FROM nota_debito");
     }
 
     public function kardexProductoMesAno($producto_id, $mes, $ano)
@@ -765,6 +782,13 @@ class Venta_model extends CI_Model
         $insert_id = $this->db->insert_id();
         return $insert_id;
     }
+    public function crearNotaCreditoFactura($b)
+    {
+        $this->db->insert('factura_nota_credito', $b);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+    }
+
 
     public function crearNotaDebito($b)
     {
@@ -775,10 +799,14 @@ class Venta_model extends CI_Model
 
     public function getNumeroNotaCredito()
     {
-        $result = $this->db->query("select case when max(numero) IS NULL then LPAD(1, 8, '0') else LPAD(max(numero)+1, 8, '0') end as numero from nota_credito LIMIT 1");
+        $result = $this->db->query("select case when max(numero_nota) IS NULL then LPAD(1, 8, '0') else LPAD(max(numero)+1, 8, '0') end as numero from factura_nota_credito LIMIT 1");
         return $result->row();
     }
-
+    public function getNumeroNotaCreditoFactura()
+    {
+        $result = $this->db->query("select case when max(numero_nota) IS NULL then LPAD(1, 8, '0') else LPAD(max(numero_nota)+1, 8, '0') end as numero from factura_nota_credito LIMIT 1");
+        return $result->row();
+    }
     public function getNumeroNotaDebito()
     {
         $result = $this->db->query("select case when max(numero) IS NULL then LPAD(1, 8, '0') else LPAD(max(numero)+1, 8, '0') end as numero from nota_debito LIMIT 1");
@@ -1280,7 +1308,23 @@ class Venta_model extends CI_Model
         //echo $query;
         return $this->db->query($query)->row();
     }
-
+    public function notaCreditoById($id, $numero, $serie)
+    {
+        $query = "SELECT id, codigo, ruc numero_doc, cliente, direccion, estado,
+            venta_id, serie, numero, fecha, created_at, updated_at, hash, procesado, envio,
+            DATE_FORMAT(created_at, '%H:%i:%s') AS hora_emision,
+            '07' tipo_doc,serie_nota,numero_nota,
+            external_id,tipo_nota,descripcion_nota,external_id_modificado
+            FROM factura_nota_credito
+            WHERE 1=1
+            AND serie_nota='" . $serie . "'
+            AND numero_nota=" . $numero . "
+            AND id=" . $id . "
+            LIMIT 1";
+        //echo $query;
+        return $this->db->query($query)->row();
+    }
+    
     public function boletaById($id, $numero, $serie)
     {
         $query = "SELECT id, codigo, dni numero_doc, cliente, direccion, estado, 
@@ -1367,4 +1411,5 @@ class Venta_model extends CI_Model
 
         return  $query;
     }
+    
 }

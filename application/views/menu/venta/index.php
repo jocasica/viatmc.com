@@ -275,7 +275,7 @@
                         </a>
                       </td>
                       <td>
-                        <button type="button" onclick="generarNotaDeCredito('<?php echo $row['id'] ?>')" class="btn btn-warning btn-xs">Generar nota</button>
+                        <a type="button" href="<?= base_url('venta/create_nota_credito/'. $row['id'])?>" class="btn btn-warning btn-xs">Generar nota</a>
                       </td>
                       <td hidden>
                         <?php

@@ -208,7 +208,8 @@ class Venta extends CI_Controller
         exit;
     }
 
-    public function nota_credito() {
+    public function nota_credito()
+    {
         if ($this->ion_auth->logged_in()) {
             $data = array('ventas' => $this->venta_model->getNotasCredito());
             $data['data_notas_credito'] = $this->venta_model->getAllNotasCredito();
@@ -226,6 +227,28 @@ class Venta extends CI_Controller
             $data = array('ventas' => $this->venta_model->getNotasDebito());
             $this->load->view('/layout/top');
             $this->load->view('menu/venta/nota_debito', $data);
+            $this->load->view('/layout/bottom');
+        } else {
+            redirect('auth/login', 'refresh');
+        }
+    }
+
+    public function create_nota_credito($id)
+    {
+
+        if ($this->ion_auth->logged_in()) {
+            // $data = array('ventas' => $this->venta_model->getNotasCredito());
+            //$data['data_notas_credito'] = $this->venta_model->getAllNotasCredito();
+            $data['prods'] = $this->producto_model->getProductosComprobante();
+            $data['numeros'] = $this->venta_model->getUltimoNumeroComprobante()->result();
+            $data['data_venta'] = $this->venta_model->getVentaById($id);
+            $data['detalle_venta'] = $this->venta_model->getDetalleVentaById($id);
+            $data['id'] = $id;
+            //$data['factura_nota_credito']= $this->venta_model->getFacturaNotaCreditoById($id);
+            // print_r($data['detalle_venta']);
+            //die;
+            $this->load->view('/layout/top');
+            $this->load->view('menu/venta/create_nota_credito', $data);
             $this->load->view('/layout/bottom');
         } else {
             redirect('auth/login', 'refresh');
@@ -301,7 +324,8 @@ class Venta extends CI_Controller
             redirect('auth/login', 'refresh');
         }
     }
-    public function consulta_sunat() {
+    public function consulta_sunat()
+    {
         $parameters = $this->input->post();
         $data       = $this->venta_model->getDocumentFromNumber($parameters['num_doc'], $parameters['isDni']);
         $curl       = curl_init();
@@ -361,7 +385,8 @@ class Venta extends CI_Controller
             ->_display();
         exit();
     }
-    public function index() {
+    public function index()
+    {
         if ($this->ion_auth->logged_in()) {
             $series['factura']      = $this->venta_model->getSeriesData('factura');
             $series['boleta']       = $this->venta_model->getSeriesData('boleta');
@@ -374,13 +399,15 @@ class Venta extends CI_Controller
             redirect('auth/login', 'refresh');
         }
     } # end index
-    public function getDataVenta() {
+    public function getDataVenta()
+    {
         $id                             = $_POST['id'];
         $data['data_venta']             = $this->venta_model->getVentaById($id);
         $data['factura_nota_credito']   = $this->venta_model->getFacturaNotaCreditoById($id);
         echo json_encode($data);
     }
-    public function registraNotaDeCredito() {
+    public function registraNotaDeCredito()
+    {
         $data_nota_credito                  = $_POST['dnc'];
         $data_nota_credito['created_at']    = date('Y-m-d H:i:s');
         $data_nota_credito['updated_at']    = null;
@@ -388,10 +415,12 @@ class Venta extends CI_Controller
         $data_nota_credito['id'] = $this->venta_model->registrarNotaCredito($data_nota_credito);
         echo json_encode($data_nota_credito);
     }
-    public function generarNotaCreditoPdf($id_factura_nota_credito) {
+    public function generarNotaCreditoPdf($id_factura_nota_credito)
+    {
         echo $id_factura_nota_credito;
     }
-    public function create() {
+    public function create()
+    {
         if ($this->ion_auth->logged_in()) {
             $data['prods']                      = $this->producto_model->getProductosComprobante();
             $data['numeros']                    = $this->venta_model->getUltimoNumeroComprobante();
@@ -405,7 +434,8 @@ class Venta extends CI_Controller
         }
     }
 
-    public function registrarCliente() {
+    public function registrarCliente()
+    {
         $data_cliente               = $_POST['df'];
         $data_cliente['segmento']   = '1'; # ? que es?
         $data_cliente['estado']     = '1';
@@ -483,7 +513,7 @@ class Venta extends CI_Controller
             }
             if ($tipodeproceso == 'nubefact') {
                 $pass_firma = '123456';
-               //$ruta_firma = $url_base . $content_firmas . $datosEmpresa['tipoproceso'] . '/demo.pfx';
+                //$ruta_firma = $url_base . $content_firmas . $datosEmpresa['tipoproceso'] . '/demo.pfx';
                 $ruta_ws = 'https://demo-ose.nubefact.com/ol-ti-itcpe/billService?wsdl';
             }
             // $v = array(
@@ -541,7 +571,7 @@ class Venta extends CI_Controller
                 'total_letras' => $data['txt_total_letras'],
                 'cliente_direccion' => $data['cliente_direccion'],
                 'cliente_ubigeo' => $data['tarjeta_bonus'],
-                'observacion' => $data["observacion_documento"] 
+                'observacion' => $data["observacion_documento"]
             );
             $rutas = array();
             $rutas['nombre_archivo'] = $archivo;
@@ -765,19 +795,19 @@ class Venta extends CI_Controller
                     }
                     $this->venta_model->crearVentaProducto($vp);
                     $resp['numero'] = str_pad(intval($data['numero_comprobante']) + 1, 8, '0', STR_PAD_LEFT);
-                     //ENVIO DIRECTO AL API
-                     $responseAPI = $this->envio_directo($rBoleta['id_boleta'], $data['serie_comprobante'], $data['numero_comprobante'], 'boleta');
-                     if ($responseAPI !== 0) {
-                         $rs = json_decode($responseAPI, true);
-                         if (is_array($rs)) {
-                             if ($rs['success']) {
-                                 $resp['link_xml'] = isset($rs['links']['xml']) ? $rs['links']['xml'] : null;
-                                 $resp['link_cdr'] = isset($rs['links']['cdr']) ? $rs['links']['cdr'] : null;
-                                 $resp['link_pdf'] = isset($rs['links']['pdf']) ? $rs['links']['pdf'] : null;
-                                 $resp['info_envio'] = "Correctamente enviado al API";
-                             }
-                         }
-                     }
+                    //ENVIO DIRECTO AL API
+                    $responseAPI = $this->envio_directo($rBoleta['id_boleta'], $data['serie_comprobante'], $data['numero_comprobante'], 'boleta');
+                    if ($responseAPI !== 0) {
+                        $rs = json_decode($responseAPI, true);
+                        if (is_array($rs)) {
+                            if ($rs['success']) {
+                                $resp['link_xml'] = isset($rs['links']['xml']) ? $rs['links']['xml'] : null;
+                                $resp['link_cdr'] = isset($rs['links']['cdr']) ? $rs['links']['cdr'] : null;
+                                $resp['link_pdf'] = isset($rs['links']['pdf']) ? $rs['links']['pdf'] : null;
+                                $resp['info_envio'] = "Correctamente enviado al API";
+                            }
+                        }
+                    }
                 } else {
                     $e = array(
                         'id' => '',
@@ -1143,6 +1173,113 @@ class Venta extends CI_Controller
             ));
         }
     }
+    public function post_nota_credito()
+    {
+        if ($this->ion_auth->logged_in()) {
+
+            $nc_data = $this->venta_model->getNumeroNotaCreditoFactura();
+            $data['numero_comprobante'] = $nc_data->numero;
+
+            $data['data_venta'] = $this->venta_model->getVentaGeneralById($this->input->post('id_nota_credito'));
+            $data['data_venta_factura'] = $this->venta_model->getVentaById($this->input->post('id_nota_credito'));
+
+            $v = array(
+                'id' => '',
+                'users_id' => $this->ion_auth->user()->row()->id,
+                'estado' => '1',
+                'created_at' => date('Y-m-d H:i:s'),
+                'metodo_pago' => $data['data_venta']->metodo_pago,
+                'correo' => $data['data_venta']->correo,
+                'orden_servicio' => $data['data_venta']->orden_servicio,
+                'remision_id' => $data['data_venta']->remision_id,
+                'guia_remision' =>  $data['data_venta']->guia_remision,
+                'celular' =>  $data['data_venta']->celular,
+                'tipo_venta' => $data['data_venta']->tipo_venta,
+                'total' => $this->input->post('total_nota_credito'),
+                'total_gravado' => $this->input->post('subtotal_nota_credito'),
+                'cliente_tipo_documento' =>  $data['data_venta']->cliente_tipo_documento,
+                'cliente_numero_documento' =>  $data['data_venta']->cliente_numero_documento,
+                'cliente_nombre' => $data['data_venta']->cliente_nombre,
+                'total_igv' => $this->input->post('igv_nota_credito'),
+                'porcentaje_igv' => 18,
+                'tipo_documento' => "07",
+                'codigo_moneda' => $data['data_venta']->codigo_moneda,
+                'total_letras' => $this->input->post('total_letras_nota_credito'),
+                'cliente_direccion' => $data['data_venta']->cliente_direccion,
+                'cliente_ubigeo' => $data['data_venta']->cliente_ubigeo,
+                'observacion' => $data['data_venta']->observacion,
+            );
+
+            $venta_id = $this->venta_model->crearVenta($v);
+
+            $nc = array(
+                'id' => '',
+                'codigo' => "",
+                'ruc' =>  $data['data_venta']->cliente_numero_documento,
+                'cliente' => $data['data_venta']->cliente_nombre,
+                'direccion' => $data['data_venta']->cliente_direccion,
+                'estado' => '1',
+                'venta_id' =>   $venta_id,
+                'serie' => $this->input->post('serie_nota_credito_modificado'),
+                'numero' =>  $this->input->post('numero_nota_credito_modificado'),
+                'fecha' =>  $this->input->post('fecha_nota_credito'),
+                'vencimiento' => $this->input->post('fecha_nota_credito'),
+                'hash' => "",
+                'updated_at' =>  date('Y-m-d H:i:s'),
+                'serie_nota' => $this->input->post('serie_nota_credito'),
+                'fecha_nota_credito' => $this->input->post('fecha_nota_credito'),
+                'descripcion_nota' => $this->input->post('descripcion_nota_credito'),
+                'numero_nota' => $data['numero_comprobante'],
+                'external_id_modificado' => $data['data_venta_factura']->external_id,
+                'tipo_nota' => $this->input->post('motivo_nota_credito'),
+
+            );
+            $id_nota_credito = $this->venta_model->crearNotaCreditoFactura($nc);
+
+
+
+            $precio_unidad_detalle_s = $this->input->post('precio_unidad_detalle');
+            $cantidad_detalle_s = $this->input->post('cantidad_detalle');
+            $producto_id_detalle_s = $this->input->post('producto_id_detalle');
+            $subtotal_detalle_s = $this->input->post('subtotal_detalle');
+            $importe_detalle_s = $this->input->post('importe_detalle');
+            $texto_ref_detalle_s = $this->input->post('texto_ref_detalle');
+
+            for ($x = 0; $x < sizeof($producto_id_detalle_s); $x++) {
+
+                $vp[$x] = array(
+                    'precio_unidad' => $precio_unidad_detalle_s[$x],
+                    'cantidad' => $cantidad_detalle_s[$x],
+                    'venta_id' => $venta_id,
+                    'producto_id' => $producto_id_detalle_s[$x],
+                    'servicio_id' => "",
+                    'subtotal' => $subtotal_detalle_s[$x],
+                    'total' => $importe_detalle_s[$x],
+                    'created_at' =>  date('Y-m-d H:i:s'),
+                    'texto_ref' => $texto_ref_detalle_s[$x],
+                    'producto_serie_id' => "",
+                );
+            }
+            $this->venta_model->crearVentaProducto($vp);
+            $responseAPI = $this->envio_directo_nota_credito($id_nota_credito, $this->input->post('serie_nota_credito'), $data['numero_comprobante'], 'factura_nota_credito');
+            if ($responseAPI !== 0) {
+                $rs = json_decode($responseAPI, true);
+                if (is_array($rs)) {
+                    if ($rs['success']) {
+                        $resp['link_xml'] = isset($rs['links']['xml']) ? $rs['links']['xml'] : null;
+                        $resp['link_cdr'] = isset($rs['links']['cdr']) ? $rs['links']['cdr'] : null;
+                        $resp['link_pdf'] = isset($rs['links']['pdf']) ? $rs['links']['pdf'] : null;
+                        $resp['info_envio'] = "Correctamente enviado al API";
+                    }
+                }
+            }
+
+            $status['insert'] = 'success';
+            echo (json_encode($status));
+        } else {
+        }
+    }
+
     public function envio_directo($id, $serie, $numero, $tipo)
     {
         try {
@@ -1169,14 +1306,14 @@ class Venta extends CI_Controller
             $total = 0;
             $total_igv = 0;
             $total_operaciones_gravadas = 0;
-          
+
             $items = array();
             foreach ($_items as $value) {
 
                 $i_total_igv = (float) $value->total - $value->subtotal;
                 $items[] = array(
                     "codigo_interno" => substr(md5(uniqid() . mt_rand()), 0, 10),
-                    "descripcion" => $value->p_nombre . ": ". $value->texto_ref,
+                    "descripcion" => $value->p_nombre . ": " . $value->texto_ref,
                     "codigo_items_sunat" => '10000000',
                     "unidad_de_medida" => "NIU",
                     "cantidad" => $value->cantidad, //2,
@@ -1190,7 +1327,7 @@ class Venta extends CI_Controller
                     "total_impuestos" => $i_total_igv, //18,
                     "total_valor_item" => $value->subtotal, //100,
                     "total_item" => $value->total, //118
-                 
+
                 );
                 $total = $total + $value->total;
                 $total_igv = $total_igv + $i_total_igv;
@@ -1231,6 +1368,145 @@ class Venta extends CI_Controller
                 "totales" => $totales,
                 "items" => $items,
                 "informacion_adicional" => ""
+            );
+            //print_r($_dataCURL); exit();
+            $CURLOPT_URL = $_SERVER['APP_CPE_URL'];
+            $Authorization_token = $_SERVER['APP_CPE_TOKEN'];
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $CURLOPT_URL . '/documents',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => json_encode($_dataCURL),
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json",
+                    "Authorization: Bearer " . $Authorization_token
+                ),
+            ));
+            //exit();
+            $responseAPI = curl_exec($curl);
+            curl_close($curl);
+            if (!empty($responseAPI)) {
+                $rs = json_decode($responseAPI, true);
+                if (is_array($rs)) {
+                    if ($rs['success']) {
+                        $external_id = isset($rs['data']['external_id']) ? $rs['data']['external_id'] : null;
+                        $estado_api = isset($rs['data']['state_type_description']) ? $rs['data']['state_type_description'] : null;
+                        $xml_link = isset($rs['links']['xml']) ? $rs['links']['xml'] : null;
+                        $cdr_link = isset($rs['links']['cdr']) ? $rs['links']['cdr'] : null;
+                        $pdf_link = isset($rs['links']['pdf']) ? $rs['links']['pdf'] : null;
+                        //print_r($data);
+                        //print_r($where);
+                        $this->venta_model->updateCPE($tipo, $id, $external_id, $estado_api);
+                        $this->venta_model->updateCPE_xml_cd($tipo, $id, $xml_link, $cdr_link, $pdf_link);
+                    }
+                    return $responseAPI;
+                }
+            } else {
+                return 0;
+            }
+            //var_dump($responseAPI);
+            //print_r($_doc);
+            //print_r($_items);
+        } catch (Exception $exc) {
+            echo "Error servicio API";
+            return 0;
+        }
+    }
+
+    public function envio_directo_nota_credito($id, $serie, $numero, $tipo)
+    {
+        try {
+
+            $_doc = array();
+
+            $_doc = $this->venta_model->notaCreditoById($id, $numero, $serie);
+
+            $_items = $this->venta_model->ventaProductoByIdVenta($_doc->venta_id);
+            //api
+            $codigo_tipo_documento = $_doc->tipo_doc;
+            $serie_documento = $_doc->serie_nota;
+            $numero_documento = $_doc->numero_nota;
+            $fecha_de_emision = $_doc->fecha;
+            $hora_de_emision = $_doc->hora_emision;
+            $cliente_tipodocumento = "6";
+            $cliente_numerodocumento = $_doc->numero_doc;
+            $cliente_nombre = $_doc->cliente;
+            $cliente_direccion = $_doc->direccion;
+            $external_id_modificado = $_doc->external_id_modificado;
+            $tipo_nota = $_doc->tipo_nota;
+            $motivo_o_sustento_de_nota=$_doc->descripcion_nota;
+            $total = 0;
+            $total_igv = 0;
+            $total_operaciones_gravadas = 0;
+
+            $datos_del_cliente_o_receptor = array(
+                "codigo_tipo_documento_identidad" => $cliente_tipodocumento,
+                "numero_documento" => $cliente_numerodocumento,
+                "apellidos_y_nombres_o_razon_social" => $cliente_nombre,
+                "codigo_pais" => "PE",
+                "ubigeo" => '',
+                "direccion" => $cliente_direccion,
+                "correo_electronico" => "",
+                "telefono" => ""
+            );
+            $documento_afectado = array(
+                "external_id" => $external_id_modificado
+            );
+            
+            $items = array();
+            foreach ($_items as $value) {
+
+                $i_total_igv = (float) $value->total - $value->subtotal;
+                $items[] = array(
+                    "codigo_interno" => substr(md5(uniqid() . mt_rand()), 0, 10),
+                    "descripcion" => $value->p_nombre . ": " . $value->texto_ref,
+                    "codigo_items_sunat" => '10000000',
+                    "unidad_de_medida" => "NIU",
+                    "cantidad" => $value->cantidad, //2,
+                    "valor_unitario" => round((($value->precio_unidad / 1.18) * 100) / 100, 2), //50,
+                    "codigo_tipo_precio" => '01', //"01",
+                    "precio_unitario" => $value->precio_unidad, //59,
+                    "codigo_tipo_afectacion_igv" => '10', //"10",
+                    "total_base_igv" => $value->subtotal, //100.00,
+                    "porcentaje_igv" => 18, //18,
+                    "total_igv" => $i_total_igv, //18,
+                    "total_impuestos" => $i_total_igv, //18,
+                    "total_valor_item" => $value->subtotal, //100,
+                    "total_item" => $value->total, //118
+
+                );
+                $total = $total + $value->total;
+                $total_igv = $total_igv + $i_total_igv;
+                $total_operaciones_gravadas = $total_operaciones_gravadas + $value->subtotal;
+            }
+            $totales = array(
+                "total_exportacion" => 0,
+                "total_operaciones_gravadas" => $total_operaciones_gravadas,
+                "total_operaciones_inafectas" => 0,
+                "total_operaciones_exoneradas" => 0,
+                "total_operaciones_gratuitas" => 0,
+                "total_igv" => $total_igv,
+                "total_impuestos" => $total_igv,
+                "total_valor" => $total_operaciones_gravadas,
+                "total_venta" => $total
+            );
+            $_dataCURL = array(
+                "serie_documento" => $serie_documento,
+                "numero_documento" => $numero_documento,
+                "fecha_de_emision" => $fecha_de_emision, //"2019-09-17"
+                "hora_de_emision" => $hora_de_emision, //"10:11:11"
+                "codigo_tipo_documento" => $codigo_tipo_documento,
+                "codigo_tipo_nota" => $tipo_nota,
+                "codigo_tipo_moneda" => "PEN",
+                "numero_orden_de_compra" => "",
+                "datos_del_cliente_o_receptor" => $datos_del_cliente_o_receptor,
+                "totales" => $totales,
+                "items" => $items,
+                "documento_afectado" => $documento_afectado,
+                "motivo_o_sustento_de_nota" =>$motivo_o_sustento_de_nota
             );
             //print_r($_dataCURL); exit();
             $CURLOPT_URL = $_SERVER['APP_CPE_URL'];
