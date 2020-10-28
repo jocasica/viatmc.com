@@ -1396,6 +1396,300 @@ class Pdfdos
 
         $pdf->output('', $data->serie . '-' . $data->numero . "_" . $data->cliente . '.pdf');
     }
+    public function reporte_nota_credito_factura_A4($data, $prods)
+    {
+        $pdf = new FPDF($orientation = 'P', $unit = 'mm', 'A4');
+        $pdf->footer = true;
+        $pdf->AddPage();
+        $pdf->SetAutoPageBreak(true, 30);
+        $pdf->SetFont('Arial', '', 20);
+        if ($data->vencimiento === null || $data->vencimiento === "") {
+            $vencimiento = "";
+        } else {
+            $vencimiento = new DateTime($data->vencimiento);
+            $vencimiento = $vencimiento->format('d/m/Y');
+        }
+        $pdf->setY(7);
+        $pdf->setX(5);
+        $pdf->Cell(15, 10, $pdf->Image('images/foto1.jpg', $pdf->GetX(), $pdf->GetY(), 120), 0, 0, 'C');
+        $pdf->setX(80);
+        $pdf->setY(44);
+        $pdf->Cell(72, 10, "", 0, 0, 'C');
+        $pdf->Cell(15, 10, $pdf->Image('images/foto2.png', $pdf->GetX(), $pdf->GetY(), 27), 0, 0, 'C');
+        $pdf->Rect(125, 5, 78, 39, 'D');
+        $pdf->setX(0);
+        $pdf->setY(7);
+        $pdf->SetTextColor(94, 94, 94);
+        $pdf->Cell(115, 7, "", 0, 0, 'L');
+        $pdf->Cell(78, 7, utf8_decode('RUC: 20546439268'), 0, 0, 'C');
+        $pdf->Ln(10);
+        $pdf->Cell(115, 7, "", 0, 0, 'L');
+        $pdf->Cell(78, 7, utf8_decode('NOTA DE CRÉDITO'), 0, 0, 'C');
+        $pdf->Ln();
+        $pdf->Cell(115, 7, "", 0, 0, 'L');
+        $pdf->Cell(78, 7, utf8_decode('ELECTRÓNICA'), 0, 0, 'C');
+        $pdf->Ln(10);
+        $pdf->Cell(115, 7, "", 0, 0, 'L');
+        $pdf->Cell(78, 7, $data->serie_nota . ' - ' . str_pad($data->numero_nota, 8, "0", STR_PAD_LEFT), 0, 0, 'C');
+
+        $pdf->SetFont('Arial', '', 8.8);
+        $pdf->Ln(12);
+        $pdf->Cell(55, 4, utf8_decode('Jr. Pataz Nº 1243 Mz. Q Lt. 30'), 0, 0, 'R');
+        $pdf->Cell(60, 4, "", 0, 0, 'C');
+        $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Soles:0011-0342-38-0100024845'), 0, 0, 'L');
+        $pdf->Ln();
+        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida II Etapa'), 0, 0, 'R');
+        $pdf->Cell(60, 4, "", 0, 0, 'C');
+        $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Dólares:0011-0312-01-0000896'), 0, 0, 'L');
+        $pdf->Ln();
+        $pdf->Cell(55, 4, utf8_decode('Los Olivos - Lima'), 0, 0, 'R');
+        $pdf->Cell(60, 4, "", 0, 0, 'C');
+        $pdf->Cell(78, 4, utf8_decode('Telf:  +511  485-1187 Cel: +51 968-871-841'), 0, 0, 'L');
+        $pdf->Ln();
+        $pdf->Cell(55, 4, utf8_decode('Referencia: En paralelo con'), 0, 0, 'R');
+        $pdf->Cell(60, 4, "", 0, 0, 'C');
+        $pdf->Cell(78, 4, utf8_decode('tecnologia.medica.corporation@gmail.com'), 0, 0, 'L');
+        $pdf->Ln();
+        $pdf->Cell(55, 4, utf8_decode('Av. Antunez de Mayolo'), 0, 0, 'R');
+        $pdf->Cell(60, 4, "", 0, 0, 'C');
+        $pdf->Cell(78, 4, utf8_decode('cotizaciones1@viatmc.com'), 0, 0, 'L');
+        $pdf->Ln();
+        $pdf->Cell(55, 4, utf8_decode('(a espaldas del Banco Scotiabank)'), 0, 0, 'R');
+        $pdf->Cell(60, 4, "", 0, 0, 'C');
+        $pdf->Cell(78, 4, utf8_decode('www.viatmc.com'), 0, 0, 'L');
+
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Ln(6);
+        $pdf->SetTextColor(68, 68, 68);
+        $pdf->SetX(5);
+        $pdf->Cell(45, 4, utf8_decode('Nombre/Razón Social: '), 0, 0, 'L');
+        $pdf->Cell(82, 4, "", 0, 0, 'L');
+        $pdf->Cell(38, 4, utf8_decode('RUC N°:'), 0, 0, 'L');
+        $pdf->Cell(27, 4, utf8_decode($data->docum), 0, 0, 'L');
+        $pdf->setX(50);
+        $pdf->MultiCell(82, 4,  utf8_decode($data->cliente),  0, 'L');
+        $pdf->setY($pdf->GetY() - 4);
+        //$pdf->Cell(130, 6, utf8_decode($data->partida_ubigeo . " " . $data->partida_direccion), 0, 0, 'L');
+        $pdf->Ln(4);
+        $pdf->SetX(5);
+        $pdf->Cell(45, 4, utf8_decode('Dirección: '), 0, 0, 'L');
+        $pdf->Cell(82, 4, "", 0, 0, 'L');
+        $pdf->Cell(38, 4, utf8_decode('Fecha de Emisión: '), 0, 0, 'L');
+        $date = new DateTime($data->fecha);
+        $pdf->Cell(27, 4, utf8_decode($date->format('d/m/Y')), 0, 0, 'L');
+        $pdf->setX(50);
+        $pdf->MultiCell(82, 4,  utf8_decode($data->direccion),  0, 'L');
+        $pdf->setY($pdf->GetY() - 4);
+
+        $pdf->Ln(4);
+        $pdf->SetX(5);
+        $pdf->Cell(45, 4, utf8_decode('Moneda: '), 0, 0, 'L');
+        $pdf->Cell(82, 4, $data->codigo_moneda, 0, 0, 'L');
+        $pdf->Cell(38, 4, utf8_decode('Fecha de Vencimiento:'), 0, 0, 'L');
+        $pdf->Cell(27, 4, utf8_decode($vencimiento), 0, 0, 'L');
+
+        $pdf->Ln(4);
+        $pdf->SetX(5);
+        $pdf->Cell(45, 4, ($data->tipo_venta == "PRODUCTOS") ? 'Orden de Compra:' : 'Orden de Servicio:', 0, 0, 'L');
+        $pdf->Cell(82, 4, $data->orden_servicio, 0, 0, 'L');
+        $pdf->Cell(38, 4, utf8_decode('Forma de Pago:'), 0, 0, 'L');
+        $pdf->Cell(27, 4, utf8_decode($data->metodo_pago), 0, 0, 'L');
+
+        $descripcion_tipo_nota="";
+        switch ($data->tipo_nota) {
+            case "01":
+                $descripcion_tipo_nota="ANULACION DE LA OPERACION";
+                break;
+                case "02":
+                    $descripcion_tipo_nota="ANULACION POR ERROR EN EL RUC";
+                    break;
+                    case "03":
+                        $descripcion_tipo_nota="CORRECCION POR ERROR EN LA DESCRIPCION";
+                        break;
+                        case "04":
+                            $descripcion_tipo_nota="DESCUENTO GLOBAL";
+                            break;
+                            case "05":
+                                $descripcion_tipo_nota="DESCUENTO POR ITEM";
+                                break;
+                                case "06":
+                                    $descripcion_tipo_nota="DEVOLUCION TOTAL";
+                                    break;
+                                    case "07":
+                                        $descripcion_tipo_nota="DEVOLUCION POR ITEM";
+                                        break;
+                                        case "08":
+                                            $descripcion_tipo_nota="BONIFICACION";
+                                            break;
+                                            case "09":
+                                                $descripcion_tipo_nota="DISMINUCION EN EL VALOR";
+                                                break;
+        }
+        $pdf->Ln(9);
+        $pdf->SetX(5);
+        $pdf->Cell(45, 4, utf8_decode('DOC. AFECTADO: '), 0, 0, 'L');
+        $pdf->Cell(82, 4, $data->serie."-".$data->numero, 0, 0, 'L');
+        $pdf->Ln(4);
+        $pdf->SetX(5);
+        $pdf->Cell(45, 4, utf8_decode('TIPO DE NOTA: '), 0, 0, 'L');
+        $pdf->Cell(82, 4, $descripcion_tipo_nota, 0, 0, 'L');
+        $pdf->Ln(4);
+        $pdf->SetX(5);
+        $pdf->Cell(45, 4, utf8_decode('DESCRIPCION: '), 0, 0, 'L');
+        $pdf->Cell(150, 4, $data->descripcion_nota, 0, 0, 'L');
+
+
+        $pdf->SetFillColor(153, 153, 153);
+        $pdf->SetTextColor(68, 68, 68);
+
+        $pdf->SetFont('Arial', 'B', 9);
+    
+
+
+        $pdf->Ln(5);
+        $pdf->SetX(5);
+        $pdf->Cell(15, 6, utf8_decode('Item.'), 1, 0, 'C', true);
+        $pdf->Cell(20, 6, utf8_decode('Código'), 1, 0, 'C', true);
+        $pdf->Cell(90, 6, utf8_decode('Descripción'), 1, 0, 'C', true);
+        $pdf->Cell(15, 6, utf8_decode('U.M. '), 1, 0, 'C', true);
+        $pdf->Cell(15, 6, utf8_decode('Cantidad'), 1, 0, 'C', true);
+        $pdf->Cell(20, 6, utf8_decode('Precio'), 1, 0, 'C', true);
+        $pdf->Cell(25, 6, utf8_decode('Total'), 1, 0, 'C', true);
+        //$pdf->Ln();
+        $pdf->SetTextColor(68, 68, 68);
+        //contenido tablas
+        $pdf->SetFont('Arial', '', 8);
+        /*
+        $pdf->Ln(6);
+        $pdf->SetX(5);
+         $pdf->SetWidths(array(15, 20, 85, 15, 15, 20, 25));
+        $i = 1;
+        foreach ($prods->result() as $pro) {
+            $pdf->Row(array($i, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2),number_format($pro->total, 2)));
+            $i++;
+        }
+
+*/
+        $pdf->Ln(1);
+        $pdf->SetX(5);
+        $f = 1;
+        $subtotal = 0;
+        $total = 0;
+        foreach ($prods->result() as $pro) {
+
+            if (!isset($pro->unidad_medida)) {
+                $pro->unidad_medida = '';
+            }
+            if ($f % 2 == 0) {
+                $pdf->SetFillColor(255, 255, 255);
+            } else {
+                $pdf->SetFillColor(255, 255, 255);
+            }
+            $pdf->Ln(6);
+            $pdf->SetX(5);
+            $pdf->Cell(15, 4, $f, 0, 0, 'C', true);
+            $pdf->Cell(20, 4, utf8_decode($pro->codigo_producto), 0, 0, 'C', true);
+            $pdf->Cell(90, 4, "", 0, 0, 'C', true);
+            $pdf->Cell(15, 4, utf8_decode($pro->unidad), 0, 0, 'C', true);
+            $pdf->Cell(15, 4, round($pro->cantidad, 2), 0, 0, 'C', true);
+            $pdf->Cell(20, 4, number_format($pro->precio_unidad, 2), 0, 0, 'R', true);
+            $pdf->Cell(25, 4, number_format($pro->total, 2), 0, 0, 'R', true);
+            $pdf->setX(40);
+            $pdf->MultiCell(90, 4, utf8_decode($pro->nombre_producto),  0, 'L', true);
+            $pdf->Line(5, $pdf->GetY(), 205, $pdf->GetY());
+            $pdf->setY($pdf->GetY() - 4);
+            $pdf->SetDrawColor(0, 0, 0);
+
+            $f = $f + 1;
+            $subtotal += $pro->subtotal;
+            $total += $pro->total;
+        }
+        $pdf->SetFont('Arial', '', 10.5);
+        $pdf->Ln(5);
+        $pdf->Cell(105, 5, "", 0, 0, 'L');
+        $pdf->Cell(30, 5, utf8_decode('Op. Gravada'), 0, 0, 'L');
+        $pdf->Cell(10, 5, utf8_decode($data->codigo_moneda), 0, 0, 'L');
+        $pdf->Cell(50, 5, number_format($subtotal, 2), 0, 0, 'R');
+
+        $pdf->Ln(5);
+        $pdf->Cell(105, 5, "", 0, 0, 'L');
+        $pdf->Cell(30, 5, utf8_decode('I.G.V. (18%)'), 0, 0, 'L');
+        $pdf->Cell(10, 5, utf8_decode($data->codigo_moneda), 0, 0, 'L');
+        $pdf->Cell(50, 5, number_format($total - $subtotal, 2), 0, 0, 'R');
+
+        $pdf->Ln(5);
+        $pdf->Cell(105, 5, "", 0, 0, 'L');
+        $pdf->Cell(30, 5, utf8_decode('Op. Inafecta'), 0, 0, 'L');
+        $pdf->Cell(10, 5, utf8_decode($data->codigo_moneda), 0, 0, 'L');
+        $pdf->Cell(50, 5, "0.00", 0, 0, 'R');
+
+        $pdf->Ln(5);
+        $pdf->Cell(105, 5, "", 0, 0, 'L');
+        $pdf->Cell(30, 5, utf8_decode('Op. Exonerada'), 0, 0, 'L');
+        $pdf->Cell(10, 5, utf8_decode($data->codigo_moneda), 0, 0, 'L');
+        $pdf->Cell(50, 5, "0.00", 0, 0, 'R');
+
+        $pdf->Ln(5);
+        $pdf->Cell(105, 5, "", 0, 0, 'L');
+        $pdf->Cell(30, 5, utf8_decode('Op. Exportación'), 0, 0, 'L');
+        $pdf->Cell(10, 5, utf8_decode($data->codigo_moneda), 0, 0, 'L');
+        $pdf->Cell(50, 5, "0.00", 0, 0, 'R');
+
+        $pdf->Ln(5);
+        $pdf->Cell(105, 5, "", 0, 0, 'L');
+        $pdf->Cell(30, 5, utf8_decode('Importe Total'), 0, 0, 'L');
+        $pdf->Cell(10, 5, utf8_decode($data->codigo_moneda), 0, 0, 'L');
+        $pdf->Cell(50, 5, number_format($total, 2), 'T', 0, 'R');
+
+
+
+        $CI = &get_instance();
+        $CI->load->library('numero_a_letras');
+        $numero_letra = $CI->numero_a_letras->convert($total, $this->_moneda[$data->codigo_moneda], TRUE);
+        $pdf->Ln(7);
+        $pdf->SetX(5);
+        $pdf->Cell(10, 6, utf8_decode('SON:'), 0, 0, 'L');
+        $pdf->MultiCell(185, 6,  utf8_decode($numero_letra),  0, 'L');
+        $pdf->setY($pdf->GetY() - 6);
+
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->Ln(6);
+        $pdf->SetX(5);
+        $pdf->Cell(50, 6, utf8_decode('Información Adicional:'), 0, 0, 'L');
+
+        /*
+
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Ln(6);
+        $pdf->SetX(5);
+        $pdf->Cell(50, 6, utf8_decode('Observación'), 1, 0, 'L');
+        $pdf->MultiCell(145, 6,  utf8_decode("El comprobante numero " . $data->serie . " - " . $data->numero . " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
+        $pdf->setY($pdf->GetY() - 6);
+
+        // $pdf->Ln(6);
+        // $pdf->Cell(50, 6, utf8_decode('Observaciones comprobante:'), 0, 0, 'L');
+        //$pdf->MultiCell(140, 6,  utf8_decode($data->observacion),  0, 'L');
+        // $pdf->setY($pdf->GetY() - 6);
+*/
+      
+
+        $pdf->Ln(6);
+        $pdf->SetX(5);
+        $pdf->Cell(5, 6, "1", 1, 0, 'L');
+        $pdf->Cell(45, 6, utf8_decode('Guía de Remisión'), 1, 0, 'L');
+        $pdf->Cell(150, 6, utf8_decode($data->guia_remision), 1, 0, 'L');
+    
+
+        $pdf->Ln(6);
+        $pdf->SetX(5);
+        $pdf->Cell(5, 6, "2", 1, 0, 'L');
+        $pdf->Cell(45, 6, utf8_decode('Observación'), 1, 0, 'L');
+        $pdf->MultiCell(150, 6,  utf8_decode("El comprobante numero " . $data->serie . " - " . $data->numero . " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
+        $pdf->setY($pdf->GetY() + 10);
+
+
+        $pdf->output('', $data->serie_nota . '-' . str_pad($data->numero_nota, 8, "0", STR_PAD_LEFT) . "_" . $data->cliente . '.pdf');
+    }
     private $_moneda = array(
         'PEN' => 'SOLES',
         'USD' => 'DÓLARES AMERICANOS'

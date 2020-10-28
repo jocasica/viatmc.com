@@ -66,7 +66,7 @@
 										?>
 										<tr>
 											<td><strong><?= $n->serie_nota; ?></strong></td>
-											<td><?= $numero_nota_credito; ?></td>
+											<td><?= $n->numero_nota; ?></td>
 											<td><?= $n->cliente; ?> <small><?= $n->ruc; ?></small></td>
 											<td><?= $n->fecha; ?></td>
 											<td><?= $n->vendedor_name; ?></td>
@@ -116,11 +116,11 @@
 															break;
 														default:
 															echo '<label'
-																. ' data-cpe="enviar" '
+																. ' data-cpe="enviar_nota_credito" '
 																. ' data-id="' . $n->id . '"'
-																. ' data-serie="' . $n->serie . '"'
-																. ' data-numero="' . $n->numero . '"'
-																. ' data-tipo="' . $n->tipo . '"'
+																. ' data-serie="' . $n->serie_nota . '"'
+																. ' data-numero="' . $n->numero_nota . '"'
+																. ' data-tipo="factura_nota_credito"'
 																. ' class="badge badge-dark"><i class="fa fa-paper-plane"></i> Pendiente</label>';
 															break;
 													} ?>
@@ -137,9 +137,10 @@
 														} ?>"><?= $n->estado_sunat ?></label>
 											</td>
 											<td><h5 class="m-b-0"><?php echo $n->total . ' ' . $n->codigo_moneda; ?></h5></td>
-											<!-- <td>
+											 <td>
 												<a target="_blank" href="<?= base_url('prueba?tipo=' . 'factura_nota_credito' . 'A4&id=' . $n->venta_id) ?>" class="btn btn-warning btn-xs">Ver nota</a>
-										</tr> -->
+													</td>
+											</tr> 
 									<?php endforeach; ?>
 								</tbody>
 							</table>

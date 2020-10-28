@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+ini_set('max_execution_time', 0);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 class Cpe extends CI_Controller {
 
@@ -106,6 +110,153 @@ class Cpe extends CI_Controller {
                 "informacion_adicional" => ""
             );
             //print_r($_dataCURL); exit();
+            $CURLOPT_URL = $_SERVER['APP_CPE_URL'];
+            $Authorization_token = $_SERVER['APP_CPE_TOKEN'];
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $CURLOPT_URL . '/documents',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => json_encode($_dataCURL),
+                CURLOPT_HTTPHEADER => array(
+                    "Content-Type: application/json",
+                    "Authorization: Bearer " . $Authorization_token
+                ),
+            ));
+            //exit();
+            $responseAPI = curl_exec($curl);
+            curl_close($curl);
+            if (!empty($responseAPI)) {
+                $rs = json_decode($responseAPI, true);
+                if (is_array($rs)) {
+                    if ($rs['success']) {
+                                               $external_id = isset($rs['data']['external_id']) ? $rs['data']['external_id'] : null;
+                        $estado_api= isset($rs['data']['state_type_description']) ? $rs['data']['state_type_description'] : null;
+                        $xml_link = isset($rs['links']['xml']) ? $rs['links']['xml'] : null;
+                        $cdr_link = isset($rs['links']['cdr']) ? $rs['links']['cdr'] : null;
+                        $pdf_link = isset($rs['links']['pdf']) ? $rs['links']['pdf'] : null;
+                        $this->venta_model->updateCPE($tipo, $id, $external_id, $estado_api);
+                        $this->venta_model->updateCPE_xml_cd($tipo, $id, $xml_link, $cdr_link, $pdf_link);
+
+                    }
+                }
+                echo $responseAPI;
+            } else {
+                echo json_encode(array(
+                    'success' => false,
+                    'message' => 'Error en el servidor API'
+                ));
+            }
+            //var_dump($responseAPI);
+            //print_r($_doc);
+            //print_r($_items);
+        } catch (Exception $exc) {
+            echo json_encode(array(
+                'success' => false,
+                'message' => $exc->getMessage()
+            ));
+        }
+    }
+
+    public function enviar_nota_credito() {
+        try {
+            if (!(isset($_POST['id']) || !isset($_POST['serie']) || !isset($_POST['numero'])|| !isset($_POST['tipo']))) {
+                throw new Exception('Datos incompletos!');
+            }
+            $id = $_POST['id'];
+            $serie = $_POST['serie'];
+            $numero = $_POST['numero'];
+            $tipo = $_POST['tipo'];
+            $_doc = array();
+            $_doc = $this->venta_model->notaCreditoById($id, $numero, $serie);
+            
+            $_items = $this->venta_model->ventaProductoByIdVenta($_doc->venta_id);
+          
+            $codigo_tipo_documento = $_doc->tipo_doc;
+            $serie_documento = $_doc->serie_nota;
+            $numero_documento = $_doc->numero_nota;
+            $fecha_de_emision = $_doc->fecha;
+            $hora_de_emision = $_doc->hora_emision;
+            $cliente_tipodocumento = "6";
+            $cliente_numerodocumento = $_doc->numero_doc;
+            $cliente_nombre = $_doc->cliente;
+            $cliente_direccion = $_doc->direccion;
+            $external_id_modificado = $_doc->external_id_modificado;
+            $tipo_nota = $_doc->tipo_nota;
+            $motivo_o_sustento_de_nota=$_doc->descripcion_nota;
+            $total = 0;
+            $total_igv = 0;
+            $total_operaciones_gravadas = 0;
+
+            $datos_del_cliente_o_receptor = array(
+                "codigo_tipo_documento_identidad" => $cliente_tipodocumento,
+                "numero_documento" => $cliente_numerodocumento,
+                "apellidos_y_nombres_o_razon_social" => $cliente_nombre,
+                "codigo_pais" => "PE",
+                "ubigeo" => '',
+                "direccion" => $cliente_direccion,
+                "correo_electronico" => "",
+                "telefono" => ""
+            );
+            $documento_afectado = array(
+                "external_id" => $external_id_modificado
+            );
+            
+            $items = array();
+            foreach ($_items as $value) {
+
+                $i_total_igv = (float) $value->total - $value->subtotal;
+                $items[] = array(
+                    "codigo_interno" => substr(md5(uniqid() . mt_rand()), 0, 10),
+                    "descripcion" => $value->p_nombre . ": " . $value->texto_ref,
+                    "codigo_items_sunat" => '10000000',
+                    "unidad_de_medida" => "NIU",
+                    "cantidad" => $value->cantidad, //2,
+                    "valor_unitario" => round((($value->precio_unidad / 1.18) * 100) / 100, 2), //50,
+                    "codigo_tipo_precio" => '01', //"01",
+                    "precio_unitario" => $value->precio_unidad, //59,
+                    "codigo_tipo_afectacion_igv" => '10', //"10",
+                    "total_base_igv" => $value->subtotal, //100.00,
+                    "porcentaje_igv" => 18, //18,
+                    "total_igv" => $i_total_igv, //18,
+                    "total_impuestos" => $i_total_igv, //18,
+                    "total_valor_item" => $value->subtotal, //100,
+                    "total_item" => $value->total, //118
+
+                );
+                $total = $total + $value->total;
+                $total_igv = $total_igv + $i_total_igv;
+                $total_operaciones_gravadas = $total_operaciones_gravadas + $value->subtotal;
+            }
+            $totales = array(
+                "total_exportacion" => 0,
+                "total_operaciones_gravadas" => $total_operaciones_gravadas,
+                "total_operaciones_inafectas" => 0,
+                "total_operaciones_exoneradas" => 0,
+                "total_operaciones_gratuitas" => 0,
+                "total_igv" => $total_igv,
+                "total_impuestos" => $total_igv,
+                "total_valor" => $total_operaciones_gravadas,
+                "total_venta" => $total
+            );
+            $_dataCURL = array(
+                "serie_documento" => $serie_documento,
+                "numero_documento" => $numero_documento,
+                "fecha_de_emision" => $fecha_de_emision, //"2019-09-17"
+                "hora_de_emision" => $hora_de_emision, //"10:11:11"
+                "codigo_tipo_documento" => $codigo_tipo_documento,
+                "codigo_tipo_nota" => $tipo_nota,
+                "codigo_tipo_moneda" => "PEN",
+                "numero_orden_de_compra" => "",
+                "datos_del_cliente_o_receptor" => $datos_del_cliente_o_receptor,
+                "totales" => $totales,
+                "items" => $items,
+                "documento_afectado" => $documento_afectado,
+                "motivo_o_sustento_de_nota" =>$motivo_o_sustento_de_nota
+            );
+
             $CURLOPT_URL = $_SERVER['APP_CPE_URL'];
             $Authorization_token = $_SERVER['APP_CPE_TOKEN'];
             $curl = curl_init();
