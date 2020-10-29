@@ -1293,6 +1293,7 @@ class Venta extends CI_Controller
                 exit();
             }
             $_items = $this->venta_model->ventaProductoByIdVenta($_doc->venta_id);
+          
             //api
             $codigo_tipo_documento = $_doc->tipo_doc;
             $serie_documento = $_doc->serie;
@@ -1313,7 +1314,7 @@ class Venta extends CI_Controller
                 $i_total_igv = (float) $value->total - $value->subtotal;
                 $items[] = array(
                     "codigo_interno" => substr(md5(uniqid() . mt_rand()), 0, 10),
-                    "descripcion" => $value->p_nombre . ": " . $value->texto_ref,
+                    "descripcion" => isset($value->p_nombre)?"$value->p_nombre".":":""  . $value->texto_ref,
                     "codigo_items_sunat" => '10000000',
                     "unidad_de_medida" => "NIU",
                     "cantidad" => $value->cantidad, //2,
@@ -1333,6 +1334,7 @@ class Venta extends CI_Controller
                 $total_igv = $total_igv + $i_total_igv;
                 $total_operaciones_gravadas = $total_operaciones_gravadas + $value->subtotal;
             }
+          
             $datos_del_cliente_o_receptor = array(
                 "codigo_tipo_documento_identidad" => $cliente_tipodocumento,
                 "numero_documento" => $cliente_numerodocumento,

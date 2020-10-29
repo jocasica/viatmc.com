@@ -53,7 +53,7 @@ class Cpe extends CI_Controller {
                 $i_total_igv= (float)$value->total-$value->subtotal;
                 $i_item = array(
                     "codigo_interno" => substr(md5(uniqid() . mt_rand()), 0, 10),
-                    "descripcion" => $value->p_nombre . ": ". $value->texto_ref,
+                    "descripcion" => isset($value->p_nombre)?"$value->p_nombre".":":""  . $value->texto_ref,
                     "codigo_items_sunat" => '10000000',
                     "unidad_de_medida" => "NIU", 
                     "cantidad" => $value->cantidad, //2,
