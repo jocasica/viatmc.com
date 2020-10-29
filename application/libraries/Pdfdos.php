@@ -869,7 +869,7 @@ class Pdfdos
         $pdf->Ln(4);
         $pdf->SetX(5);
         $pdf->Cell(190, 4, utf8_decode('Datos de los vehículos     |    Datos de los conductores'), 0, 0, 'L');
-       
+
 
         //tabla vehículos
         $pdf->SetFillColor(153, 153, 153);
@@ -994,6 +994,8 @@ class Pdfdos
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('www.viatmc.com'), 0, 0, 'L');
 
+        
+
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln(6);
         $pdf->SetTextColor(68, 68, 68);
@@ -1036,7 +1038,7 @@ class Pdfdos
         $pdf->SetTextColor(68, 68, 68);
 
         $pdf->SetFont('Arial', 'B', 9);
-    
+
 
 
         $pdf->Ln(5);
@@ -1063,11 +1065,25 @@ class Pdfdos
         }
 
 */
-        $pdf->Ln(1);
+        //$pdf->Ln(1);
         $pdf->SetX(5);
         $f = 1;
         $subtotal = 0;
         $total = 0;
+        $pdf->Ln(6);
+        $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
+        $pdf->SetAligns(array('L', 'L', 'L', 'C', 'C', 'R', 'R'));
+        foreach ($prods->result() as $pro) {
+            if (!isset($pro->unidad_medida)) {
+                $pro->unidad_medida = '';
+            }
+            $pdf->SetX(5);
+            $pdf->Row(array($f, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2), number_format($pro->total, 2)));
+            $f = $f + 1;
+            $subtotal += $pro->subtotal;
+            $total += $pro->total;
+        }
+        /*
         foreach ($prods->result() as $pro) {
 
             if (!isset($pro->unidad_medida)) {
@@ -1097,6 +1113,7 @@ class Pdfdos
             $subtotal += $pro->subtotal;
             $total += $pro->total;
         }
+        */
         $pdf->SetFont('Arial', '', 10.5);
         $pdf->Ln(5);
         $pdf->Cell(105, 5, "", 0, 0, 'L');
@@ -1164,14 +1181,14 @@ class Pdfdos
         //$pdf->MultiCell(140, 6,  utf8_decode($data->observacion),  0, 'L');
         // $pdf->setY($pdf->GetY() - 6);
 */
-      
+
 
         $pdf->Ln(6);
         $pdf->SetX(5);
         $pdf->Cell(5, 6, "1", 1, 0, 'L');
         $pdf->Cell(45, 6, utf8_decode('Guía de Remisión'), 1, 0, 'L');
         $pdf->Cell(150, 6, utf8_decode($data->guia_remision), 1, 0, 'L');
-    
+
 
         $pdf->Ln(6);
         $pdf->SetX(5);
@@ -1246,6 +1263,7 @@ class Pdfdos
         $pdf->Cell(40, 5, "", 0, 0, 'C');
         $pdf->Cell(80, 5, utf8_decode('www.tecnologiamedicacorporation.com'), 0, 0, 'L');
 
+        
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln(12);
         $pdf->SetTextColor(68, 68, 68);
@@ -1297,34 +1315,19 @@ class Pdfdos
         $pdf->SetTextColor(68, 68, 68);
         //contenido tablas
         $pdf->SetFont('Arial', '', 8);
-        $pdf->Ln(1);
+        $pdf->SetX(5);
         $f = 1;
         $subtotal = 0;
         $total = 0;
+        $pdf->Ln(6);
+        $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
+        $pdf->SetAligns(array('L', 'L', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
-
             if (!isset($pro->unidad_medida)) {
                 $pro->unidad_medida = '';
             }
-            if ($f % 2 == 0) {
-                $pdf->SetFillColor(255, 255, 255);
-            } else {
-                $pdf->SetFillColor(255, 255, 255);
-            }
-            $pdf->Ln(6);
-            $pdf->Cell(15, 6, $f, 0, 0, 'C', true);
-            $pdf->Cell(20, 6, utf8_decode($pro->codigo_producto), 0, 0, 'C', true);
-            $pdf->Cell(85, 6, "", 0, 0, 'C', true);
-            $pdf->Cell(15, 6, utf8_decode($pro->unidad), 0, 0, 'C', true);
-            $pdf->Cell(15, 6, round($pro->cantidad, 2), 0, 0, 'R', true);
-            $pdf->Cell(20, 6, number_format($pro->precio_unidad, 2), 0, 0, 'R', true);
-            $pdf->Cell(25, 6, number_format($pro->total, 2), 0, 0, 'R', true);
-            $pdf->setX(45);
-            $pdf->MultiCell(85, 5, utf8_decode($pro->nombre_producto),  0, 'L', true);
-            $pdf->Line(10, $pdf->GetY(), 205, $pdf->GetY());
-            $pdf->setY($pdf->GetY() - 5);
-            $pdf->SetDrawColor(0, 0, 0);
-
+            $pdf->SetX(5);
+            $pdf->Row(array($f, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2), number_format($pro->total, 2)));
             $f = $f + 1;
             $subtotal += $pro->subtotal;
             $total += $pro->total;
@@ -1463,6 +1466,8 @@ class Pdfdos
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('www.viatmc.com'), 0, 0, 'L');
 
+        
+
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln(6);
         $pdf->SetTextColor(68, 68, 68);
@@ -1500,40 +1505,40 @@ class Pdfdos
         $pdf->Cell(38, 4, utf8_decode('Forma de Pago:'), 0, 0, 'L');
         $pdf->Cell(27, 4, utf8_decode($data->metodo_pago), 0, 0, 'L');
 
-        $descripcion_tipo_nota="";
+        $descripcion_tipo_nota = "";
         switch ($data->tipo_nota) {
             case "01":
-                $descripcion_tipo_nota="ANULACION DE LA OPERACION";
+                $descripcion_tipo_nota = "ANULACION DE LA OPERACION";
                 break;
-                case "02":
-                    $descripcion_tipo_nota="ANULACION POR ERROR EN EL RUC";
-                    break;
-                    case "03":
-                        $descripcion_tipo_nota="CORRECCION POR ERROR EN LA DESCRIPCION";
-                        break;
-                        case "04":
-                            $descripcion_tipo_nota="DESCUENTO GLOBAL";
-                            break;
-                            case "05":
-                                $descripcion_tipo_nota="DESCUENTO POR ITEM";
-                                break;
-                                case "06":
-                                    $descripcion_tipo_nota="DEVOLUCION TOTAL";
-                                    break;
-                                    case "07":
-                                        $descripcion_tipo_nota="DEVOLUCION POR ITEM";
-                                        break;
-                                        case "08":
-                                            $descripcion_tipo_nota="BONIFICACION";
-                                            break;
-                                            case "09":
-                                                $descripcion_tipo_nota="DISMINUCION EN EL VALOR";
-                                                break;
+            case "02":
+                $descripcion_tipo_nota = "ANULACION POR ERROR EN EL RUC";
+                break;
+            case "03":
+                $descripcion_tipo_nota = "CORRECCION POR ERROR EN LA DESCRIPCION";
+                break;
+            case "04":
+                $descripcion_tipo_nota = "DESCUENTO GLOBAL";
+                break;
+            case "05":
+                $descripcion_tipo_nota = "DESCUENTO POR ITEM";
+                break;
+            case "06":
+                $descripcion_tipo_nota = "DEVOLUCION TOTAL";
+                break;
+            case "07":
+                $descripcion_tipo_nota = "DEVOLUCION POR ITEM";
+                break;
+            case "08":
+                $descripcion_tipo_nota = "BONIFICACION";
+                break;
+            case "09":
+                $descripcion_tipo_nota = "DISMINUCION EN EL VALOR";
+                break;
         }
         $pdf->Ln(9);
         $pdf->SetX(5);
         $pdf->Cell(45, 4, utf8_decode('DOC. AFECTADO: '), 0, 0, 'L');
-        $pdf->Cell(82, 4, $data->serie."-".$data->numero, 0, 0, 'L');
+        $pdf->Cell(82, 4, $data->serie . "-" . $data->numero, 0, 0, 'L');
         $pdf->Ln(4);
         $pdf->SetX(5);
         $pdf->Cell(45, 4, utf8_decode('TIPO DE NOTA: '), 0, 0, 'L');
@@ -1548,7 +1553,7 @@ class Pdfdos
         $pdf->SetTextColor(68, 68, 68);
 
         $pdf->SetFont('Arial', 'B', 9);
-    
+
 
 
         $pdf->Ln(5);
@@ -1575,36 +1580,19 @@ class Pdfdos
         }
 
 */
-        $pdf->Ln(1);
         $pdf->SetX(5);
         $f = 1;
         $subtotal = 0;
         $total = 0;
+        $pdf->Ln(6);
+        $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
+        $pdf->SetAligns(array('L', 'L', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
-
             if (!isset($pro->unidad_medida)) {
                 $pro->unidad_medida = '';
             }
-            if ($f % 2 == 0) {
-                $pdf->SetFillColor(255, 255, 255);
-            } else {
-                $pdf->SetFillColor(255, 255, 255);
-            }
-            $pdf->Ln(6);
             $pdf->SetX(5);
-            $pdf->Cell(15, 4, $f, 0, 0, 'C', true);
-            $pdf->Cell(20, 4, utf8_decode($pro->codigo_producto), 0, 0, 'C', true);
-            $pdf->Cell(90, 4, "", 0, 0, 'C', true);
-            $pdf->Cell(15, 4, utf8_decode($pro->unidad), 0, 0, 'C', true);
-            $pdf->Cell(15, 4, round($pro->cantidad, 2), 0, 0, 'C', true);
-            $pdf->Cell(20, 4, number_format($pro->precio_unidad, 2), 0, 0, 'R', true);
-            $pdf->Cell(25, 4, number_format($pro->total, 2), 0, 0, 'R', true);
-            $pdf->setX(40);
-            $pdf->MultiCell(90, 4, utf8_decode($pro->nombre_producto),  0, 'L', true);
-            $pdf->Line(5, $pdf->GetY(), 205, $pdf->GetY());
-            $pdf->setY($pdf->GetY() - 4);
-            $pdf->SetDrawColor(0, 0, 0);
-
+            $pdf->Row(array($f, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2), number_format($pro->total, 2)));
             $f = $f + 1;
             $subtotal += $pro->subtotal;
             $total += $pro->total;
@@ -1676,20 +1664,20 @@ class Pdfdos
         //$pdf->MultiCell(140, 6,  utf8_decode($data->observacion),  0, 'L');
         // $pdf->setY($pdf->GetY() - 6);
 */
-      
+
 
         $pdf->Ln(6);
         $pdf->SetX(5);
         $pdf->Cell(5, 6, "1", 1, 0, 'L');
         $pdf->Cell(45, 6, utf8_decode('Guía de Remisión'), 1, 0, 'L');
         $pdf->Cell(150, 6, utf8_decode($data->guia_remision), 1, 0, 'L');
-    
+
 
         $pdf->Ln(6);
         $pdf->SetX(5);
         $pdf->Cell(5, 6, "2", 1, 0, 'L');
         $pdf->Cell(45, 6, utf8_decode('Observación'), 1, 0, 'L');
-        $pdf->MultiCell(150, 6,  utf8_decode("El comprobante numero " . $data->serie_nota . " - " . str_pad($data->numero_nota, 8, "0", STR_PAD_LEFT). " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
+        $pdf->MultiCell(150, 6,  utf8_decode("El comprobante numero " . $data->serie_nota . " - " . str_pad($data->numero_nota, 8, "0", STR_PAD_LEFT) . " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
         $pdf->setY($pdf->GetY() + 10);
 
 
