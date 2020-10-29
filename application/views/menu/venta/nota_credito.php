@@ -79,8 +79,8 @@
 															echo '<label '
 																. ' data-cpe="estado_cpe" '
 																. ' data-id="' . $n->id . '"'
-																. ' data-serie="' . $n->serie . '"'
-																. ' data-numero="' . $n->numero . '"'
+																. ' data-serie="' . $n->serie_nota . '"'
+																. ' data-numero="' . $n->numero_nota . '"'
 																. ' data-tipo="nota_credito_factura"'
 																. ' class="badge badge-info"><i class="fa fa-sync"></i> Registrado</label>';
 															break;
@@ -95,8 +95,8 @@
 																echo '<label '
 																	. ' data-cpe="anular"'
 																	. ' data-id="' . $n->id . '"'
-																	. ' data-serie="' . $n->serie . '"'
-																	. ' data-numero="' . $n->numero . '"'
+																	. ' data-serie="' . $n->serie_nota . '"'
+																	. ' data-numero="' . $n->numero_nota . '"'
 																	. ' data-tipo="nota_credito_factura"'
 																	. ' class="badge badge-danger"><i class="fa fa-trash"></i> Anular</label>';
 															} else {
