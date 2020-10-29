@@ -770,10 +770,10 @@ class Pdfdos
         $pdf->Cell(90, 7, utf8_decode('RUC: 20546439268'), 0, 0, 'C');
         $pdf->Ln();
         $pdf->Cell(110, 7, "", 0, 0, 'L');
-        $pdf->Cell(90, 7, utf8_decode('GUIA DE REMISION'), 0, 0, 'C');
+        $pdf->Cell(90, 7, utf8_decode('GUIA DE REMISIÓN'), 0, 0, 'C');
         $pdf->Ln();
         $pdf->Cell(110, 7, "", 0, 0, 'L');
-        $pdf->Cell(90, 7, utf8_decode('ELECTRONICA -'), 0, 0, 'C');
+        $pdf->Cell(90, 7, utf8_decode('ELECTRÓNICA -'), 0, 0, 'C');
         $pdf->Ln();
         $pdf->Cell(110, 7, "", 0, 0, 'L');
         $pdf->Cell(90, 7, utf8_decode('REMITENTE'), 0, 0, 'C');
