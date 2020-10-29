@@ -1349,11 +1349,12 @@ class Venta_model extends CI_Model
             vp.producto_id, vp.subtotal, vp.total,
             p.nombre p_nombre, p.tipo p_tipo, p.precio_venta p_precio_venta,vp.texto_ref
             FROM venta_producto vp
-            INNER JOIN producto p ON (vp.producto_id=p.id)
+            LEFT JOIN producto p ON (vp.producto_id=p.id)
             WHERE 1=1
             AND vp.venta_id=" . $id;
       return $this->db->query($query)->result();
     }
+    
     public function updateCPE($tipo, $id, $external_id, $estado_api)
     {
         $query = "update $tipo set external_id ='" . $external_id . "', estado_api='" . $estado_api . "' "
