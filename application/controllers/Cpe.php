@@ -325,7 +325,7 @@ class Cpe extends CI_Controller
                 $_doc = $this->venta_model->boletaById($id, $numero, $serie);
             } else if ($tipo == 'factura') {
                 $_doc = $this->venta_model->facturaById($id, $numero, $serie);
-            } else if ($tipo == 'nota_credito_factura') {
+            } else if ($tipo == 'factura_nota_credito') {
                 $_doc = $this->venta_model->notaCreditoById($id, $numero, $serie);
             } else {
                 exit();
@@ -397,8 +397,10 @@ class Cpe extends CI_Controller
                 $_doc = $this->venta_model->boletaById($id, $numero, $serie);
             } else if ($tipo == 'factura') {
                 $_doc = $this->venta_model->facturaById($id, $numero, $serie);
-            } else if ($tipo == 'nota_credito_factura') {
+            } else if ($tipo == 'factura_nota_credito') {
                 $_doc = $this->venta_model->notaCreditoById($id, $numero, $serie);
+                $_doc->serie=$_doc->serie_nota;
+                $_doc->numero=$_doc->numero_nota;
             } else {
                 exit();
             }
