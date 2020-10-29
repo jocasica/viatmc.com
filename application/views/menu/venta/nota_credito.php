@@ -81,7 +81,7 @@
 																. ' data-id="' . $n->id . '"'
 																. ' data-serie="' . $n->serie_nota . '"'
 																. ' data-numero="' . $n->numero_nota . '"'
-																. ' data-tipo="nota_credito_factura"'
+																. ' data-tipo="factura_nota_credito"'
 																. ' class="badge badge-info"><i class="fa fa-sync"></i> Registrado</label>';
 															break;
 														case 'Enviado':
@@ -97,7 +97,7 @@
 																	. ' data-id="' . $n->id . '"'
 																	. ' data-serie="' . $n->serie_nota . '"'
 																	. ' data-numero="' . $n->numero_nota . '"'
-																	. ' data-tipo="nota_credito_factura"'
+																	. ' data-tipo="factura_nota_credito"'
 																	. ' class="badge badge-danger"><i class="fa fa-trash"></i> Anular</label>';
 															} else {
 																echo '<label class="badge badge-danger">Fecha límite excedida</label>';
