@@ -787,7 +787,7 @@ class Pdfdos
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Soles:0011-0342-38-0100024845'), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida II Etapa'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida I Etapa'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Dólares:0011-0312-01-0000896'), 0, 0, 'L');
         $pdf->Ln();
@@ -974,7 +974,7 @@ class Pdfdos
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Soles:0011-0342-38-0100024845'), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida II Etapa'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida I Etapa'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Dólares:0011-0312-01-0000896'), 0, 0, 'L');
         $pdf->Ln();
@@ -1072,10 +1072,10 @@ class Pdfdos
         $total = 0;
         $pdf->Ln(6);
         $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
-        $pdf->SetAligns(array('L', 'L', 'L', 'C', 'C', 'R', 'R'));
+        $pdf->SetAligns(array('L', 'C', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
             if (!isset($pro->unidad)) {
-                $pro->unidad = '';
+                $pro->unidad = 'ZZ';
             }
             $pdf->SetX(5);
             $pdf->Row(array($f, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2), number_format($pro->total, 2)));
@@ -1324,7 +1324,7 @@ class Pdfdos
         $pdf->SetAligns(array('L', 'L', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
             if (!isset($pro->unidad_medida)) {
-                $pro->unidad_medida = '';
+                $pro->unidad_medida = 'ZZ';
             }
             $pdf->SetX(5);
             $pdf->Row(array($f, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2), number_format($pro->total, 2)));
@@ -1446,7 +1446,7 @@ class Pdfdos
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Soles:0011-0342-38-0100024845'), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida II Etapa'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida I Etapa'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Dólares:0011-0312-01-0000896'), 0, 0, 'L');
         $pdf->Ln();
@@ -1586,10 +1586,10 @@ class Pdfdos
         $total = 0;
         $pdf->Ln(6);
         $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
-        $pdf->SetAligns(array('L', 'L', 'L', 'C', 'C', 'R', 'R'));
+        $pdf->SetAligns(array('L', 'C', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
             if (!isset($pro->unidad_medida)) {
-                $pro->unidad_medida = '';
+                $pro->unidad_medida = 'ZZ';
             }
             $pdf->SetX(5);
             $pdf->Row(array($f, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2), number_format($pro->total, 2)));
