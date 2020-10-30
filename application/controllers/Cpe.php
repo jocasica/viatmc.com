@@ -355,6 +355,7 @@ class Cpe extends CI_Controller
                 ),
             ));
             $responseAPI = curl_exec($curl);
+            
             curl_close($curl);
             if (!empty($responseAPI)) {
                 $rs = json_decode($responseAPI, true);
@@ -362,14 +363,45 @@ class Cpe extends CI_Controller
                     if ($rs['success']) {
                         $external_id = $_doc->external_id;
                         $this->venta_model->updateEstadoCPE($tipo, $id, $external_id, 'Anulado');
+                        $external_id_consultar = $rs['data']['external_id'];
+                        $ticket_consultar = $rs['data']['ticket'];
+
+                        $_dataCURL_confirmacion = array(
+                            "external_id" => $external_id_consultar, //"2018-10-09",
+                            "ticket_consultar" => $ticket_consultar
+                        );
+
+
+                        $curl_confirmacion = curl_init();
+                        curl_setopt_array($curl_confirmacion, array(
+                            CURLOPT_URL => $CURLOPT_URL . '/voided/status',
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_SSL_VERIFYPEER => false,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_CUSTOMREQUEST => "POST",
+                            CURLOPT_POSTFIELDS => json_encode($_dataCURL_confirmacion),
+                            CURLOPT_HTTPHEADER => array(
+                                "Content-Type: application/json",
+                                "Authorization: Bearer " . $Authorization_token
+                            ),
+                        ));
+                        $responseAPI_reenvio = curl_exec($curl_confirmacion);
+                        curl_close($curl_confirmacion);
+                        $rs_reenvio = json_decode($responseAPI_reenvio, true);
+                        $mensaje_api_aceptacion = $rs_reenvio['response']['description'];
+                    } else {
+                        echo json_encode($rs);
+                        return true;
                     }
+                } else {
+                    echo json_encode($rs);
+                    return true;
                 }
-                echo $responseAPI;
+                echo json_encode($rs_reenvio);
+                return true;
             } else {
-                echo json_encode(array(
-                    'success' => false,
-                    'message' => 'Error en el servidor API'
-                ));
+                echo json_encode($rs);
+                return true;
             }
             //var_dump($responseAPI);
             //print_r($_doc);
@@ -381,6 +413,7 @@ class Cpe extends CI_Controller
             ));
         }
     }
+
 
     public function estado_cpe()
     {
@@ -399,8 +432,8 @@ class Cpe extends CI_Controller
                 $_doc = $this->venta_model->facturaById($id, $numero, $serie);
             } else if ($tipo == 'factura_nota_credito') {
                 $_doc = $this->venta_model->notaCreditoById($id, $numero, $serie);
-                $_doc->serie=$_doc->serie_nota;
-                $_doc->numero=$_doc->numero_nota;
+                $_doc->serie = $_doc->serie_nota;
+                $_doc->numero = $_doc->numero_nota;
             } else {
                 exit();
             }
