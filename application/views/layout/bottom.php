@@ -102,8 +102,8 @@
         });
         
         $('#tabla_lista_guias_remision').DataTable({
-            language: spanishTableInfo,
-            "order": false // por orden de fecha de remisión
+            language: spanishTableInfo
+            //"order": false // por orden de fecha de remisión
         });
 
         $('#tabla_principal_notas_credito').DataTable({
