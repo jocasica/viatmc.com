@@ -891,16 +891,21 @@ class Venta_model extends CI_Model
     {
         return $this->db->query("select b.serie, b.numero, b.id, b.ruc, b.cliente, b.fecha,b.estado_api, v.total FROM factura b inner join venta_producto v on b.venta_id = v.venta_id WHERE b.estado_api = 'Aceptado' GROUP BY b.venta_id");
     }
-
     public function getBoletasAnuladas()
     {
-        return $this->db->query("select b.serie, b.numero, b.id, b.dni, b.cliente, b.fecha,b.estado_api, v.total FROM boleta b inner join venta_producto v on b.venta_id = v.venta_id WHERE b.estado_api = 'Anulado' GROUP BY b.venta_id");
+        return $this->db->query("select b.serie, b.numero, b.id, b.dni, b.cliente, b.estado_api,b.estado_sunat,b.fecha, v.total FROM boleta b inner join venta_producto v on b.venta_id = v.venta_id WHERE b.estado_api = 'Anulado' order by b.id DESC");
     }
 
     public function getFacturasAnuladas()
     {
-        return $this->db->query("select b.serie, b.numero, b.id, b.ruc, b.cliente, b.fecha, b.estado_api,v.total FROM factura b inner join venta_producto v on b.venta_id = v.venta_id WHERE b.estado_api = 'Anulado' GROUP BY b.venta_id");
+        return $this->db->query("select b.serie, b.numero, b.id, b.ruc, b.cliente, b.estado_api,b.estado_sunat, b.fecha, v.total FROM factura b inner join venta_producto v on b.venta_id = v.venta_id WHERE b.estado_api = 'Anulado' order by b.id DESC");
     }
+
+    public function getNotaCreditoFacturasAnuladas()
+    {
+        return $this->db->query("select b.serie_nota as serie, b.numero_nota as numero, b.id, b.ruc, b.cliente, b.estado_api,b.estado_sunat, b.fecha, v.total FROM factura_nota_credito b inner join venta_producto v on b.venta_id = v.venta_id WHERE b.estado_api = 'Anulado' order by b.id DESC");
+    }
+
 
     public function getBoletasRechazadas()
     {

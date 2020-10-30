@@ -94,7 +94,13 @@
             language: spanishTableInfo,
             "order": [[ 1, "desc" ]]
         });
-
+        $('#PrincipalSectionTableAnuladas').DataTable({
+            language: spanishTableInfo
+        });
+        $('#PrincipalSectionTableAnuladasBoletas').DataTable({
+            language: spanishTableInfo
+        });
+        
         $('#tabla_lista_guias_remision').DataTable({
             language: spanishTableInfo,
             "order": false // por orden de fecha de remisión
@@ -405,6 +411,7 @@
                 dataType: "json",
                 data: obj
             }).then(function(data) {
+                console.log(data);
                 if (Number(data) > 0) {
                     alert("Correo enviado exitosamente.");
                     $('#vm_enviar_correo').modal('hide');
