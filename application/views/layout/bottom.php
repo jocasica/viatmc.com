@@ -887,9 +887,10 @@
             id: id,
             tipo: tipo
         }, function(r) {
+            console.log(r);
             if (r.success) {
-                $('#modal_cpe .modal-body').html('<h3>Se envió anulación</h>');
-                window.location.reload();
+                $('#modal_cpe .modal-body').html("Se envió la anulación: "+r.response.description);
+                //window.location.reload();
             } else {
                 $('#modal_cpe .modal-body').html(JSON.stringify(r));
             }
