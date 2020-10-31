@@ -1072,7 +1072,7 @@ class Pdfdos
         $total = 0;
         $pdf->Ln(6);
         $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
-        $pdf->SetAligns(array('L', 'C', 'L', 'C', 'C', 'R', 'R'));
+        $pdf->SetAligns(array('C', 'C', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
             if (!isset($pro->unidad)) {
                 $pro->unidad = 'ZZ';
@@ -1321,7 +1321,7 @@ class Pdfdos
         $total = 0;
         $pdf->Ln(6);
         $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
-        $pdf->SetAligns(array('L', 'L', 'L', 'C', 'C', 'R', 'R'));
+        $pdf->SetAligns(array('C', 'L', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
             if (!isset($pro->unidad_medida)) {
                 $pro->unidad_medida = 'ZZ';
@@ -1586,7 +1586,7 @@ class Pdfdos
         $total = 0;
         $pdf->Ln(6);
         $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
-        $pdf->SetAligns(array('L', 'C', 'L', 'C', 'C', 'R', 'R'));
+        $pdf->SetAligns(array('C', 'C', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
             if (!isset($pro->unidad_medida)) {
                 $pro->unidad_medida = 'ZZ';
