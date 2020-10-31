@@ -6,27 +6,35 @@
   <!-- Bread crumb and right sidebar toggle -->
   <!-- ============================================================== -->
   <div class="page-breadcrumb">
-    <div class="row align-items-center">
-      <div class="col-5">
-        <h4 class="page-title">Facturas</h4>
-        <div class="d-flex align-items-center">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Facturas</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Lista de facturas</li>
-            </ol>
-          </nav>
+        <div class="row align-items-center">
+            <div class="col-3">
+                <h4 class="page-title">Facturas</h4>
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Facturas</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Lista de facturas</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="text-right upgrade-btn">
+                    <a href="<?= base_url('venta/nota_credito') ?>" class="btn btn-info btn-block text-white">Ver Notas de Credito</a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="text-right upgrade-btn">        
+                    <a href="<?= base_url('venta/anulaciones') ?>" class="btn btn-warning btn-block text-white">Ver Anulaciones</a>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="text-right upgrade-btn">
+                    <a href="<?= base_url('venta/create') ?>" class="btn btn-danger  btn-block text-white">Registrar nueva factura</a>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-7">
-        <div class="text-right upgrade-btn">
-          <a href="<?= base_url('venta/nota_credito') ?>" class="btn btn-info text-white">Ver Notas de Credito</a>
-          <a href="<?= base_url('dashboard/envios_anulados') ?>" class="btn btn-warning text-white">Ver Anulaciones</a>
-          <a href="<?= base_url('venta/create') ?>" class="btn btn-danger text-white">Registrar nueva factura</a>
-        </div>
-      </div>
     </div>
-  </div>
   <div id="vm_enviar_correo" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">

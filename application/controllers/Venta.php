@@ -399,6 +399,22 @@ class Venta extends CI_Controller
             redirect('auth/login', 'refresh');
         }
     } # end index
+
+    
+    public function anulaciones()
+    {
+        if ($this->ion_auth->logged_in()) {
+            $data['boletas'] = $this->venta_model->getBoletasAnuladas()->result();
+            $data['facturas'] = $this->venta_model->getFacturasAnuladas()->result();
+            $data['nota_credito_factura'] = $this->venta_model->getNotaCreditoFacturasAnuladas()->result();
+            //print_r($data);
+            $this->load->view('/layout/top');
+            $this->load->view('menu/venta/anulaciones', $data);
+            $this->load->view('/layout/bottom');
+        } else {
+            redirect('auth/login', 'refresh');
+        }
+    }
     public function getDataVenta()
     {
         $id                             = $_POST['id'];
