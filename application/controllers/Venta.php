@@ -316,6 +316,9 @@ class Venta extends CI_Controller
                 case "03":
                     $data = $this->venta_model->updateEstadoBoletaSunat($id, $estado);
                     break;
+                case "07":
+                    $data = $this->venta_model->updateEstadoNotaCreditoSunat($id, $estado);
+                    break;
             }
 
             echo json_encode($data);
@@ -400,7 +403,7 @@ class Venta extends CI_Controller
         }
     } # end index
 
-    
+
     public function anulaciones()
     {
         if ($this->ion_auth->logged_in()) {
@@ -1309,7 +1312,7 @@ class Venta extends CI_Controller
                 exit();
             }
             $_items = $this->venta_model->ventaProductoByIdVenta($_doc->venta_id);
-          
+
             //api
             $codigo_tipo_documento = $_doc->tipo_doc;
             $serie_documento = $_doc->serie;
@@ -1330,7 +1333,7 @@ class Venta extends CI_Controller
                 $i_total_igv = (float) $value->total - $value->subtotal;
                 $items[] = array(
                     "codigo_interno" => substr(md5(uniqid() . mt_rand()), 0, 10),
-                    "descripcion" => isset($value->p_nombre)?"$value->p_nombre".":":""  . $value->texto_ref,
+                    "descripcion" => isset($value->p_nombre) ? "$value->p_nombre" . ":" : ""  . $value->texto_ref,
                     "codigo_items_sunat" => '10000000',
                     "unidad_de_medida" => "NIU",
                     "cantidad" => $value->cantidad, //2,
@@ -1350,7 +1353,7 @@ class Venta extends CI_Controller
                 $total_igv = $total_igv + $i_total_igv;
                 $total_operaciones_gravadas = $total_operaciones_gravadas + $value->subtotal;
             }
-          
+
             $datos_del_cliente_o_receptor = array(
                 "codigo_tipo_documento_identidad" => $cliente_tipodocumento,
                 "numero_documento" => $cliente_numerodocumento,
@@ -1455,7 +1458,7 @@ class Venta extends CI_Controller
             $cliente_direccion = $_doc->direccion;
             $external_id_modificado = $_doc->external_id_modificado;
             $tipo_nota = $_doc->tipo_nota;
-            $motivo_o_sustento_de_nota=$_doc->descripcion_nota;
+            $motivo_o_sustento_de_nota = $_doc->descripcion_nota;
             $total = 0;
             $total_igv = 0;
             $total_operaciones_gravadas = 0;
@@ -1473,7 +1476,7 @@ class Venta extends CI_Controller
             $documento_afectado = array(
                 "external_id" => $external_id_modificado
             );
-            
+
             $items = array();
             foreach ($_items as $value) {
 
@@ -1524,7 +1527,7 @@ class Venta extends CI_Controller
                 "totales" => $totales,
                 "items" => $items,
                 "documento_afectado" => $documento_afectado,
-                "motivo_o_sustento_de_nota" =>$motivo_o_sustento_de_nota
+                "motivo_o_sustento_de_nota" => $motivo_o_sustento_de_nota
             );
             //print_r($_dataCURL); exit();
             $CURLOPT_URL = $_SERVER['APP_CPE_URL'];

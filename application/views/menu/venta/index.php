@@ -1,40 +1,40 @@
 <!-- viatmc styles -->
-<link rel="stylesheet" href="<?php echo base_url().'css/viatmc/viatmc.css'; ?>">
+<link rel="stylesheet" href="<?php echo base_url() . 'css/viatmc/viatmc.css'; ?>">
 
 <div class="page-wrapper">
   <!-- ============================================================== -->
   <!-- Bread crumb and right sidebar toggle -->
   <!-- ============================================================== -->
   <div class="page-breadcrumb">
-        <div class="row align-items-center">
-            <div class="col-3">
-                <h4 class="page-title">Facturas</h4>
-                <div class="d-flex align-items-center">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Facturas</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Lista de facturas</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="text-right upgrade-btn">
-                    <a href="<?= base_url('venta/nota_credito') ?>" class="btn btn-info btn-block text-white">Ver Notas de Credito</a>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="text-right upgrade-btn">        
-                    <a href="<?= base_url('venta/anulaciones') ?>" class="btn btn-warning btn-block text-white">Ver Anulaciones</a>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="text-right upgrade-btn">
-                    <a href="<?= base_url('venta/create') ?>" class="btn btn-danger  btn-block text-white">Registrar nueva factura</a>
-                </div>
-            </div>
+    <div class="row align-items-center">
+      <div class="col-3">
+        <h4 class="page-title">Facturas</h4>
+        <div class="d-flex align-items-center">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Facturas</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Lista de facturas</li>
+            </ol>
+          </nav>
         </div>
+      </div>
+      <div class="col-3">
+        <div class="text-right upgrade-btn">
+          <a href="<?= base_url('venta/nota_credito') ?>" class="btn btn-info btn-block text-white">Ver Notas de Credito</a>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="text-right upgrade-btn">
+          <a href="<?= base_url('venta/anulaciones') ?>" class="btn btn-warning btn-block text-white">Ver Anulaciones</a>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="text-right upgrade-btn">
+          <a href="<?= base_url('venta/create') ?>" class="btn btn-danger  btn-block text-white">Registrar nueva factura</a>
+        </div>
+      </div>
     </div>
+  </div>
   <div id="vm_enviar_correo" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -231,15 +231,23 @@
                         } ?>
                       <td>
                         <label class="label label-<?php if (strtoupper($row['estado_sunat']) == "ACEPTADO") {
-                            echo "success";
-                          } else {
-                            if (strtoupper($row['estado_sunat']) == "ANULADO") {
-                              echo "danger";
-                            } else {
-                              echo "warning";
-                            }
-                          } ?>"><?= $row['estado_sunat'] ?></label>
+                                                    echo "success";
+                                                  } else {
+                                                    if (strtoupper($row['estado_sunat']) == "ANULADO") {
+                                                      echo "danger";
+                                                    } else {
+                                                      echo "warning";
+                                                    }
+                                                  } ?>"><?= $row['estado_sunat'] ?></label>
                         <label class="label label-primary btn_estado_sunat" data-facturaid="<?= $row['factura_id'] ?>" data-serie="<?= $row['serie'] ?>" data-tipo="<?php if ($row['serie'][0] == "F") { ?>01<?php } else { ?>03<?php } ?>" data-numero="<?= $row['numero'] ?>" data-fecha="<?php echo $row['fecha_sunat'] ?>" data-total="<?php echo $row['total'] ?>">Buscar</label>
+                        <?php
+                        if (strtoupper($row['estado_sunat']) == "ACEPTADO") { ?>
+                          <br>
+                          <a target="_blank" href="<?= base_url('prueba?tipo=validez_sunat&id=' . $row['id'] . '&comprobante=' .  $tipo) ?>">
+                            <i class="fas fa-file-alt"></i> Validez sunat
+                          </a>
+                        <?php }
+                        ?>
                       </td>
                       <td>
                         <h5 class="m-b-0"><?php echo $row['total'] . ' ' . $row['codigo_moneda']; ?></h5>
@@ -283,7 +291,7 @@
                         </a>
                       </td>
                       <td>
-                        <a type="button" href="<?= base_url('venta/create_nota_credito/'. $row['id'])?>" class="btn btn-warning btn-xs">Generar nota</a>
+                        <a type="button" href="<?= base_url('venta/create_nota_credito/' . $row['id']) ?>" class="btn btn-warning btn-xs">Generar nota</a>
                       </td>
                       <td hidden>
                         <?php
@@ -298,7 +306,7 @@
                         }
                         ?>
                       </td>
-                          </tr>
+                    </tr>
                   <?php } ?>
                 </tbody>
               </table>
@@ -370,49 +378,54 @@
 <!-- Sweet Alert 2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <!-- viatmc scripts -->
-<script src="<?php echo base_url().'js/viatmc/viatmc.js'; ?>"></script>
+<script src="<?php echo base_url() . 'js/viatmc/viatmc.js'; ?>"></script>
 <script>
   let data_factura = null;
+
   function generarNotaDeCredito(id_factura) {
     $.ajax({
       type: "post",
       url: "<?= base_url('venta/getDataVenta'); ?>",
-      data: {id: id_factura},
+      data: {
+        id: id_factura
+      },
       dataType: "json",
-      success: function (response) {
+      success: function(response) {
         data_factura = response.data_venta;
-        if(response.factura_nota_credito == null) {
-          $('#nc_cliente').val(response.data_venta.cliente+' - '+response.data_venta.ruc);
+        if (response.factura_nota_credito == null) {
+          $('#nc_cliente').val(response.data_venta.cliente + ' - ' + response.data_venta.ruc);
           $('#nc_fecha_emision').val(response.data_venta.fecha);
           $('#moda_generar_nota_credito').modal('show');
         } else {
-          const url = '<?= base_url('prueba?tipo=' . 'factura_nota_credito' . 'A4&id='); ?>'+response.factura_nota_credito.venta_id;
+          const url = '<?= base_url('prueba?tipo=' . 'factura_nota_credito' . 'A4&id='); ?>' + response.factura_nota_credito.venta_id;
           window.open(url);
         }
       }
     });
   }
-  $('#form_reg_nota_credito').submit(function (e) {
+  $('#form_reg_nota_credito').submit(function(e) {
     e.preventDefault();
-    data_factura.serie_nota         = $('#nc_serie').val();
+    data_factura.serie_nota = $('#nc_serie').val();
     data_factura.fecha_nota_credito = $('#nc_fecha_emision').val();
-    data_factura.tipo_nota          = $('#nc_tipo_nota').val();
-    data_factura.descripcion_nota   = $('#nc_descripcion').val();
+    data_factura.tipo_nota = $('#nc_tipo_nota').val();
+    data_factura.descripcion_nota = $('#nc_descripcion').val();
     msg_confirmation('warning', '¿Está seguro?', 'Va a generar una nota de credito, no podrá revertir los cambios.')
-    .then((res) => {
-      if(res) {
-        $.ajax({
-          type: "post",
-          url: "<?= base_url('venta/registraNotaDeCredito'); ?>",
-          data: {dnc: data_factura},
-          dataType: "json",
-          success: function (response) {
-            const url = '<?= base_url('prueba?tipo=' . 'factura_nota_credito' . 'A4&id='); ?>'+response.venta_id;
-            window.open(url);
-            $('#moda_generar_nota_credito').modal('hide');
-          }
-        });
-      }
-    });
+      .then((res) => {
+        if (res) {
+          $.ajax({
+            type: "post",
+            url: "<?= base_url('venta/registraNotaDeCredito'); ?>",
+            data: {
+              dnc: data_factura
+            },
+            dataType: "json",
+            success: function(response) {
+              const url = '<?= base_url('prueba?tipo=' . 'factura_nota_credito' . 'A4&id='); ?>' + response.venta_id;
+              window.open(url);
+              $('#moda_generar_nota_credito').modal('hide');
+            }
+          });
+        }
+      });
   });
 </script>

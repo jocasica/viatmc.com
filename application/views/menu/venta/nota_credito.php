@@ -53,17 +53,17 @@
 										<th class="border-top-0" width="15%">Personal</th>
 										<th class="border-top-0">Guía de remisión</th>
 										<th class="border-top-0">Estado API</th>
-										<th hidden class="border-top-0">SUNAT</th>
+										<th  class="border-top-0">SUNAT</th>
 										<th class="border-top-0">Monto total</th>
 										<th class="border-top-0">Opciones</th>
 										<!-- <th class="border-top-0">Acciones</th> -->
 									</tr>
 								</thead>
 								<tbody>
-									<?php foreach($data_notas_credito as $n): ?>
+									<?php foreach ($data_notas_credito as $n) : ?>
 										<?php
-											$num_digitos = 8;
-											$numero_nota_credito = str_repeat('0', $num_digitos-strlen($n->id)).$n->id;
+										$num_digitos = 8;
+										$numero_nota_credito = str_repeat('0', $num_digitos - strlen($n->id)) . $n->id;
 										?>
 										<tr>
 											<td><strong><?= $n->serie_nota; ?></strong></td>
@@ -73,75 +73,86 @@
 											<td><?= $n->vendedor_name; ?></td>
 											<td><?= $n->guia_remision; ?></td>
 											<td>
-											<?php
-													switch ($n->estado_api) {
-														case 'Registrado':
+												<?php
+												switch ($n->estado_api) {
+													case 'Registrado':
+														echo '<label '
+															. ' data-cpe="estado_cpe" '
+															. ' data-id="' . $n->id . '"'
+															. ' data-serie="' . $n->serie_nota . '"'
+															. ' data-numero="' . $n->numero_nota . '"'
+															. ' data-tipo="factura_nota_credito"'
+															. ' class="badge badge-info"><i class="fa fa-sync"></i> Registrado</label>';
+														break;
+													case 'Enviado':
+														echo '<label class="badge badge-primary">Enviado</label>';
+														break;
+													case 'Aceptado':
+														echo '<label class="badge badge-success">Aceptado</label>';
+														$fecha_limite = date('Y-m-d', strtotime("+ 7 days", strtotime($n->fecha)));
+														//echo $fecha_limite;
+														if ($fecha_limite >= date('Y-m-d')) {
 															echo '<label '
-																. ' data-cpe="estado_cpe" '
+																. ' data-cpe="anular"'
 																. ' data-id="' . $n->id . '"'
 																. ' data-serie="' . $n->serie_nota . '"'
 																. ' data-numero="' . $n->numero_nota . '"'
 																. ' data-tipo="factura_nota_credito"'
-																. ' class="badge badge-info"><i class="fa fa-sync"></i> Registrado</label>';
-															break;
-														case 'Enviado':
-															echo '<label class="badge badge-primary">Enviado</label>';
-															break;
-														case 'Aceptado':
-															echo '<label class="badge badge-success">Aceptado</label>';
-															$fecha_limite = date('Y-m-d', strtotime("+ 7 days", strtotime($n->fecha)));
-															//echo $fecha_limite;
-															if ($fecha_limite >= date('Y-m-d')) {
-																echo '<label '
-																	. ' data-cpe="anular"'
-																	. ' data-id="' . $n->id . '"'
-																	. ' data-serie="' . $n->serie_nota . '"'
-																	. ' data-numero="' . $n->numero_nota . '"'
-																	. ' data-tipo="factura_nota_credito"'
-																	. ' class="badge badge-danger"><i class="fa fa-trash"></i> Anular</label>';
-															} else {
-																echo '<label class="badge badge-danger">Fecha límite excedida</label>';
-															}
-															break;
-														case 'Observado':
-															echo '<label class="badge badge-warning">Observado</label>';
-															break;
-														case 'Rechazado':
-															echo '<label class="badge badge-light">Rechazado</label>';
-															break;
-														case 'Anulado':
-															echo '<label class="badge badge-danger">Anulado</label>';
-															break;
-														case 'Por Anular':
-															echo '<label class="badge badge-info">Por Anular</label>';
-															break;
-														default:
-															echo '<label'
-																. ' data-cpe="enviar_nota_credito" '
-																. ' data-id="' . $n->id . '"'
-																. ' data-serie="' . $n->serie_nota . '"'
-																. ' data-numero="' . $n->numero_nota . '"'
-																. ' data-tipo="factura_nota_credito"'
-																. ' class="badge badge-dark"><i class="fa fa-paper-plane"></i> Pendiente</label>';
-															break;
-													} ?>
-											</td>
-											<td hidden>
-											<label class="label label-<?php if (strtoupper($n->estado_sunat) == "ACEPTADO") {
-															echo "success";
+																. ' class="badge badge-danger"><i class="fa fa-trash"></i> Anular</label>';
 														} else {
-															if (strtoupper($n->estado_sunat) == "ANULADO") {
-																echo "danger";
-															} else {
-																echo "warning";
-															}
-														} ?>"><?= $n->estado_sunat ?></label>
+															echo '<label class="badge badge-danger">Fecha límite excedida</label>';
+														}
+														break;
+													case 'Observado':
+														echo '<label class="badge badge-warning">Observado</label>';
+														break;
+													case 'Rechazado':
+														echo '<label class="badge badge-light">Rechazado</label>';
+														break;
+													case 'Anulado':
+														echo '<label class="badge badge-danger">Anulado</label>';
+														break;
+													case 'Por Anular':
+														echo '<label class="badge badge-info">Por Anular</label>';
+														break;
+													default:
+														echo '<label'
+															. ' data-cpe="enviar_nota_credito" '
+															. ' data-id="' . $n->id . '"'
+															. ' data-serie="' . $n->serie_nota . '"'
+															. ' data-numero="' . $n->numero_nota . '"'
+															. ' data-tipo="factura_nota_credito"'
+															. ' class="badge badge-dark"><i class="fa fa-paper-plane"></i> Pendiente</label>';
+														break;
+												} ?>
 											</td>
-											<td><h5 class="m-b-0"><?php echo $n->total . ' ' . $n->codigo_moneda; ?></h5></td>
-											 <td>
+											<td>
+												<label class="label label-<?php if (strtoupper($n->estado_sunat) == "ACEPTADO") {
+																				echo "success";
+																			} else {
+																				if (strtoupper($n->estado_sunat) == "ANULADO") {
+																					echo "danger";
+																				} else {
+																					echo "warning";
+																				}
+																			} ?>"><?= $n->estado_sunat ?></label>
+												<label class="label label-primary btn_estado_sunat" data-facturaid="<?=$n->id ?>" data-serie="<?= $n->serie_nota ?>" data-tipo="07" data-numero="<?= $n->numero_nota ?>" data-fecha="<?php echo $n->fecha ?>" data-total="<?php echo $n->total ?>">Buscar</label>
+												<?php
+												if (strtoupper($n->estado_sunat) == "ACEPTADO") { ?>
+													<br>
+													<a target="_blank" href="<?= base_url('prueba?tipo=validez_sunat&id=' . $n->venta_id . '&comprobante=factura_nota_credito') ?>">
+														<i class="fas fa-file-alt"></i> Validez sunat
+													</a>
+												<?php }
+												?>
+											</td>
+											<td>
+												<h5 class="m-b-0"><?php echo $n->total . ' ' . $n->codigo_moneda; ?></h5>
+											</td>
+											<td>
 												<a target="_blank" href="<?= base_url('prueba?tipo=' . 'factura_nota_credito' . 'A4&id=' . $n->venta_id) ?>" class="btn btn-warning btn-xs">Ver nota</a>
-													</td>
-											</tr> 
+											</td>
+										</tr>
 									<?php endforeach; ?>
 								</tbody>
 							</table>

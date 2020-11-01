@@ -191,7 +191,7 @@ class Venta_model extends CI_Model
         return $this->db->insert_id();
     }
     public function getAllNotasCredito() {
-        $this->db->select('nc.*, CONCAT(u.first_name, " ", u.last_name) as vendedor_name, v.guia_remision, "factura" tipo, v.total, v.codigo_moneda');
+        $this->db->select('nc.*, CONCAT(u.first_name, " ", u.last_name) as vendedor_name, v.guia_remision, "factura" tipo, v.total, v.codigo_moneda,v.id as venta_id');
         $this->db->join('venta v', 'v.id = nc.venta_id');
         $this->db->join('users u', 'u.id = v.users_id');
         $this->db->order_by('nc.id','DESC');
@@ -1218,7 +1218,10 @@ class Venta_model extends CI_Model
     {
         return $this->db->query("update boleta set estado_sunat = '" . $estado . "' where id = '" . $id . "'");
     }
-
+    public function updateEstadoNotaCreditoSunat($id, $estado)
+    {
+        return $this->db->query("update factura_nota_credito set estado_sunat = '" . $estado . "' where id = '" . $id . "'");
+    }
     public function getVentasSeaceFormat($id, $fecha_inicio, $fecha_fin)
     {
         $sql = "SELECT v.*, LPAD(f.numero, 8, '0') as numero, r.numero as remisionNumero, r.serie as remisionSerie, r.correlativo, r.documento_conformidad 
