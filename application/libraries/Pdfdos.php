@@ -994,7 +994,7 @@ class Pdfdos
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('www.viatmc.com'), 0, 0, 'L');
 
-        
+
 
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln(6);
@@ -1263,7 +1263,7 @@ class Pdfdos
         $pdf->Cell(40, 5, "", 0, 0, 'C');
         $pdf->Cell(80, 5, utf8_decode('www.tecnologiamedicacorporation.com'), 0, 0, 'L');
 
-        
+
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln(12);
         $pdf->SetTextColor(68, 68, 68);
@@ -1466,7 +1466,7 @@ class Pdfdos
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('www.viatmc.com'), 0, 0, 'L');
 
-        
+
 
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln(6);
@@ -1682,6 +1682,48 @@ class Pdfdos
 
 
         $pdf->output('', $data->serie_nota . '-' . str_pad($data->numero_nota, 8, "0", STR_PAD_LEFT) . "_" . $data->cliente . '.pdf');
+    }
+
+
+    public function reporte_validez_sunat($data, $datos)
+    {
+        $pdf = new FPDF($orientation = 'P', $unit = 'mm', 'A4');
+        $pdf->footer = true;
+        $pdf->AddPage();
+        $pdf->SetAutoPageBreak(true, 30);
+        $pdf->SetFont('Helvetica', 'B', 15);
+        $pdf->SetFillColor(51, 153, 204);
+        $pdf->SetDrawColor(51, 153, 204);
+        $pdf->Rect(53, 6, 104, 14, 'D');
+        $pdf->Rect(54, 7, 102, 12, 'DF');
+        $pdf->setX(0);
+        $pdf->setY(8);
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->Cell(190, 5.5, utf8_decode("Consulta Validez del Comprobante de"), 0, 0, 'C');
+        $pdf->Ln(5.5);
+        $pdf->Cell(190, 5.5, utf8_decode("Pago Electrónico"), 0, 0, 'C');
+        $pdf->Ln(10);
+        if($data["comprobante"]=="Nota de Crédito")
+        {
+            $datos->serie=$datos->serie_nota;
+            $datos->numero=str_pad($datos->numero_nota, 8, "0", STR_PAD_LEFT);
+        }
+        $pdf->SetFont('Helvetica', 'B', 8.5);
+        $pdf->Cell(44, 4.5, "", 0, 0, 'C');
+        $pdf->SetFillColor(182, 203, 235);
+        $pdf->SetDrawColor(182, 203, 235);
+      
+        $pdf->Cell(102, 4.5, utf8_decode("Resultado de la Consulta"), 0, 0, 'L',true);
+        $pdf->Ln(4.5);
+        $pdf->Cell(44, 4.5, "", 0, 0, 'C');
+        $pdf->MultiCell(102, 3.8, utf8_decode("La ".$data["comprobante"]." Electrónica ".$datos->serie."-".$datos->numero." es un comprobante de pago válido."), 1, 'L');
+        $pdf->Ln(10);
+
+        $pdf->SetDrawColor(51, 153, 204);
+        $pdf->Rect(53, 22.5, 104, 14, 'D');
+
+
+        $pdf->output('SUNAT-', $datos->serie . '-' . $datos->numero . "_" . $datos->cliente . '.pdf');
     }
     private $_moneda = array(
         'PEN' => 'SOLES',

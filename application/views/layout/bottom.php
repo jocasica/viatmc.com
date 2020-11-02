@@ -2198,7 +2198,8 @@
 
 
             },
-            complete: function() {
+            complete: function(data) {
+                console.log(data);
                 $.unblockUI();
             },
             error: function(e) {
@@ -2206,9 +2207,9 @@
                 console.log(e);
             },
             success: function(data) {
-                //console.log(data);
+             
                 var estado = data.data.comprobante_estado_descripcion;
-
+                
                 $.ajax({
                     url: '<?= base_url('Venta/EstadoSunat') ?>',
                     type: 'POST',
@@ -2219,6 +2220,7 @@
                     },
                     dataType: 'JSON',
                     success: function(data) {
+                        console.log(data);
                         // Si la petición obtiene un resultado, mostrar modal con el estado SUNAT
                         swal({
                                 title: "Estado SUNAT",

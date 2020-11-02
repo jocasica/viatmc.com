@@ -103,7 +103,45 @@ class Prueba extends CI_Controller
             $datos["doc"] = "VENTA";
             $pdf->mostrarListaProductos($data, $datos);
         }
+        if ($tipo_cpe == 'validez_sunat') {
+            $data["comprobante"] = $_GET['comprobante'];
+            if ($data["comprobante"] == "factura") {
 
+                $datos = $this->venta_model->getDatosVentaFacturaA4($venta_id);
+                $data["comprobante"] = "Factura";
+            } else {
+                if ($data["comprobante"] == "boleta") {
+                    $datos = $this->venta_model->getDatosVentaBoleta($venta_id);
+                    $data["comprobante"] = "Boleta";
+                } else {
+                    if ($data["comprobante"] == "factura_nota_credito") {
+                        $datos = $this->venta_model->getDatosVentaFacturaNotaCreditoA4($venta_id);
+                        $data["comprobante"] = "Nota de Crédito";
+                    }
+                }
+            }
+            /*
+            print_r($data);
+            print_r("<br>");
+            print_r($datos);
+            die;
+            */
+            /*
+            $this->load->library('../controllers/fe/documentos_html');
+            $html_documentos = $this->documentos_html;
+            $html = $html_documentos->get_html_factura($data, $prods);
+            define("DOMPDF_ENABLE_REMOTE", false);
+            $dompdf->loadHtml($html['html']);
+            $dompdf->setPaper('A4');
+            $dompdf->render();
+            $dompdf->stream($data->serie . " - " . $data->numero . ".pdf", array('Attachment' => 0));
+            */
+            $this->load->library('pdfdos');
+            $pdf = $this->pdfdos;
+            //$compras = $this->Compra_model->getComprasReporte();
+
+            $pdf->reporte_validez_sunat($data, $datos);
+        }
         if ($tipo_cpe == 'facturaA4') {
             $prods = $this->venta_model->getProductosVentaA4($venta_id);
             $data = $this->venta_model->getDatosVentaFacturaA4($venta_id);
@@ -116,7 +154,8 @@ class Prueba extends CI_Controller
             $dompdf->setPaper('A4');
             $dompdf->render();
             $dompdf->stream($data->serie . " - " . $data->numero . ".pdf", array('Attachment' => 0));
-            */ $this->load->library('pdfdos');
+            */
+            $this->load->library('pdfdos');
             $pdf = $this->pdfdos;
             //$compras = $this->Compra_model->getComprasReporte();
 
@@ -136,7 +175,7 @@ class Prueba extends CI_Controller
             $dompdf->render();
             $dompdf->stream($data->serie . " - " . $data->numero . ".pdf", array('Attachment' => 0));
             */
-             $this->load->library('pdfdos');
+            $this->load->library('pdfdos');
             $pdf = $this->pdfdos;
             //$compras = $this->Compra_model->getComprasReporte();
 
@@ -1236,7 +1275,7 @@ class Prueba extends CI_Controller
         $excel->getActiveSheet()->SetCellValue('A6', 'FABRICANTE');
         $excel->getActiveSheet()->SetCellValue('A7', 'MODELO');
         $excel->getActiveSheet()->SetCellValue('A8', 'N° DUA');
-      
+
         $excel->getActiveSheet()->SetCellValue('F5', (isset($data_movimientos['producto']->nombre)) ? strtoupper($data_movimientos['producto']->nombre) : "-");
         $excel->getActiveSheet()->SetCellValue('F6', (isset($data_movimientos['producto']->fabricante)) ? strtoupper($data_movimientos['producto']->fabricante) : "-");
         $excel->getActiveSheet()->SetCellValue('F7', (isset($data_movimientos['producto']->modelo)) ? strtoupper($data_movimientos['producto']->modelo) : "-");
@@ -1254,7 +1293,7 @@ class Prueba extends CI_Controller
         $excel->getActiveSheet()->SetCellValue('L7', 'TIPO COMPRA');
         $excel->getActiveSheet()->SetCellValue('L8', 'REG. SANITARIO N°');
 
-        $excel->getActiveSheet()->SetCellValue('N6', (isset($data_movimientos['producto']->codigo_barra)) ? strtoupper(" ".$data_movimientos['producto']->codigo_barra) : "-");
+        $excel->getActiveSheet()->SetCellValue('N6', (isset($data_movimientos['producto']->codigo_barra)) ? strtoupper(" " . $data_movimientos['producto']->codigo_barra) : "-");
         $excel->getActiveSheet()->SetCellValue('N7', (isset($data_movimientos['producto']->tipo_compra)) ? strtoupper($data_movimientos['producto']->tipo_compra) : "-");
         $excel->getActiveSheet()->SetCellValue('N8', (isset($data_movimientos['producto']->registro_sanitario)) ? strtoupper($data_movimientos['producto']->registro_sanitario) : "-");
 
