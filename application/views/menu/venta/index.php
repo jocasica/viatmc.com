@@ -278,15 +278,15 @@
                           $tipo = "boleta";
                         }
                         ?>
-                        <a target="_blank" href="<?= $row['xml_link'] ?>">
+                        <a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/xml/".$row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> XML
                         </a>
                         <br>
-                        <a target="_blank" href="<?= $row['cdr_link'] ?>">
+                        <a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/cdr/".$row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> CDR
                         </a>
                         <br>
-                        <a hidden target="_blank" href="<?= $row['pdf_link'] ?>">
+                        <a  hidden target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/pdf/".$row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> PDF
                         </a>
                       </td>
