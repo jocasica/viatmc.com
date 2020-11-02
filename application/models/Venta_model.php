@@ -121,7 +121,7 @@ class Venta_model extends CI_Model
         SUM(vp.total) total, 
         f.envio, f.id id_doc, 
         'factura' tipo,
-        estado_api
+        estado_api,f.external_id
         FROM venta v
         INNER JOIN users u ON u.id=v.users_id
         INNER JOIN factura f ON f.venta_id=v.id
@@ -144,7 +144,7 @@ class Venta_model extends CI_Model
         SUM(vp.total) total, 
         f.envio, f.id id_doc, 
         'boleta' tipo,
-        estado_api
+        estado_api,f.external_id
         FROM venta v
         INNER JOIN users u ON u.id=v.users_id
         INNER JOIN boleta f ON f.venta_id=v.id
@@ -191,7 +191,7 @@ class Venta_model extends CI_Model
         return $this->db->insert_id();
     }
     public function getAllNotasCredito() {
-        $this->db->select('nc.*, CONCAT(u.first_name, " ", u.last_name) as vendedor_name, v.guia_remision, "factura" tipo, v.total, v.codigo_moneda,v.id as venta_id');
+        $this->db->select('nc.*, CONCAT(u.first_name, " ", u.last_name) as vendedor_name,nc.external_id, v.guia_remision, "factura" tipo, v.total, v.codigo_moneda,v.id as venta_id');
         $this->db->join('venta v', 'v.id = nc.venta_id');
         $this->db->join('users u', 'u.id = v.users_id');
         $this->db->order_by('nc.id','DESC');

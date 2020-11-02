@@ -1723,7 +1723,7 @@ class Pdfdos
         $pdf->Rect(53, 22.5, 104, 14, 'D');
 
 
-        $pdf->output('SUNAT-', $datos->serie . '-' . $datos->numero . "_" . $datos->cliente . '.pdf');
+        $pdf->output('', 'SUNAT-'.$datos->serie . '-' . $datos->numero . "_" . $datos->cliente . '.pdf');
     }
     private $_moneda = array(
         'PEN' => 'SOLES',

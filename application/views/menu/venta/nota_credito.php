@@ -53,8 +53,9 @@
 										<th class="border-top-0" width="15%">Personal</th>
 										<th class="border-top-0">Guía de remisión</th>
 										<th class="border-top-0">Estado API</th>
-										<th  class="border-top-0">SUNAT</th>
+										<th class="border-top-0">SUNAT</th>
 										<th class="border-top-0">Monto total</th>
+										<th class="border-top-0">Opciones</th>
 										<th class="border-top-0">Opciones</th>
 										<!-- <th class="border-top-0">Acciones</th> -->
 									</tr>
@@ -136,7 +137,7 @@
 																					echo "warning";
 																				}
 																			} ?>"><?= $n->estado_sunat ?></label>
-												<label class="label label-primary btn_estado_sunat" data-facturaid="<?=$n->id ?>" data-serie="<?= $n->serie_nota ?>" data-tipo="07" data-numero="<?= $n->numero_nota ?>" data-fecha="<?php echo $n->fecha ?>" data-total="<?php echo $n->total ?>">Buscar</label>
+												<label class="label label-primary btn_estado_sunat" data-facturaid="<?= $n->id ?>" data-serie="<?= $n->serie_nota ?>" data-tipo="07" data-numero="<?= $n->numero_nota ?>" data-fecha="<?php echo $n->fecha ?>" data-total="<?php echo $n->total ?>">Buscar</label>
 												<?php
 												if (strtoupper($n->estado_sunat) == "ACEPTADO") { ?>
 													<br>
@@ -151,6 +152,21 @@
 											</td>
 											<td>
 												<a target="_blank" href="<?= base_url('prueba?tipo=' . 'factura_nota_credito' . 'A4&id=' . $n->venta_id) ?>" class="btn btn-warning btn-xs">Ver nota</a>
+											</td>
+
+											<td>
+
+												<a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT'] . "/xml/" . $n->external_id ?>">
+													<i class="fas fa-cloud-download-alt"></i> XML
+												</a>
+												<br>
+												<a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT'] . "/cdr/" .  $n->external_id ?>">
+													<i class="fas fa-cloud-download-alt"></i> CDR
+												</a>
+												<br>
+												<a hidden target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT'] . "/pdf/" . $n->external_id ?>">
+													<i class="fas fa-cloud-download-alt"></i> PDF
+												</a>
 											</td>
 										</tr>
 									<?php endforeach; ?>

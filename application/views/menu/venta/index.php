@@ -230,6 +230,14 @@
                             break;
                         } ?>
                       <td>
+                      <?php
+                        $tipo = "";
+                        if ($row['serie'][0] == "F") {
+                          $tipo = "factura";
+                        } else if ($row['serie'][0] == "B") {
+                          $tipo = "boleta";
+                        }
+                        ?>
                         <label class="label label-<?php if (strtoupper($row['estado_sunat']) == "ACEPTADO") {
                                                     echo "success";
                                                   } else {
@@ -253,14 +261,7 @@
                         <h5 class="m-b-0"><?php echo $row['total'] . ' ' . $row['codigo_moneda']; ?></h5>
                       </td>
                       <td>
-                        <?php
-                        $tipo = "";
-                        if ($row['serie'][0] == "F") {
-                          $tipo = "factura";
-                        } else if ($row['serie'][0] == "B") {
-                          $tipo = "boleta";
-                        }
-                        ?>
+                      
                         <a target="_blank" href="<?= base_url('prueba?tipo=' . $tipo . 'A4&id=' . $row['id']) ?>">
                           <i class="fas fa-file-alt"></i> A4
                         </a>
@@ -278,15 +279,15 @@
                           $tipo = "boleta";
                         }
                         ?>
-                        <a target="_blank" href="<?= $row['xml_link'] ?>">
+                        <a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/xml/".$row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> XML
                         </a>
                         <br>
-                        <a target="_blank" href="<?= $row['cdr_link'] ?>">
+                        <a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/cdr/".$row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> CDR
                         </a>
                         <br>
-                        <a hidden target="_blank" href="<?= $row['pdf_link'] ?>">
+                        <a  hidden target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/pdf/".$row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> PDF
                         </a>
                       </td>
