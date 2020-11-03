@@ -1688,7 +1688,7 @@ class Pdfdos
     public function reporte_validez_sunat($data, $datos)
     {
         $pdf = new FPDF($orientation = 'P', $unit = 'mm', 'A4');
-        $pdf->footer = true;
+        //$pdf->footer = true;
         $pdf->AddPage();
         $pdf->SetAutoPageBreak(true, 30);
         $pdf->SetFont('Helvetica', 'B', 15);
