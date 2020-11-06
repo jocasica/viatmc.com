@@ -834,7 +834,7 @@ class Venta_model extends CI_Model
         return $this->db->query("select * from cliente where estado = 1 order by nombre_cliente");
     }
     public function getAllDirecciones() {
-        return $this->db->query("select * from cliente_direccion");
+        return $this->db->query("select cliente_direccion.*,cliente.numero_documento from cliente_direccion inner join cliente on cliente.id=cliente_direccion.id_cliente");
     }
 
     public function getClientesFactura()
@@ -1303,16 +1303,17 @@ class Venta_model extends CI_Model
     //
     public function facturaById($id, $numero, $serie)
     {
-        $query = "SELECT id, codigo, ruc numero_doc, cliente, direccion, estado,
-            venta_id, serie, numero, fecha, created_at, updated_at, hash, procesado, envio,
-            DATE_FORMAT(created_at, '%H:%i:%s') AS hora_emision,
+        $query = "SELECT f.id, f.codigo, f.ruc numero_doc, f.cliente, f.direccion, f.estado,
+            f.venta_id, f.serie, f.numero, f.fecha, f.created_at, f.updated_at, f.hash, f.procesado, f.envio,
+            DATE_FORMAT(f.created_at, '%H:%i:%s') AS hora_emision,
             '01' tipo_doc,
-            external_id
-            FROM factura
+            f.external_id,v.guia_remision
+            FROM factura f
+            INNER JOIN venta v ON v.id=f.venta_id
             WHERE 1=1
-            AND serie='" . $serie . "'
-            AND numero=" . $numero . "
-            AND id=" . $id . "
+            AND f.serie='" . $serie . "'
+            AND f.numero=" . $numero . "
+            AND f.id=" . $id . "
             LIMIT 1";
         //echo $query;
         return $this->db->query($query)->row();
