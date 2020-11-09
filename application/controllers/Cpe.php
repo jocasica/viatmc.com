@@ -51,7 +51,18 @@ class Cpe extends CI_Controller
             $total = 0;
             $total_igv = 0;
             $total_operaciones_gravadas = 0;
+            $guia_remision_numero = "";
+            if (isset($_doc->guia_remision)) {
+                $guia_remision_numero = explode("-", $_doc->guia_remision);
+                $guia_remision_numero = $guia_remision_numero[1];
+            }
 
+            $guias = array();
+            $guia_item=array(
+                "numero" => $guia_remision_numero,
+                "codigo_tipo_documento" => "09"
+            );
+            $guias[] = $guia_item;
             $items = array();
             foreach ($_items as $value) {
                 $i_total_igv = (float) $value->total - $value->subtotal;
@@ -111,7 +122,8 @@ class Cpe extends CI_Controller
                 "datos_del_cliente_o_receptor" => $datos_del_cliente_o_receptor,
                 "totales" => $totales,
                 "items" => $items,
-                "informacion_adicional" => ""
+                "informacion_adicional" => "",
+               // "guias" => $guias
             );
             //print_r($_dataCURL); exit();
             $CURLOPT_URL = $_SERVER['APP_CPE_URL'];
@@ -355,7 +367,7 @@ class Cpe extends CI_Controller
                 ),
             ));
             $responseAPI = curl_exec($curl);
-            
+
             curl_close($curl);
             if (!empty($responseAPI)) {
                 $rs = json_decode($responseAPI, true);

@@ -1224,7 +1224,7 @@
 		// Cargar las diferentes direcciones que tiene registrado el cliente
 		$('#cliente_direccion').empty();	// limpiar select
 		let options								= `<option value="${datos_cliente.direccion_principal}">${datos_cliente.direccion_principal}</option>`; // Dirección princial
-		const direcciones_cliente	= data_all_direcciones.filter((item)=> item.id_cliente == id_cliente_seleccionado);
+		const direcciones_cliente	= data_all_direcciones.filter((item)=> item.numero_documento == id_cliente_seleccionado);
 		direcciones_cliente.forEach((item) => {
 			options += `<option value="${item.direccion}">${item.direccion}</option>`; // Direcciones secundarias
 		});
