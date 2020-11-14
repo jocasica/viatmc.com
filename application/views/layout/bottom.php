@@ -102,7 +102,8 @@
         });
         
         $('#tabla_lista_guias_remision').DataTable({
-            language: spanishTableInfo
+            language: spanishTableInfo,
+            "order": [[ 2, "desc" ]]
             //"order": false // por orden de fecha de remisión
         });
 
