@@ -174,7 +174,7 @@
                         <?php echo $row['vendedor_name'] ?>
                       </td>
                       <td>
-                        <?php echo $row['guia_remision']; ?>
+                        <?php echo $row['guia_remision_numeros']; ?>
                       </td>
                       <td>
                         <?php
@@ -287,7 +287,7 @@
                           <i class="fas fa-cloud-download-alt"></i> CDR
                         </a>
                         <br>
-                        <a  hidden target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/pdf/".$row['external_id'] ?>">
+                        <a   hidden target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/pdf/".$row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> PDF
                         </a>
                       </td>

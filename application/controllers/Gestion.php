@@ -115,7 +115,8 @@ class Gestion extends CI_Controller {
                     v.guia_remision,
                     rp.descripcion as bienes,
                     r.partida_direccion,
-                    r.llegada_direccion
+                    r.llegada_direccion,
+                    v.guia_remision_numeros 
                     
 
                     FROM boleta b
@@ -155,7 +156,8 @@ class Gestion extends CI_Controller {
                             v.guia_remision,
                             rp.descripcion as bienes,
                             r.partida_direccion,
-                            r.llegada_direccion
+                            r.llegada_direccion,
+                            v.guia_remision_numeros 
 
                             FROM factura f
 
@@ -192,7 +194,8 @@ class Gestion extends CI_Controller {
                             v.guia_remision,
                             rp.descripcion as bienes,
                             r.partida_direccion,
-                            r.llegada_direccion
+                            r.llegada_direccion,
+                            v.guia_remision_numeros 
 
                             FROM venta v
 
@@ -227,7 +230,8 @@ class Gestion extends CI_Controller {
                             v.guia_remision,
                             rp.descripcion as bienes,
                             r.partida_direccion,
-                            r.llegada_direccion
+                            r.llegada_direccion,
+                            v.guia_remision_numeros 
 
                             FROM factura f
 

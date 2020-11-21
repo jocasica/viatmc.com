@@ -1188,7 +1188,7 @@ class Pdfdos
         $pdf->Cell(5, 6, "1", 1, 0, 'L');
         $pdf->Cell(45, 6, utf8_decode('Guía de Remisión'), 1, 0, 'L');
         //$pdf->Cell(150, 6, utf8_decode($data->guia_remision."SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"), 1, 0, 'L');
-        $pdf->MultiCell(150, 6,  utf8_decode(trim(preg_replace('/\s\s+/', ' ', $data->guia_remision))),  1, 'L');
+        $pdf->MultiCell(150, 6,  utf8_decode(trim(preg_replace('/\s\s+/', ' ', $data->guia_remision_numeros))),  1, 'L');
         
         $pdf->setY($pdf->GetY() + 6);
 

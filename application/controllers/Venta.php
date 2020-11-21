@@ -559,13 +559,35 @@ class Venta extends CI_Controller
             //     'cliente_direccion' => $data['cliente_direccion'],
             //     'cliente_ubigeo' => $data['tarjeta_bonus']
             // );
+            /*
             if ($data['remision_id'] == 0) {
                 $remision_id = null;
             } else {
                 $remision_id = $data['remision_id'];
             }
+            */
             // echo $remision_id;
             // die;
+            $guia_remision_serie_numero = "";
+            $guia_remision_id = "";
+            $posicion = 0;
+            foreach ($data['remision_id'] as $selectedOption) {
+
+
+                $arr = explode(',', $selectedOption);
+                if ($arr[0] != "0") {
+                    if ($posicion == 0) {
+                        $guia_remision_id = $arr[0];
+                        $guia_remision_serie_numero = $arr[1];
+                    } else {
+                        $guia_remision_id = $guia_remision_id . ',' . $arr[0];
+                        $guia_remision_serie_numero = $guia_remision_serie_numero . ',' . $arr[1];
+                    }
+                    $posicion++;
+                }
+            }
+
+
             $v = array(
                 'id' => '',
                 'users_id' => $this->ion_auth->user()->row()->id,
@@ -574,7 +596,7 @@ class Venta extends CI_Controller
                 'metodo_pago' => $data['metodo_pago'],
                 'correo' => $data['cliente_correo'],
                 'orden_servicio' => $data['orden_servicio'],
-                'remision_id' => $remision_id,
+                'remision_id' => null,
                 'guia_remision' => $data['guia_remision'],
                 'celular' => $data['cliente_celular'],
                 'tipo_venta' => $data['tipo_venta'],
@@ -590,7 +612,10 @@ class Venta extends CI_Controller
                 'total_letras' => $data['txt_total_letras'],
                 'cliente_direccion' => $data['cliente_direccion'],
                 'cliente_ubigeo' => $data['tarjeta_bonus'],
-                'observacion' => $data["observacion_documento"]
+                'observacion' => $data["observacion_documento"],
+                'guia_remision_ids' => $guia_remision_id,
+                'guia_remision_numeros ' => $guia_remision_serie_numero
+
             );
             $rutas = array();
             $rutas['nombre_archivo'] = $archivo;
@@ -632,9 +657,21 @@ class Venta extends CI_Controller
                     );
                     $id_factura = $this->venta_model->crearFactura($f);
 
-                    if (isset($data['remision_id'])) {
-                        $this->guia_model->upd_estatus($data['remision_id']);
+
+                    //actualizando facturas con guia de remision
+
+                    $array_id_guia_remision = explode(',', $guia_remision_id);
+                    // if (isset($data['remision_id'])) {
+                    // $this->guia_model->upd_estatus($data['remision_id']);
+                    // }
+
+                    foreach ($array_id_guia_remision as $id_remision_actualizar) {
+
+                        if ($id_remision_actualizar != '0') {
+                            $this->guia_model->upd_estatus($id_remision_actualizar);
+                        }
                     }
+
 
                     $hoydia = date("d", strtotime(date('Y-m-d')));
                     $hoymes = date("m", strtotime(date('Y-m-d')));
@@ -678,6 +715,7 @@ class Venta extends CI_Controller
                     $this->venta_model->crearVentaProducto($vp);
                     $resp['numero'] = str_pad(intval($data['numero_comprobante']) + 1, 8, '0', STR_PAD_LEFT);
                     //ENVIO DIRECTO AL API
+                    
                     $responseAPI = $this->envio_directo($id_factura, $data['serie_comprobante'], $data['numero_comprobante'], 'factura');
                     if ($responseAPI !== 0) {
                         $rs = json_decode($responseAPI, true);
@@ -690,6 +728,7 @@ class Venta extends CI_Controller
                             }
                         }
                     }
+                   
                 } else {
                     $e = array(
                         'id' => '',
@@ -1326,17 +1365,24 @@ class Venta extends CI_Controller
             $total = 0;
             $total_igv = 0;
             $total_operaciones_gravadas = 0;
-            $guia_remision_numero = "";
-            if (isset($_doc->guia_remision)) {
-                $guia_remision_numero = explode("-", $_doc->guia_remision);
-                $guia_remision_numero = $guia_remision_numero[1];
-            }
+
+            $guia_remision_numeros =  $_doc->guia_remision_numeros;
+            $guia_remision_numero_items = explode(",", $guia_remision_numeros);
             $guias = array();
-            $guia_item=array(
-                "numero" => $guia_remision_numero,
-                "codigo_tipo_documento" => "09"
-            );
-            $guias[] = $guia_item;
+            foreach ($guia_remision_numero_items as $value_id_remision) {
+                if($value_id_remision!="0" || $value_id_remision!="" || $value_id_remision!=null)
+                {
+                    $guia_item = array(
+                        "numero" => $value_id_remision,
+                        "codigo_tipo_documento" => "09"
+                    );
+                    $guias[] = $guia_item;
+                }
+              
+            }
+
+
+
             $items = array();
             foreach ($_items as $value) {
 
@@ -1363,7 +1409,7 @@ class Venta extends CI_Controller
                 $total_igv = $total_igv + $i_total_igv;
                 $total_operaciones_gravadas = $total_operaciones_gravadas + $value->subtotal;
             }
-          
+
             $datos_del_cliente_o_receptor = array(
                 "codigo_tipo_documento_identidad" => $cliente_tipodocumento,
                 "numero_documento" => $cliente_numerodocumento,
@@ -1399,7 +1445,7 @@ class Venta extends CI_Controller
                 "totales" => $totales,
                 "items" => $items,
                 "informacion_adicional" => "",
-                //"guias" => $guias
+                "guias" => $guias
             );
             //print_r($_dataCURL); exit();
             $CURLOPT_URL = $_SERVER['APP_CPE_URL'];
