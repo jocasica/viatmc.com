@@ -85,7 +85,7 @@
                                         <th class="border-top-0">Numero</th>
                                         <th class="border-top-0" width="10%">Fecha remision</th>
                                         <th class="border-top-0">Destinatario</th>
-                                        <th>Factura</th>
+                                        <th hidden>Factura</th>
                                         <th class="border-top-0">RUC</th>
                                         <th class="border-top-0">Opciones</th>
                                         <th class="border-top-0" width="15%">Subida de documentos</th>
@@ -114,7 +114,7 @@
                                                 <td>
                                                     <h5 class="m-b-0"><?= $c->destinatario_nombre ?></h5>
                                                 </td>
-                                                <td>
+                                                <td hidden>
                                                     <h5 class="m-b-0"><?= $c->factura ?? '<span class="font-italic font-weight-light">Sin factura</span>'; ?></h5>
                                                 </td>
                                                 <td>
@@ -182,9 +182,9 @@
                                                                                         </a> -->
                                                     <a href="" data-target="#subir_orden" data-toggle="modal" onclick="subir_orden(<?php echo $c->id; ?>, `<?php echo $c->documento_orden; ?>`, `<?php echo $c->correlativo; ?>`);">
                                                         <i class="fas fa-plus"></i> Subir Orden
-                                                    </a><br>
+                                                    </a>
 
-                                                    <a href="<?= base_url('cotizacion/factura/' . $c->id) . '?remision=true' ?>" target="_blank">
+                                                    <a hidden href="<?= base_url('cotizacion/factura/' . $c->id) . '?remision=true' ?>" target="_blank">
                                                         <i class="far fa-file-alt"></i> &nbsp;Factura
                                                     </a>
                                                     <!-- - <a href="<?= base_url('remision/delete/' . $c->id) ?>" >
