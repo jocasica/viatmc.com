@@ -51,18 +51,24 @@ class Cpe extends CI_Controller
             $total = 0;
             $total_igv = 0;
             $total_operaciones_gravadas = 0;
-            $guia_remision_numero = "";
-            if (isset($_doc->guia_remision)) {
-                $guia_remision_numero = explode("-", $_doc->guia_remision);
-                $guia_remision_numero = $guia_remision_numero[1];
+
+            $guia_remision_numeros =  $_doc->guia_remision_numeros;
+            $guia_remision_numero_items = explode(",", $guia_remision_numeros);
+            $guias = array();
+            foreach ($guia_remision_numero_items as $value_id_remision) {
+                if($value_id_remision!="0" || $value_id_remision!="" || $value_id_remision!=null)
+                {
+                    $guia_item = array(
+                        "numero" => $value_id_remision,
+                        "codigo_tipo_documento" => "09"
+                    );
+                    $guias[] = $guia_item;
+                }
+              
             }
 
-            $guias = array();
-            $guia_item=array(
-                "numero" => $guia_remision_numero,
-                "codigo_tipo_documento" => "09"
-            );
-            $guias[] = $guia_item;
+
+
             $items = array();
             foreach ($_items as $value) {
                 $i_total_igv = (float) $value->total - $value->subtotal;
@@ -123,7 +129,7 @@ class Cpe extends CI_Controller
                 "totales" => $totales,
                 "items" => $items,
                 "informacion_adicional" => "",
-               // "guias" => $guias
+                "guias" => $guias
             );
             //print_r($_dataCURL); exit();
             $CURLOPT_URL = $_SERVER['APP_CPE_URL'];

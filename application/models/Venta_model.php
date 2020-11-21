@@ -121,7 +121,7 @@ class Venta_model extends CI_Model
         SUM(vp.total) total, 
         f.envio, f.id id_doc, 
         'factura' tipo,
-        estado_api,f.external_id
+        estado_api,f.external_id,v.guia_remision_numeros
         FROM venta v
         INNER JOIN users u ON u.id=v.users_id
         INNER JOIN factura f ON f.venta_id=v.id
@@ -144,7 +144,7 @@ class Venta_model extends CI_Model
         SUM(vp.total) total, 
         f.envio, f.id id_doc, 
         'boleta' tipo,
-        estado_api,f.external_id
+        estado_api,f.external_id,v.guia_remision_numeros
         FROM venta v
         INNER JOIN users u ON u.id=v.users_id
         INNER JOIN boleta f ON f.venta_id=v.id
@@ -658,7 +658,7 @@ class Venta_model extends CI_Model
         $result = $this->db->query("select f.estado_api,v.codigo_moneda, f.fecha, f.vencimiento,f.hash, f.ruc docum, f.direccion,f.cliente, f.serie, LPAD(f.numero, 8, '0') numero, v.created_at,v.guia_remision,v.orden_servicio
     ,case when f.envio = 'enviado' then 'Aceptado'
     when f.envio = 'rechazado' then 'Rechazado' when f.envio = 'pendiente' then 'Pendiente'
-    end as envio,v.tipo_venta, v.metodo_pago,v.observacion
+    end as envio,v.tipo_venta, v.metodo_pago,v.observacion,v.guia_remision_numeros 
     from venta v inner join factura f on f.venta_id=v.id where v.id=" . $venta_id . " LIMIT 1");
         return $result->row();
     }
@@ -1307,7 +1307,7 @@ class Venta_model extends CI_Model
             f.venta_id, f.serie, f.numero, f.fecha, f.created_at, f.updated_at, f.hash, f.procesado, f.envio,
             DATE_FORMAT(f.created_at, '%H:%i:%s') AS hora_emision,
             '01' tipo_doc,
-            f.external_id,v.guia_remision
+            f.external_id,v.guia_remision,v.guia_remision_numeros 
             FROM factura f
             INNER JOIN venta v ON v.id=f.venta_id
             WHERE 1=1
@@ -1341,7 +1341,7 @@ class Venta_model extends CI_Model
             venta_id, serie, numero, fecha, hash, created_at, updated_at, procesado, envio,
             DATE_FORMAT(created_at, '%H:%i:%s') AS hora_emision,
             '03' tipo_doc,
-            external_id
+            external_id,v.guia_remision_numeros 
             FROM boleta
             WHERE 1=1
             AND serie='" . $serie . "'

@@ -787,7 +787,7 @@
                         mData: "orden_servicio"
                     },
                     {
-                        mData: "guia_remision"
+                        mData: "guia_remision_numeros"
                     },
                     {
                         mData: "bienes"

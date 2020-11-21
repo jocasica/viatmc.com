@@ -345,15 +345,15 @@
 														<label><i class="icon-home2 position-left"></i> Guia de remision: <span class="text-danger"></span></label>
 														<!-- <input type="text" title="Ingresa la dirección completa" value="<?php echo (isset($serie_numero_remision) ? $serie_numero_remision : ''); ?>" name="guia_remision" id="guia_remision"
 														placeholder="Escribe aquí la gia de remision" class="form-control " required> -->
-														<select name="remision_id" id="remision_id" class="form-control select2">
-															<option selected value="0">-</option>
+														<select name="remision_id[]" id="remision_id[]" class="form-control select2" multiple required>
+															<option selected value="0">No guia de remision</option>
 															<?php
 															$option = '';
 															if (isset($remision_id_factura)) {
-																$option = '<option value="' . $remision_id_factura[0]->id . '" selected>' . $remision_id_factura[0]->guia . '</option>';
+																$option = '<option value="' . $remision_id_factura[0]->id . ','.$remision_id_factura[0]->guia.'" selected>' . $remision_id_factura[0]->guia . '</option>';
 															} else {
 																foreach ($consulta_guias_disponibles as $dato) {
-																	$option .= '<option value="' . $dato->id . '">
+																	$option .= '<option value="' . $dato->id . ','.$dato->serie . ' - ' . $dato->numero .'">
 																			' . $dato->serie . ' - ' . $dato->numero . '</option>';
 																}
 															}
