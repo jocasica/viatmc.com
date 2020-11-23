@@ -839,7 +839,10 @@ class Pdfdos
         $pdf->Ln();
         $pdf->SetX(5);
         $pdf->Cell(60, 4, utf8_decode('Razón Social o Denominación:'), 0, 0, 'L');
-        $pdf->Cell(130, 4, utf8_decode($data->destinatario_nombre), 0, 0, 'L');
+        $pdf->SetX(65);
+        $pdf->MultiCell(130, 4,  utf8_decode($data->destinatario_nombre),  0, 'L');
+        $pdf->setY($pdf->GetY() - 4);
+        //$pdf->Cell(130, 4, utf8_decode($data->destinatario_nombre."asssssd asd asd as das das asd asd as as dasdssds dad asd asdasd asd asdas"), 0, 0, 'L');
         $pdf->Ln();
         $pdf->SetX(5);
         $pdf->Cell(60, 4, utf8_decode('Documento de identidad:'), 0, 0, 'L');

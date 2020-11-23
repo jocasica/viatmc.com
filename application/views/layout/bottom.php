@@ -103,7 +103,8 @@
         
         $('#tabla_lista_guias_remision').DataTable({
             language: spanishTableInfo,
-            "order": [[ 2, "desc" ]]
+            "order": [[ 2, "desc" ]],
+            "scrollX": true
             //"order": false // por orden de fecha de remisión
         });
 
@@ -944,6 +945,7 @@
             serie: serie,
             numero: numero
         }, function(r) {
+            console.log(r);
             if (r.success) {
                 template += r.data.number + ' ';
                 template += r.data.state_type_description + '<br>';
