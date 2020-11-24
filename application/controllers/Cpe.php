@@ -418,7 +418,7 @@ class Cpe extends CI_Controller
                 echo json_encode($rs_reenvio);
                 return true;
             } else {
-                echo json_encode($rs);
+                //echo json_encode($rs);
                 return true;
             }
             //var_dump($responseAPI);
