@@ -56,15 +56,13 @@ class Cpe extends CI_Controller
             $guia_remision_numero_items = explode(",", $guia_remision_numeros);
             $guias = array();
             foreach ($guia_remision_numero_items as $value_id_remision) {
-                if($value_id_remision!="0" || $value_id_remision!="" || $value_id_remision!=null)
-                {
+                if ($value_id_remision != "0" || $value_id_remision != "" || $value_id_remision != null) {
                     $guia_item = array(
                         "numero" => $value_id_remision,
                         "codigo_tipo_documento" => "09"
                     );
                     $guias[] = $guia_item;
                 }
-              
             }
 
 
@@ -308,6 +306,7 @@ class Cpe extends CI_Controller
                         $pdf_link = isset($rs['links']['pdf']) ? $rs['links']['pdf'] : null;
                         $this->venta_model->updateCPE($tipo, $id, $external_id, $estado_api);
                         $this->venta_model->updateCPE_xml_cd($tipo, $id, $xml_link, $cdr_link, $pdf_link);
+                        
                     }
                 }
                 echo $responseAPI;
@@ -407,6 +406,17 @@ class Cpe extends CI_Controller
                         curl_close($curl_confirmacion);
                         $rs_reenvio = json_decode($responseAPI_reenvio, true);
                         $mensaje_api_aceptacion = $rs_reenvio['response']['description'];
+
+                        if (isset($_doc->guia_remision_ids)) {
+                            $array_id_guia_remision = explode(',', $_doc->guia_remision_ids);
+                          
+                            foreach ($array_id_guia_remision as $id_remision_actualizar) {
+
+                                if ($id_remision_actualizar != '0') {
+                                    $this->guia_model->upd_estatus_back($id_remision_actualizar);
+                                }
+                            }
+                        }
                     } else {
                         echo json_encode($rs);
                         return true;
