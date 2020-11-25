@@ -103,6 +103,14 @@ class Guia_model extends CI_Model {
         $this->db->where('id', $remision_id);
         $this->db->update('remision', $data);
     }
+    public function upd_estatus_back($remision_id) {
+        $data = array(
+            'estatus_id' => 1
+        );
+        $this->db->where('id', $remision_id);
+        $this->db->update('remision', $data);
+    }
+
 
     public function getConfig() {
         return $this->db->query("select * from config where id=1")->row();

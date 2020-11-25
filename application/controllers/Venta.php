@@ -1240,7 +1240,7 @@ class Venta extends CI_Controller
 
             $data['data_venta'] = $this->venta_model->getVentaGeneralById($this->input->post('id_nota_credito'));
             $data['data_venta_factura'] = $this->venta_model->getVentaById($this->input->post('id_nota_credito'));
-
+           
             $v = array(
                 'id' => '',
                 'users_id' => $this->ion_auth->user()->row()->id,
@@ -1319,6 +1319,17 @@ class Venta extends CI_Controller
                 );
             }
             $this->venta_model->crearVentaProducto($vp);
+            
+            if (isset($data['data_venta']->guia_remision_ids)) {
+                $array_id_guia_remision = explode(',', $data['data_venta']->guia_remision_ids);
+              
+                foreach ($array_id_guia_remision as $id_remision_actualizar) {
+
+                    if ($id_remision_actualizar != '0') {
+                        $this->guia_model->upd_estatus_back($id_remision_actualizar);
+                    }
+                }
+            }
             $responseAPI = $this->envio_directo_nota_credito($id_nota_credito, $this->input->post('serie_nota_credito'), $data['numero_comprobante'], 'factura_nota_credito');
             if ($responseAPI !== 0) {
                 $rs = json_decode($responseAPI, true);
