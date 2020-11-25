@@ -1455,7 +1455,7 @@ class Venta extends CI_Controller
                 "datos_del_cliente_o_receptor" => $datos_del_cliente_o_receptor,
                 "totales" => $totales,
                 "items" => $items,
-                "informacion_adicional" => "",
+                "informacion_adicional" =>  $_doc->observacion,
                 "guias" => $guias
             );
             //print_r($_dataCURL); exit();
