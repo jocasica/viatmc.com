@@ -323,6 +323,7 @@
 														<select name="metodo_pago" id="metodo_pago" class="form-control">
 															<option value="CONTADO">CONTADO</option>
 															<option value="CREDITO">CREDITO</option>
+															<option value="-">-</option>
 															<!-- <option value="IZIPAY">IZIPAY</option> -->
 														</select>
 													</div>
