@@ -46,6 +46,7 @@
 								<thead>
 									<tr class="bg-light">
 										<th>#</th>
+										<th>Nro. Documento</th>
 										<th>Nombre</th>
 										<th>Segmento</th>
 										<th>Direcciones</th>
@@ -58,13 +59,14 @@
 										<?php foreach ($clientes as $cliente): ?>
 											<tr>
 												<td><?= ++$count ?></td>
+												<td><?= $cliente->numero_documento?></td>
 												<td><?= $cliente->nombre_cliente ?></td>
 												<td><?= $this->constantes->SEGMENTOS[$cliente->segmento] ?></td>
 												<td>
 													<ul>
 														<li><?= $cliente->direccion_principal ?></li>
 															<?php foreach ($cliente->direcciones_secundarias as $direccion): ?>
-																<li><?= $direccion->direccion ?></li>
+																<li><b><?= $direccion->tipo_direccion.": "?></b><?= $direccion->direccion ?></li>
 															<?php endforeach; ?>
 													</ul>
 												</td>
