@@ -114,12 +114,14 @@ class Cliente extends CI_Controller {
             if($this->Cliente_model->actualizar($id_cliente, $cliente)) {
                 $this->Cliente_direccion_model->eliminar($id_cliente);
                 $ubigeo     = $this->input->post('ubigeo[]');
+                $tipo_direccion        = $this->input->post('tipo_direccion2[]');
                 $dir        = $this->input->post('direccion2[]');
                 $telefono   = $this->input->post('telefono2[]');
                 $email      = $this->input->post('email2[]');
                 for($i=0; $i < sizeof($ubigeo); $i++) {
                     $direccion                  = array();
                     $direccion['id_cliente']    = $id_cliente;
+                    $direccion['tipo_direccion']        = $tipo_direccion[$i];
                     $direccion['ubigeo']        = $ubigeo[$i];
                     $direccion['direccion']     = $dir[$i];
                     $direccion['telefono']      = $telefono[$i];

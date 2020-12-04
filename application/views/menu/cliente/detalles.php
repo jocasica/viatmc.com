@@ -116,7 +116,11 @@
                   <label>Ubigeo <span class="text-danger">*</span></label>
                   <input type="text" name="ubigeo[]" reuired class="form-control" placeholder="xxxx" value="<?php echo $data_direcciones[0]->ubigeo; ?>">
                 </div>
-                <div class="form-group col-sm-5">
+                <div class="form-group col-sm-2">
+                  <label>Tipo <span class="text-danger">*</span></label>
+                  <input type="text" name="tipo_direccion2[]" reuired class="form-control" placeholder="xxxx" value="<?php echo $data_direcciones[0]->tipo_direccion; ?>">
+                </div>
+                <div class="form-group col-sm-4">
                   <label>Dirección <span class="text-danger">*</span></label>
                   <input type="text" name="direccion2[]" class="form-control" placeholder="Dirección"  value="<?php echo $data_direcciones[0]->direccion; ?>">
                 </div>
@@ -125,7 +129,7 @@
                   <label>Teléfono <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" name="telefono2[]" placeholder="Teléfono"  value="<?php echo $data_direcciones[0]->telefono; ?>">
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-2">
                   <label for="email">Correo electrónico <span class="text-danger">*</span></label>
                   <input type="email" name="email2[]" placeholder="ejemplo@mail.com" class="form-control"  value="<?php echo $data_direcciones[0]->email; ?>">
                 </div>
@@ -162,7 +166,7 @@
       for (let i = 2; i <= count; i++) {
         var aux = i - 1;
         var div = $("<div/>");
-        div.html(GetDynamicTextBox(aux, data_direcciones[aux].ubigeo, data_direcciones[aux].direccion, data_direcciones[aux].telefono, data_direcciones[aux].email));
+        div.html(GetDynamicTextBox(aux, data_direcciones[aux].ubigeo, data_direcciones[aux].tipo_direccion,data_direcciones[aux].direccion, data_direcciones[aux].telefono, data_direcciones[aux].email));
         $("#TextBoxContainer").append(div);
       }
     }
@@ -180,7 +184,7 @@
     $(this).closest("div").remove();
   });
 
-  function GetDynamicTextBox(num, ubigeo = "", direccion = "", telefono = "", email = "") {
+  function GetDynamicTextBox(num, ubigeo = "",tipo_direccion ="", direccion = "", telefono = "", email = "") {
     return `
       <h6>Dirección secundaria #${num} <a type="button"><i class="fas fa-trash text-danger remove"></i></a></h6>
       <div class="row">
@@ -188,7 +192,11 @@
           <label>Ubigeo <span class="text-danger">*</span></label>
           <input type="text" name="ubigeo[]" value="${ubigeo}"required class="form-control" placeholder="xxxx">
         </div>
-        <div class="form-group col-sm-5">
+        <div class="form-group col-sm-2">
+          <label>Tipo <span class="text-danger">*</span></label>
+          <input type="text" name="tipo_direccion2[]" value="${tipo_direccion}"required class="form-control" placeholder="xxxx">
+        </div>
+        <div class="form-group col-sm-4">
           <label>Dirección <span class="text-danger">*</span></label>
           <input type="text" name="direccion2[]" value="${direccion}" class="form-control" placeholder="Dirección">
         </div>
@@ -196,7 +204,7 @@
           <label>Teléfono <span class="text-danger">*</span></label>
           <input type="text" name="telefono2[]" value="${telefono}" class="form-control" placeholder="Teléfono">
         </div>
-        <div class="form-group col-sm-3">
+        <div class="form-group col-sm-2">
           <label for="email">Correo electrónico <span class="text-danger">*</span></label>
           <input type="email" name="email2[]" value="${email}" placeholder="ejemplo@mail.com" class="form-control">
         </div>

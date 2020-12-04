@@ -1227,7 +1227,7 @@
 		let options								= `<option value="${datos_cliente.direccion_principal}">${datos_cliente.direccion_principal}</option>`; // Dirección princial
 		const direcciones_cliente	= data_all_direcciones.filter((item)=> item.numero_documento == id_cliente_seleccionado);
 		direcciones_cliente.forEach((item) => {
-			options += `<option value="${item.direccion}">${item.direccion}</option>`; // Direcciones secundarias
+			options += `<option value="${item.direccion}">${item.tipo_direccion} : ${item.direccion}</option>`; // Direcciones secundarias
 		});
 		$('#cliente_direccion').append(options);
 		//$('#cliente_direccion').val(datos_cliente.direccion_principal);
