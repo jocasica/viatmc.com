@@ -92,7 +92,9 @@
 
         $('#PrincipalSectionTable').DataTable({
             language: spanishTableInfo,
-            "order": [[ 1, "desc" ]]
+            "order": [
+                [1, "desc"]
+            ]
         });
         $('#PrincipalSectionTableAnuladas').DataTable({
             language: spanishTableInfo
@@ -100,16 +102,21 @@
         $('#PrincipalSectionTableAnuladasBoletas').DataTable({
             language: spanishTableInfo
         });
-        
+
         $('#tabla_lista_guias_remision').DataTable({
             language: spanishTableInfo,
-            "order": [[ 3, "desc" ]],
+            "order": [
+                [3, "desc"]
+            ],
             "scrollX": true
             //"order": false // por orden de fecha de remisión
         });
 
         $('#tabla_principal_notas_credito').DataTable({
-            language: spanishTableInfo,"order": [[ 1, "desc" ]]
+            language: spanishTableInfo,
+            "order": [
+                [1, "desc"]
+            ]
         });
 
         seaceTable = $('#seaceTable').DataTable({
@@ -324,28 +331,29 @@
                 $("#div_tipo_cambio").prop("hidden", true);
             }
         });
+
         function addSerie(quantity) {
             var series = $("#customSeries > div").length;
             for (var i = 0; i < quantity; i++) {
                 var currentItem = 0;
                 if (series === 0) {
-                        currentItem = i;
+                    currentItem = i;
                 } else {
-                        currentItem = series;
+                    currentItem = series;
                 }
 
                 var serie = '<div class="form-group row serieItem" style="padding-left: 10px"> ' +
-                        '<label class="col-sm-2 col-form-label col-form-label" style="background: #F2F2F2">#' + ((currentItem + 1) + "").padStart(2, "0") + ' Serie: </label> ' +
-                        '<div class="col-sm-9"> <input type="text" name="serie[]" class="form-control" required> </div> ' + '<div class="col-sm-1"> <span class="close-btn">x</span> </div>'
+                    '<label class="col-sm-2 col-form-label col-form-label" style="background: #F2F2F2">#' + ((currentItem + 1) + "").padStart(2, "0") + ' Serie: </label> ' +
+                    '<div class="col-sm-9"> <input type="text" name="serie[]" class="form-control" required> </div> ' + '<div class="col-sm-1"> <span class="close-btn">x</span> </div>'
                 '</div>';
 
                 $("#customSeries").append(serie)
             }
 
             $('#customSeries .close-btn').on('click', function(e) {
-                    e.preventDefault();
-                    $(this).closest('.serieItem').remove();
-                    $('#cantidad').val($("#customSeries > div").length);
+                e.preventDefault();
+                $(this).closest('.serieItem').remove();
+                $('#cantidad').val($("#customSeries > div").length);
             })
         }
 
@@ -358,34 +366,34 @@
             $('#cantidad').val($("#customSeries > div").length);
         }
 
-	function addSeries() {
-        var quantity = $('#cantidad').val();
-        var currentLength = $("#customSeries > div").length;
+        function addSeries() {
+            var quantity = $('#cantidad').val();
+            var currentLength = $("#customSeries > div").length;
 
-        if (currentLength === 0) {
-            addSerie(quantity)
-        } else {
-            if (quantity === currentLength) {} else if (quantity < currentLength) {
-                removeSerie(currentLength - quantity);
-            } else if (quantity > currentLength) {
-                addSerie(quantity - currentLength)
+            if (currentLength === 0) {
+                addSerie(quantity)
+            } else {
+                if (quantity === currentLength) {} else if (quantity < currentLength) {
+                    removeSerie(currentLength - quantity);
+                } else if (quantity > currentLength) {
+                    addSerie(quantity - currentLength)
+                }
             }
         }
-    }
 
-	$("input[name='trabajarConSeries']").on('change', function() {
-					validateChanges(this.value);
-			});
+        $("input[name='trabajarConSeries']").on('change', function() {
+            validateChanges(this.value);
+        });
 
-			function validateChanges(value) {
-					if (value > 0) {
-							$("#trabajarConSeries").removeClass('hide');
-							addSeries();
-					} else {
-							$("#trabajarConSeries").addClass('hide');
-							$("#customSeries").html('');
-					}
-			}
+        function validateChanges(value) {
+            if (value > 0) {
+                $("#trabajarConSeries").removeClass('hide');
+                addSeries();
+            } else {
+                $("#trabajarConSeries").addClass('hide');
+                $("#customSeries").html('');
+            }
+        }
 
         $('#customSeries .close-btn').on('click', function(e) {
             e.preventDefault();
@@ -399,7 +407,7 @@
             $('#cantidad').val($("#customSeries > div").length);
         })
 
-        
+
         $('#frm-correo').on('submit', function(e) {
             e.preventDefault();
             var obj = new Object();
@@ -476,22 +484,59 @@
             }).then(function(data) {
                 console.log(data);
                 data.forEach(function(cp, index) {
-                   
-                        $('#body_tbl_remision > tbody:last-child').append('<tr>' +
-                            '<td>' + cp.id + '</td>' +
-                            '<td>' + cp.cod + '</td>' +
-                            '<td><h4 class="m-b-0 font-16">' + cp.descripcion + '</h4></td>' +
-                            '<td>' + cp.unidad_medida + '</td>' +
-                            '<td>' + cp.cantidad + '</td>' +
-                           
-                            '</tr>');
-                   
-                    
+
+                    $('#body_tbl_remision > tbody:last-child').append('<tr>' +
+                        '<td>' + cp.id + '</td>' +
+                        '<td>' + cp.cod + '</td>' +
+                        '<td><h4 class="m-b-0 font-16">' + cp.descripcion + '</h4></td>' +
+                        '<td>' + cp.unidad_medida + '</td>' +
+                        '<td>' + cp.cantidad + '</td>' +
+
+                        '</tr>');
+
+
                 });
             }, function(reason) {
                 console.log(reason);
             });
             $("#vm_ver_productos_remision").modal("show");
+        });
+
+        $(".ver-direccionescliente").on('click', function() {
+           
+            $("#body_tbl_direccion_cliente > tbody").empty();
+            var obj = new Object();
+            obj.cliente_id = $(this).attr("cliente_id");
+            $.ajax({
+                url: '<?= base_url('cliente/obtener_direcciones') ?>',
+                method: 'POST',
+                dataType: "json",
+                data: obj
+            }).then(function(data) {
+                console.log(data);
+                $('#body_tbl_direccion_cliente > tbody:last-child').append('<tr>' +
+                    '<td>' + "Direccion principal" + '</td>' +
+                    '<td>' + data.clientes_array + '</td>' +
+
+                    '</tr>');
+                data.clientes_direcciones_array.forEach(function(cp) {
+                    if(cp.direccion!="")
+                    {
+                   
+                        $('#body_tbl_direccion_cliente > tbody:last-child').append('<tr>' +
+                            '<td>' + cp.tipo_direccion + '</td>' +
+                            '<td>' + cp.direccion + '</td>' +
+
+                            '</tr>');
+                    }
+
+                });
+
+              
+            }, function(reason) {
+                console.log(reason);
+            });
+            $("#vm_ver_direccionescliente").modal("show");
         });
     });
 </script>
@@ -898,7 +943,7 @@
         }, function(r) {
             console.log(r);
             if (r.success) {
-                $('#modal_cpe .modal-body').html("Se envió la anulación: "+r.response.description);
+                $('#modal_cpe .modal-body').html("Se envió la anulación: " + r.response.description);
                 //window.location.reload();
             } else {
                 $('#modal_cpe .modal-body').html(JSON.stringify(r));
@@ -1032,7 +1077,7 @@
         }
 
 
-        
+
         $('#montodiseno').attr("readonly", "readonly");
         $('#diseno').on('change', function() {
             if ($(this).val() == "NO") {
@@ -1867,30 +1912,30 @@
 
         // verificar si se usa esta funcion
         const colocar_series_general = (value) => {
-			let html = '';
-			$.ajax({
-					url: '/compra/obtener_series/' + value,
-					method: 'GET',
-					contentType: "application/json; charset=utf-8",
-					dataType: 'json',
-					success: function(data) {
-							for (var i = 0; i < data.length; i++) {
-									html += `
+            let html = '';
+            $.ajax({
+                url: '/compra/obtener_series/' + value,
+                method: 'GET',
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        html += `
 						<option value="${data[i].id}">${data[i].serie}</option>
 					`;
-							} //end for
-							document.getElementById('series').innerHTML = html;
-					},
-					error: function() {
+                    } //end for
+                    document.getElementById('series').innerHTML = html;
+                },
+                error: function() {
 
-					}
-			});
-	};
+                }
+            });
+        };
 
-	/* $('#producto_id').on('select2:select', function(e) {
-		colocar_series_general($(this).val());
-		$('#producto_id').trigger('select2:change');
-	}); */
+        /* $('#producto_id').on('select2:select', function(e) {
+        	colocar_series_general($(this).val());
+        	$('#producto_id').trigger('select2:change');
+        }); */
         /*
         $("#frm-producto").on('submit',function(e){
             if(parseFloat($("#precio_venta_distribuidor").val()) >=  parseFloat($("#precio_venta_normal").val())){
@@ -1966,11 +2011,11 @@
     });
     $(document).ready(function() {
         $('.btn-reporte-compra').on('click', function(e) {
-           
-           $.redirect('<?= base_url('prueba/reporte_compra') ?>', {
-              
-           }, "POST", "_blank");
-       });
+
+            $.redirect('<?= base_url('prueba/reporte_compra') ?>', {
+
+            }, "POST", "_blank");
+        });
 
         $('#consulta_factura').DataTable({
             "destroy": true,
@@ -2022,8 +2067,7 @@
                             return '<label   class="label label-warning btn-pendiente" data-serie="' + data.serie + '" data-numero="' + data.numero + '" data-id="' + data.id + '" data-tipo="factura">Pendiente</label> ';
                         }
                     }
-                }
-                ,
+                },
                 {
                     mData: "estado_api"
                 },
@@ -2146,8 +2190,7 @@
                             return '<label class="label label-warning btn-pendiente" data-serie="' + data.serie + '" data-numero="' + data.numero + '" data-id="' + data.id + '" data-tipo="boleta">Pendiente</label> ';
                         }
                     }
-                }
-                ,
+                },
                 {
                     mData: "estado_api"
                 },
@@ -2210,9 +2253,9 @@
                 console.log(e);
             },
             success: function(data) {
-             
+
                 var estado = data.data.comprobante_estado_descripcion;
-                
+
                 $.ajax({
                     url: '<?= base_url('Venta/EstadoSunat') ?>',
                     type: 'POST',
@@ -2234,7 +2277,7 @@
 
                             }, function(isConfirm) {
                                 if (isConfirm) {
-                                    
+
                                     window.location.reload();
                                 }
                             }
@@ -2389,7 +2432,7 @@
         $("#unidad_medida").val('');
         $('#vm_add_producto').modal('toggle');
         document.getElementById("frm-add-producto-remision").reset();
-        updating=false;
+        updating = false;
     });
 
     function CargarUbigeo() {

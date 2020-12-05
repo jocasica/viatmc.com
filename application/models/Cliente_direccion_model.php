@@ -33,7 +33,7 @@
         }//end seleccionar_donde
 
         public function seleccionar_direcciones_con_id($id_cliente) {
-            $this->db->select('id, direccion');
+            $this->db->select('id, direccion,tipo_direccion');
             $this->db->from($this->tabla);
             $this->db->where('id_cliente', $id_cliente);
             $this->db->order_by('direccion', 'ASC');
@@ -43,6 +43,16 @@
                 $temp[$key->id] = $key->direccion;
             }//end foreach
             return $temp;
+        }//end seleccionar_direcciones_con_id
+
+
+        public function seleccionar_direcciones_con_id_normal($id_cliente) {
+            $this->db->select('id, direccion,tipo_direccion');
+            $this->db->from($this->tabla);
+            $this->db->where('id_cliente', $id_cliente);
+            $this->db->order_by('direccion', 'ASC');
+          
+            return $this->db->get();
         }//end seleccionar_direcciones_con_id
 
         public function obtener_direccion($id) {

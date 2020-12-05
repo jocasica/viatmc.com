@@ -1,9 +1,11 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Cliente extends CI_Controller {
+class Cliente extends CI_Controller
+{
 
-	public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->database();
         $this->load->library(array('ion_auth', 'form_validation'));
@@ -17,12 +19,13 @@ class Cliente extends CI_Controller {
         ));
     } # end __construct
 
-    public function index() {
+    public function index()
+    {
         if ($this->ion_auth->logged_in()) {
             $data       = array();
             $clientes   = $this->Cliente_model->seleccionar_todo();
             foreach ($clientes as $cliente) {
-                $cliente->direcciones_secundarias = $this->Cliente_direccion_model->seleccionar_donde(array('id_cliente'=>$cliente->id));
+                $cliente->direcciones_secundarias = $this->Cliente_direccion_model->seleccionar_donde(array('id_cliente' => $cliente->id));
             }
             $data['clientes'] = $clientes;
             $this->load->view('/layout/top');
@@ -33,18 +36,20 @@ class Cliente extends CI_Controller {
         }
     } # end index
 
-    public function registro() {
+    public function registro()
+    {
         if ($this->ion_auth->logged_in()) {
             $data['data_vendedores'] = $this->Cliente_model->getVendedores();
             $this->load->view('/layout/top');
             $this->load->view('menu/cliente/registro', $data);
             $this->load->view('/layout/bottom');
-        }else {
+        } else {
             redirect('auth/login', 'refresh');
         }
     } # end registro
 
-    public function agregar() {
+    public function agregar()
+    {
         if ($this->ion_auth->logged_in()) {
             $cliente['tipo_documento']      = $this->input->post('tipo_documento');
             $cliente['numero_documento']    = $this->input->post('numero_sunat');
@@ -59,12 +64,12 @@ class Cliente extends CI_Controller {
             $cliente['email_principal']     = $this->input->post('email');
             $cliente['id_vendedor']         = $this->input->post('id_vendedor'); # campo nuevo
 
-            if($id_cliente = $this->Cliente_model->agregar($cliente)) {
+            if ($id_cliente = $this->Cliente_model->agregar($cliente)) {
                 $ubigeo     = $this->input->post('ubigeo[]');
                 $dir        = $this->input->post('direccion2[]');
                 $telefono   = $this->input->post('telefono2[]');
                 $email      = $this->input->post('email2[]');
-                for($i=0; $i < sizeof($ubigeo); $i++) {
+                for ($i = 0; $i < sizeof($ubigeo); $i++) {
                     $direccion                  = array();
                     $direccion['id_cliente']    = $id_cliente;
                     $direccion['ubigeo']        = $ubigeo[$i];
@@ -79,14 +84,15 @@ class Cliente extends CI_Controller {
         }
     } # end agregar
 
-    public function detalles($id_cliente = null) {
+    public function detalles($id_cliente = null)
+    {
         if ($this->ion_auth->logged_in()) {
             $data['data_cliente']       = $this->Cliente_model->getClienteById($id_cliente);
-            if($data['data_cliente'] == '') {
+            if ($data['data_cliente'] == '') {
                 redirect('cliente', 'refresh');
             }
             $data['data_vendedores']    = $this->Cliente_model->getVendedores();
-            $data['data_direcciones']   = $this->Cliente_direccion_model->seleccionar_donde(array('id_cliente'=>$id_cliente));
+            $data['data_direcciones']   = $this->Cliente_direccion_model->seleccionar_donde(array('id_cliente' => $id_cliente));
             $this->load->view('/layout/top');
             $this->load->view('menu/cliente/detalles', $data);
             $this->load->view('/layout/bottom');
@@ -95,7 +101,8 @@ class Cliente extends CI_Controller {
         }
     } # end detalles
 
-    public function editar($id_cliente) {
+    public function editar($id_cliente)
+    {
         if ($this->ion_auth->logged_in()) {
             $cliente['updated_at']          = date("Y-m-d H:i:s");
             $cliente['tipo_documento']      = $this->input->post('tipo_documento');
@@ -111,14 +118,14 @@ class Cliente extends CI_Controller {
             $cliente['email_principal']     = $this->input->post('email');
             $cliente['id_vendedor']         = $this->input->post('id_vendedor'); # campo nuevo
 
-            if($this->Cliente_model->actualizar($id_cliente, $cliente)) {
+            if ($this->Cliente_model->actualizar($id_cliente, $cliente)) {
                 $this->Cliente_direccion_model->eliminar($id_cliente);
                 $ubigeo     = $this->input->post('ubigeo[]');
                 $tipo_direccion        = $this->input->post('tipo_direccion2[]');
                 $dir        = $this->input->post('direccion2[]');
                 $telefono   = $this->input->post('telefono2[]');
                 $email      = $this->input->post('email2[]');
-                for($i=0; $i < sizeof($ubigeo); $i++) {
+                for ($i = 0; $i < sizeof($ubigeo); $i++) {
                     $direccion                  = array();
                     $direccion['id_cliente']    = $id_cliente;
                     $direccion['tipo_direccion']        = $tipo_direccion[$i];
@@ -134,4 +141,16 @@ class Cliente extends CI_Controller {
         }
     } # end editar
 
+    public function obtener_direcciones()
+    {
+        $data = $_POST;
+        $clientes_dir = array(
+            "clientes_array" => $this->Cliente_model->obtener_direccion_principal($data["cliente_id"]),
+            "clientes_direcciones_array" => $this->Cliente_direccion_model->seleccionar_direcciones_con_id_normal($data["cliente_id"])->result(),
+            
+        );
+
+        echo json_encode($clientes_dir);
+        exit;
+    }
 } # end class Cliente
