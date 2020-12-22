@@ -173,8 +173,8 @@ class Venta_model extends CI_Model
     public function getDetalleVentaById($id) {
         $this->db->select('vp.*,um.descripcion as unidad_medidad_descripcion');
         $this->db->from('venta_producto vp');
-        $this->db->join('producto p','p.id=vp.producto_id');
-        $this->db->join('unidad_medida um','um.id=p.unidad_medida_id');
+        $this->db->join('producto p','p.id=vp.producto_id','LEFT');
+        $this->db->join('unidad_medida um','um.id=p.unidad_medida_id','LEFT');
         $this->db->where('vp.venta_id', $id);
         return $this->db->get()->result();
         

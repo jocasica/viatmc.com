@@ -243,6 +243,8 @@ class Venta extends CI_Controller
             $data['numeros'] = $this->venta_model->getUltimoNumeroComprobante()->result();
             $data['data_venta'] = $this->venta_model->getVentaById($id);
             $data['detalle_venta'] = $this->venta_model->getDetalleVentaById($id);
+            //print_r($this->db->last_query());
+            //die;
             $data['id'] = $id;
             //$data['factura_nota_credito']= $this->venta_model->getFacturaNotaCreditoById($id);
             // print_r($data['detalle_venta']);
@@ -1302,8 +1304,14 @@ class Venta extends CI_Controller
             $subtotal_detalle_s = $this->input->post('subtotal_detalle');
             $importe_detalle_s = $this->input->post('importe_detalle');
             $texto_ref_detalle_s = $this->input->post('texto_ref_detalle');
+            
 
             for ($x = 0; $x < sizeof($producto_id_detalle_s); $x++) {
+
+                if($producto_id_detalle_s[$x]=="")
+                {
+                    $producto_id_detalle_s[$x]=null;
+                }
 
                 $vp[$x] = array(
                     'precio_unidad' => $precio_unidad_detalle_s[$x],
@@ -1551,7 +1559,7 @@ class Venta extends CI_Controller
                 $i_total_igv = (float) $value->total - $value->subtotal;
                 $items[] = array(
                     "codigo_interno" => substr(md5(uniqid() . mt_rand()), 0, 10),
-                    "descripcion" => $value->p_nombre . ": " . $value->texto_ref,
+                    "descripcion" => isset($value->p_nombre) ? $value->p_nombre . ":" . $value->texto_ref: ""  . $value->texto_ref,
                     "codigo_items_sunat" => '10000000',
                     "unidad_de_medida" => "NIU",
                     "cantidad" => $value->cantidad, //2,

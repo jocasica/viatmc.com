@@ -1592,8 +1592,8 @@ class Pdfdos
         $pdf->SetWidths(array(15, 20, 90, 15, 15, 20, 25));
         $pdf->SetAligns(array('C', 'C', 'L', 'C', 'C', 'R', 'R'));
         foreach ($prods->result() as $pro) {
-            if (!isset($pro->unidad_medida)) {
-                $pro->unidad_medida = 'ZZ';
+            if (!isset($pro->unidad)) {
+                $pro->unidad = 'ZZ';
             }
             $pdf->SetX(5);
             $pdf->Row(array($f, utf8_decode($pro->codigo_producto), utf8_decode($pro->nombre_producto), utf8_decode($pro->unidad), round($pro->cantidad, 2), number_format($pro->precio_unidad, 2), number_format($pro->total, 2)));
