@@ -1376,6 +1376,7 @@ class Venta extends CI_Controller
             $serie_documento = $_doc->serie;
             $numero_documento = $_doc->numero;
             $fecha_de_emision = $_doc->fecha;
+            $fecha_de_vencimiento = $_doc->vencimiento;
             $hora_de_emision = $_doc->hora_emision;
             $cliente_tipodocumento = $tipo == 'factura' ? 6 : 1;
             $cliente_numerodocumento = $_doc->numero_doc;
@@ -1458,7 +1459,7 @@ class Venta extends CI_Controller
                 "codigo_tipo_operacion" => "0101",
                 "codigo_tipo_documento" => $codigo_tipo_documento,
                 "codigo_tipo_moneda" => "PEN",
-                "fecha_de_vencimiento" => $fecha_de_emision,
+                "fecha_de_vencimiento" => $fecha_de_vencimiento,
                 "numero_orden_de_compra" => "",
                 "datos_del_cliente_o_receptor" => $datos_del_cliente_o_receptor,
                 "totales" => $totales,

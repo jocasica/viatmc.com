@@ -1307,7 +1307,7 @@ class Venta_model extends CI_Model
             f.venta_id, f.serie, f.numero, f.fecha, f.created_at, f.updated_at, f.hash, f.procesado, f.envio,
             DATE_FORMAT(f.created_at, '%H:%i:%s') AS hora_emision,
             '01' tipo_doc,
-            f.external_id,v.guia_remision,v.guia_remision_numeros,v.guia_remision_ids,v.observacion
+            f.external_id,v.guia_remision,v.guia_remision_numeros,v.guia_remision_ids,v.observacion,f.vencimiento
             FROM factura f
             INNER JOIN venta v ON v.id=f.venta_id
             WHERE 1=1
@@ -1341,7 +1341,7 @@ class Venta_model extends CI_Model
             venta_id, serie, numero, fecha, hash, created_at, updated_at, procesado, envio,
             DATE_FORMAT(created_at, '%H:%i:%s') AS hora_emision,
             '03' tipo_doc,
-            external_id,v.guia_remision_numeros 
+            external_id,v.guia_remision_numeros,f.vencimiento
             FROM boleta
             WHERE 1=1
             AND serie='" . $serie . "'

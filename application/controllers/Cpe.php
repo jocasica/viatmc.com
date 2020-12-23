@@ -44,6 +44,7 @@ class Cpe extends CI_Controller
             $numero_documento = $_doc->numero;
             $fecha_de_emision = $_doc->fecha;
             $hora_de_emision = $_doc->hora_emision;
+            $fecha_de_vencimiento = $_doc->vencimiento;
             $cliente_tipodocumento = $tipo == 'factura' ? 6 : 1;
             $cliente_numerodocumento = $_doc->numero_doc;
             $cliente_nombre = $_doc->cliente;
@@ -121,7 +122,7 @@ class Cpe extends CI_Controller
                 "codigo_tipo_operacion" => "0101",
                 "codigo_tipo_documento" => $codigo_tipo_documento,
                 "codigo_tipo_moneda" => "PEN",
-                "fecha_de_vencimiento" => $fecha_de_emision,
+                "fecha_de_vencimiento" => $fecha_de_vencimiento,
                 "numero_orden_de_compra" => "",
                 "datos_del_cliente_o_receptor" => $datos_del_cliente_o_receptor,
                 "totales" => $totales,
