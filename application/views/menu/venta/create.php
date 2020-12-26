@@ -171,7 +171,7 @@
 
 												<div class="form-group col-md-3">
 													<label><i class="icon-calendar2 position-left"></i> Fecha de vencimiento:</label>
-													<input type="text" name="fecha_vencimiento" id="fecha_vencimiento" value="<?php echo date('Y-m-d'); ?>" placeholder="" class="form-control">
+													<input type="date" name="fecha_vencimiento" id="fecha_vencimiento" value="<?php echo date('Y-m-d'); ?>" min="<?php echo date('Y-m-d'); ?>" placeholder="" class="form-control">
 												</div>
 
 												<div class="content_debito_credito" style="display: none;">
