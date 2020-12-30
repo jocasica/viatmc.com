@@ -283,10 +283,12 @@
                                 <table class="table table-striped table-responsive">
                                     <thead class="thead-dark">
                                         <tr>
+                                            <th>Codigo interno</th>
                                             <th>Cod. bien</th>
                                             <th>Descripcion</th>
                                             <th>Unidad medida</th>
                                             <th>Cantidad</th>
+                                            
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -327,25 +329,7 @@
                     </div>
                 </div>
                 <!-- Start Page Content -->
-                <div class="col-lg-4" hidden>
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">Productos </h4>
-                            <button type="button" class="btn btn-primary" id="add_proucto">Agregar producto</button>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio Uni.</th>
-                                        <th>Monto</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+           
             </div>
         </div>
     </form>
@@ -360,7 +344,12 @@
             <div class="modal-body">
                 <form class="form-horizontal form-material" id="frm-add-producto-remision" method="post"
                       enctype="multipart/form-data">
-                    <input type="hidden" id="productId" value="0" name="productId">
+                  
+                    <div class="form-group">
+                        <label class="col-md-12">Codigo interno</label>
+                        <div class="col-md-12">
+                        <input type="text" id="productId" value="0" name="productId" class="form-control" readonly>
+                    </div>
                     <div class="form-group">
                         <label class="col-md-12">Codigo bien</label>
                         <div class="col-md-12">
