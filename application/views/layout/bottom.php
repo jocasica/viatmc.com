@@ -88,8 +88,10 @@
         $('#vm_add_producto').on('hidden.bs.modal', function() {
             $('#frm-add-producto').trigger("reset");
             $('#frm-add-producto img').attr('src', '');
+            document.getElementById("frm-add-producto-remision").reset();
         });
 
+     
         $('#PrincipalSectionTable').DataTable({
             language: spanishTableInfo,
             "order": [
@@ -2381,6 +2383,8 @@
     });
     $('#frm-add-producto-remision').on('submit', function(e) {
         e.preventDefault();
+        $("#vm_add_producto button[type=submit]").html("Agregar");
+        
         var dat = $('#frm-add-producto-remision').serializeArray();
         var jqxhr = $.ajax({
             url: '<?= base_url('producto/postProductoRemision') ?>',
@@ -2404,6 +2408,9 @@
         //var selecciondiseno = $('#diseno').children("option:selected").val();
 
         var trHtml = '<td>' +
+        '<h5 class="m-b-0" >' + jqxhr + '</h5>' +
+            '</td>' +
+            '<td>' +
             '<h5 class="m-b-0" >' + cod + '</h5>' +
             '</td>' +
             '<td>' + descripcion + '</td>' +
@@ -2422,6 +2429,7 @@
 
         if (updating) {
             $('#tbody_producto_remision tr[data-product-id=' + jqxhr + ']').html(trHtml);
+            $('#tbody_producto_remision tr[data-product-id=' + jqxhr + ']').attr('data-product', JSON.stringify(dat).replace(/'/g, "\\'"));
         } else {
             $('#tbody_producto_remision').append('<tr data-product=\'' + JSON.stringify(dat).replace(/'/g, "\\'") + '\' data-product-id="' + jqxhr + '">' + trHtml + '</tr>');
         }
@@ -2433,6 +2441,7 @@
         $('#vm_add_producto').modal('toggle');
         document.getElementById("frm-add-producto-remision").reset();
         updating = false;
+        $("#vm_add_producto button[type=submit]").html("Agregar");
     });
 
     function CargarUbigeo() {
