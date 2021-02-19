@@ -110,8 +110,8 @@
 					<form name="frm_comprobanteelectronico" id="frm_comprobanteelectronico" action="#" method="post" accept-charset="utf-8">
 						<div class="row">
 							<div class="col-md-12 text-center">
-								<a href="<?= base_url('menu') ?>" class="btn btn-warning btn-block btn-labeled btn-xs legitRipple">
-									REGRESAR AL MENÚ PRINCIPAL</a>
+								<a href="<?= base_url('venta') ?>" class="btn btn-warning btn-block btn-labeled btn-xs legitRipple">
+									IR A LISTADO DE FACTURAS</a>
 							</div>
 							<div class="col-md-12" style="margin-bottom: 15px;">
 								<div class="panel" style="max-width: 1100px; margin: 0 auto;">
