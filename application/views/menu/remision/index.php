@@ -110,7 +110,7 @@
                                                 <td>
                                                     <h5 class="m-b-0"><?= $c->numero ?></h5>
                                                 </td>
-                                                <td><?= $c->fecha_remision ?></td>
+                                                <td><p><?= $c->fecha_remision ?></p><small><?= $c->hora_remision ?></small></td>
                                                 <td>
                                                     <h5 class="m-b-0"><?= $c->destinatario_nombre ?></h5>
                                                 </td>
