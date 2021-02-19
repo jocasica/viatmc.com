@@ -712,7 +712,7 @@ class Pdfdos
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(50, 8, utf8_decode('ESTABLECIMIENTO:'), 0, 0, 'L');
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Cell(85, 8, utf8_decode("Jr. Pataz Nº 1243 Mz. Q Lt. 30"), 0, 0, 'L');
+        $pdf->Cell(85, 8, utf8_decode("Jr. Pataz N° 1243 Int. B Urb."), 0, 0, 'L');
 
 
         $pdf->Ln(15);
@@ -783,11 +783,11 @@ class Pdfdos
 
         $pdf->SetFont('Arial', '', 8.8);
         $pdf->Ln(13);
-        $pdf->Cell(55, 4, utf8_decode('Jr. Pataz Nº 1243 Mz. Q Lt. 30'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('Jr. Pataz N° 1243 Int. A Urb.'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Soles:0011-0342-38-0100024845'), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida I Etapa'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('Covida I Etapa Los Olivos'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Dólares:0011-0312-01-0000896'), 0, 0, 'L');
         $pdf->Ln();
@@ -973,11 +973,11 @@ class Pdfdos
 
         $pdf->SetFont('Arial', '', 8.8);
         $pdf->Ln(12);
-        $pdf->Cell(55, 4, utf8_decode('Jr. Pataz Nº 1243 Mz. Q Lt. 30'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('Jr. Pataz N° 1243 Int. B Urb.'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Soles:0011-0342-38-0100024845'), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida I Etapa'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('Covida I Etapa Los Olivos'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Dólares:0011-0312-01-0000896'), 0, 0, 'L');
         $pdf->Ln();
@@ -1243,7 +1243,7 @@ class Pdfdos
 
         $pdf->SetFont('Arial', '', 10);
         $pdf->Ln(14);
-        $pdf->Cell(70, 5, utf8_decode('Jr. Pataz Nº 1243 Mz. Q Lt. 30'), 0, 0, 'R');
+        $pdf->Cell(70, 5, utf8_decode('Jr. Pataz N° 1243 Int. B Urb.'), 0, 0, 'R');
         $pdf->Cell(40, 5, "", 0, 0, 'C');
         $pdf->Cell(80, 5, utf8_decode('Cta. Cte. BBVA Soles:0011-0342-38-0100024845'), 0, 0, 'L');
         $pdf->Ln(4);
@@ -1446,11 +1446,11 @@ class Pdfdos
 
         $pdf->SetFont('Arial', '', 8.8);
         $pdf->Ln(12);
-        $pdf->Cell(55, 4, utf8_decode('Jr. Pataz Nº 1243 Mz. Q Lt. 30'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('Jr. Pataz N° 1243 Int. B Urb.'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Soles:0011-0342-38-0100024845'), 0, 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(55, 4, utf8_decode('2do Piso. Urb. Covida I Etapa'), 0, 0, 'R');
+        $pdf->Cell(55, 4, utf8_decode('Covida I Etapa Los Olivos'), 0, 0, 'R');
         $pdf->Cell(60, 4, "", 0, 0, 'C');
         $pdf->Cell(78, 4, utf8_decode('Cta. Cte. BBVA Dólares:0011-0312-01-0000896'), 0, 0, 'L');
         $pdf->Ln();
