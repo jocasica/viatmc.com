@@ -387,7 +387,7 @@ class Venta_model extends CI_Model
             LEFT JOIN venta v ON v.remision_id = r.id
             LEFT JOIN factura f ON f.venta_id = v.id
             WHERE r.estado = 1";
-        $orderBy = " ORDER BY r.fecha_remision DESC ";
+        $orderBy = " ORDER BY r.id DESC ";
         $sql .= $orderBy;
         return mysqli_query($this->getDatabaseConnection(), $sql);
     }

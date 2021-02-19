@@ -108,7 +108,7 @@
         $('#tabla_lista_guias_remision').DataTable({
             language: spanishTableInfo,
             "order": [
-                [3, "desc"]
+                [0]
             ],
             "scrollX": true
             //"order": false // por orden de fecha de remisión
