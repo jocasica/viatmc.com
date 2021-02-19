@@ -803,8 +803,8 @@ tableproductos {
                         </tr>
                         <tr>
                             <td style="width:33%;">
-                                <p style="text-transform: none; text-align:right;">Jr. Pataz Nº 1243 Mz. Q Lt. 30</p>
-                                <p style="text-transform: none; text-align:right;">2do Piso. Urb. Covida II Etapa</p>
+                                <p style="text-transform: none; text-align:right;">Jr. Pataz Nº 1243 Int. B Urb. Covida</p>
+                                <p style="text-transform: none; text-align:right;">Etapa Los Olivos</p>
                                 <p style="text-transform: none; text-align:right;">Los Olivos - Lima</p>
                                 <p style="text-transform: none; text-align:right;">Referencia: En paralelo con</p>
                                 <p style="text-transform: none; text-align:right;">Av. Antunez de Mayolo</p>
@@ -817,7 +817,7 @@ tableproductos {
                                 <p style="text-transform: none; text-align:left;">TELF.: 4851187 CEL.: 968 871 841</p>
                                 <p style="text-transform: none; text-align:left;">tecnologia.medica.corporation@gmail.com</p>
                                 <p style="text-transform: none; text-align:left;">ventas@tecnologiamedicacorporation.com</p>
-                                <p style="text-transform: none; text-align:left;">www.tecnologiamedicacorporation.com</p>
+                                <p style="text-transform: none; text-align:left;">www.viatmc.com</p>
                             </td>
                         </tr>
                     </tbody>
@@ -1036,8 +1036,8 @@ tableproductos {
 													</tr>
 													<tr>
 															<td style="width:33%;">
-																	<p style="text-transform: none; text-align:right;">Jr. Pataz Nº 1243 Mz. Q Lt. 30</p>
-																	<p style="text-transform: none; text-align:right;">2do Piso. Urb. Covida II Etapa</p>
+																	<p style="text-transform: none; text-align:right;">Jr. Pataz Nº 1243 Int. B Urb. Covida</p>
+																	<p style="text-transform: none; text-align:right;">Etapa Los Olivos</p>
 																	<p style="text-transform: none; text-align:right;">Los Olivos - Lima</p>
 																	<p style="text-transform: none; text-align:right;">Referencia: En paralelo con</p>
 																	<p style="text-transform: none; text-align:right;">Av. Antunez de Mayolo</p>
@@ -1050,7 +1050,7 @@ tableproductos {
 																	<p style="text-transform: none; text-align:left;">TELF.: 4851187 CEL.: 968 871 841</p>
 																	<p style="text-transform: none; text-align:left;">tecnologia.medica.corporation@gmail.com</p>
 																	<p style="text-transform: none; text-align:left;">ventas@tecnologiamedicacorporation.com</p>
-																	<p style="text-transform: none; text-align:left;">www.tecnologiamedicacorporation.com</p>
+																	<p style="text-transform: none; text-align:left;">www.viatmc.com</p>
 															</td>
 													</tr>
 											</tbody>
@@ -1278,8 +1278,8 @@ tableproductos {
                             </tr>
                             <tr>
                                 <td style="width:33%;">
-                                    <p style="text-transform: none; text-align:right;">Jr. Pataz Nº 1243 Mz. Q Lt. 30</p>
-                                    <p style="text-transform: none; text-align:right;">2do Piso. Urb. Covida II Etapa</p>
+                                    <p style="text-transform: none; text-align:right;">Jr. Pataz Nº 1243 Int. A Urb. Covida</p>
+                                    <p style="text-transform: none; text-align:right;">Etapa Los Olivos</p>
                                     <p style="text-transform: none; text-align:right;">Los Olivos - Lima</p>
                                     <p style="text-transform: none; text-align:right;">Referencia: En paralelo con</p>
                                     <p style="text-transform: none; text-align:right;">Av. Antunez de Mayolo</p>
@@ -1292,7 +1292,7 @@ tableproductos {
                                     <p style="text-transform: none; text-align:left;">TELF.: 4851187 CEL.: 968 871 841</p>
                                     <p style="text-transform: none; text-align:left;">tecnologia.medica.corporation@gmail.com</p>
                                     <p style="text-transform: none; text-align:left;">ventas@tecnologiamedicacorporation.com</p>
-                                    <p style="text-transform: none; text-align:left;">www.tecnologiamedicacorporation.com</p>
+                                    <p style="text-transform: none; text-align:left;">www.viatmc.com</p>
                                 </td>
                             </tr>
                         </tbody>
