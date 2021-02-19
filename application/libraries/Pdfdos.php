@@ -932,7 +932,7 @@ class Pdfdos
         }
         $pdf->Ln(12);
         $pdf->SetX(5);
-        $pdf->Cell(190, 6, utf8_decode('OBSERVACIONES: ' . $data->observaciones), 0, 0, 'C');
+        $pdf->MultiCell(190, 6, utf8_decode('OBSERVACIONES: ' . $data->observaciones), 0, 'L');
         $pdf->output('', $data->serie . '-' . $data->numero . "_" . $data->destinatario_nombre . '.pdf');
     }
     public function reporte_factura_A4($data, $prods)
