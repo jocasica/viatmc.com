@@ -121,7 +121,7 @@ class Venta_model extends CI_Model
         SUM(vp.total) total, 
         f.envio, f.id id_doc, 
         'factura' tipo,
-        estado_api,f.external_id,v.guia_remision_numeros
+        estado_api,f.external_id,v.guia_remision_numeros,f.estado_sunat
         FROM venta v
         INNER JOIN users u ON u.id=v.users_id
         INNER JOIN factura f ON f.venta_id=v.id
@@ -144,7 +144,7 @@ class Venta_model extends CI_Model
         SUM(vp.total) total, 
         f.envio, f.id id_doc, 
         'boleta' tipo,
-        estado_api,f.external_id,v.guia_remision_numeros
+        estado_api,f.external_id,v.guia_remision_numeros,f.estado_sunat
         FROM venta v
         INNER JOIN users u ON u.id=v.users_id
         INNER JOIN boleta f ON f.venta_id=v.id

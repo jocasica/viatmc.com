@@ -140,12 +140,14 @@
                                                             break;
                                                         case 'Aceptado':
                                                             echo '<label class="badge badge-success">Aceptado</label>';
+                                                            /*
                                                             echo '<label '
                                                                 . ' data-cpe="anular_guia"'
                                                                 . ' data-id="' . $c->id . '"'
                                                                 . ' data-serie="' . $c->serie . '"'
                                                                 . ' data-numero="' . $c->numero . '"'
                                                                 . ' class="badge badge-danger"><i class="fa fa-trash"></i> Anular</label>';
+                                                                */
                                                             break;
                                                         case 'Observado':
                                                             echo '<label class="badge badge-warning">Observado</label>';

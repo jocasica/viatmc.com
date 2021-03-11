@@ -2202,6 +2202,7 @@
     /**
      * Botón que envía petición para obtener el estado de SUNAT
      */
+    /*
     $(document).on('click', '.btn_estado_sunat', function(e) {
 
         // Obtener variables para petición
@@ -2289,6 +2290,61 @@
             }
         });
         e.preventDefault();
+    });
+    */
+
+    $(document).on('click', '.btn_estado_sunat', function(e) {
+
+        // Obtener variables para petición
+        var factura_id = $(this).data("facturaid");
+        var numero_ruc_emisor = <?php echo $_SERVER['APP_EMPRESA_RUC'] ?>;
+        var codigo_tipo_documento = $(this).data("tipo");
+        var serie_documento = $(this).data("serie");
+        var numero_documento = $(this).data("numero");
+        var fecha_de_emision = $(this).data("fecha");
+        var total = $(this).data("total");
+
+        // Objeto de tipo FormData para petición ajax
+        var fd = new FormData();
+        fd.append('numero_ruc_emisor', numero_ruc_emisor);
+        fd.append('codigo_tipo_documento', codigo_tipo_documento);
+        fd.append('serie_documento', serie_documento);
+        fd.append('numero_documento', numero_documento);
+        fd.append('fecha_de_emision', fecha_de_emision);
+        fd.append('total', total);
+
+        var estado = $(this).data("estado_api");
+        if (estado == "Aceptado" || estado == "Registrado") {
+            $.ajax({
+                url: '<?= base_url('Venta/EstadoSunat') ?>',
+                type: 'POST',
+                data: {
+                    'tipo': codigo_tipo_documento,
+                    'estado': "Aceptado",
+                    'id': factura_id
+                },
+                dataType: 'JSON',
+                success: function(data) {
+                    console.log(data);
+                    // Si la petición obtiene un resultado, mostrar modal con el estado SUNAT
+                    swal({
+                            title: "Estado SUNAT",
+                            text: estado,
+                            showConfirmButton: true,
+                            confirmButtonText: "Aceptar",
+                            allowOutsideClick: false
+
+                        }, function(isConfirm) {
+                            if (isConfirm) {
+
+                                window.location.reload();
+                            }
+                        }
+
+                    );
+                }
+            });
+        }
     });
     $(document).on('click', '.btn-generarxml', function(e) {
         var serie = $(this).data('serie');
@@ -2652,96 +2708,96 @@
         if (numero !== '') {
 
 
-$.ajax({
+            $.ajax({
 
-    url: "<?php echo base_url('venta/consulta_sunat'); ?>",
-    type: 'POST',
-    data: {
-        num_doc: numero,
-        isDni: false
-    },
-    error: function() {
-        swal({
+                url: "<?php echo base_url('venta/consulta_sunat'); ?>",
+                type: 'POST',
+                data: {
+                    num_doc: numero,
+                    isDni: false
+                },
+                error: function() {
+                    swal({
 
-            title: 'Error',
-            text: 'Problema SUNAT',
-            type: 'error',
-            timer: 2000
-            //showConfirmButton:false
-
-
-        });
-    },
-    beforeSend: function() {
-
-        swal({
-
-            title: 'Cargando',
-            text: 'Espere un momento',
-            imageUrl: 'https://raw.githubusercontent.com/claudito/curso-php/master/semana04/img/loader2.gif',
-            showConfirmButton: false
-        });
+                        title: 'Error',
+                        text: 'Problema SUNAT',
+                        type: 'error',
+                        timer: 2000
+                        //showConfirmButton:false
 
 
-    },
-    success: function(data) {
+                    });
+                },
+                beforeSend: function() {
 
-        if (data) {
-            swal({
+                    swal({
 
-                title: 'Buen Trabajo',
-                text: 'Registro Encontrado',
-                type: 'success',
-                timer: 2000
-                //showConfirmButton:false
+                        title: 'Cargando',
+                        text: 'Espere un momento',
+                        imageUrl: 'https://raw.githubusercontent.com/claudito/curso-php/master/semana04/img/loader2.gif',
+                        showConfirmButton: false
+                    });
+
+
+                },
+                success: function(data) {
+
+                    if (data) {
+                        swal({
+
+                            title: 'Buen Trabajo',
+                            text: 'Registro Encontrado',
+                            type: 'success',
+                            timer: 2000
+                            //showConfirmButton:false
+
+
+                        });
+                        const nombre = data.data.nombre_o_razon_social;
+                        const direccion = data.data.direccion_completa;
+                        const estado_contribuyente = data.data.estado;
+                        const condicion_contribuyente = data.data.condicion;
+
+
+                        //Bk_RucRazonSocial
+                        $('#transportista_nombre').val(nombre);
+                        if (($("#transportista_direccion").length)) {
+                            $('#transportista_direccion').val(direccion);
+                        } //end if
+                    } else {
+                        swal({
+
+                            title: 'Error',
+                            text: 'Problema SUNAT',
+                            type: 'error',
+                            timer: 2000
+                            //showConfirmButton:false
+
+
+                        });
+
+                    }
+                }
 
 
             });
-            const nombre = data.data.nombre_o_razon_social;
-            const direccion = data.data.direccion_completa;
-            const estado_contribuyente = data.data.estado;
-            const condicion_contribuyente = data.data.condicion;
 
 
-            //Bk_RucRazonSocial
-            $('#transportista_nombre').val(nombre);
-            if (($("#transportista_direccion").length)) {
-                $('#transportista_direccion').val(direccion);
-            } //end if
         } else {
+
+
             swal({
 
-                title: 'Error',
-                text: 'Problema SUNAT',
-                type: 'error',
-                timer: 2000
+                title: 'Registro Vacio',
+                text: 'Necesita Ingresar el Número de Documento',
+                type: 'info',
+                timer: 3000
                 //showConfirmButton:false
 
 
             });
 
         }
-    }
-
-
-});
-
-
-} else {
-
-
-swal({
-
-    title: 'Registro Vacio',
-    text: 'Necesita Ingresar el Número de Documento',
-    type: 'info',
-    timer: 3000
-    //showConfirmButton:false
-
-
-});
-
-}
         e.preventDefault();
     });
 </script>

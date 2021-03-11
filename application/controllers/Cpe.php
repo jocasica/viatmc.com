@@ -524,25 +524,39 @@ class Cpe extends CI_Controller
             $serie = $_POST['serie'];
             $numero = $_POST['numero'];
             $_empresa = $this->guia_model->getConfig();
+
+           
             $_doc = $this->guia_model->getDatosRemision($id);
+
+          
             $_items = $this->guia_model->getProductosRemision($id)->result();
+         
             //api
             $serie_documento = $_doc->serie;
             $numero_documento = (int) $_doc->numero;
             $fecha_de_emision = $_doc->fecha_remision;
-            $hora_de_emision = date('H:i:s');
+            $hora_de_emision = $_doc->hora_remision;
             $cliente_tipodocumento = $_doc->destinatario_identidad_tipo;
             $cliente_numerodocumento = $_doc->destinatario_identidad_numero;
             $cliente_nombre = $_doc->destinatario_nombre;
             $cliente_direccion = $_doc->llegada_direccion;
+            $observacion= $_doc->observaciones;
             $items = array();
             foreach ($_items as $value) {
                 $i_item = array(
-                    "codigo_interno" => substr(md5(uniqid() . mt_rand()), 0, 10), //debe estar creado en el api
+                    "codigo_interno" => $value->producto_id, //debe estar creado en el api
                     "cantidad" => $value->cantidad,
+                    "descripcion" => $value->descripcion,
+                    "unidad_de_medida" => $value->unidad_medida_nombre,
+                    "precio_unitario" => $value->precio_venta, //59,
+                    "porcentaje_igv" => 18, //18,
+                    "codigo_items_sunat" => '10000000',
+                    "codigo_tipo_afectacion_igv" => '10', //"10",
                 );
                 $items[] = $i_item;
             }
+
+       
             $datos_del_emisor = array(
                 "codigo_pais" => "PE",
                 "ubigeo" => $_empresa->codigo_ubigeo,
@@ -587,7 +601,7 @@ class Cpe extends CI_Controller
                 "codigo_tipo_documento" => '09',
                 "datos_del_emisor" => $datos_del_emisor,
                 "datos_del_cliente_o_receptor" => $datos_del_cliente_o_receptor,
-                "observaciones" => "-",
+                "observaciones" => $observacion,
                 "codigo_modo_transporte" => $_doc->modalidad_transporte == 'Transporte publico' ? '01' : '02',
                 "codigo_motivo_traslado" => $_doc->motivo_traslado_codigo,
                 "descripcion_motivo_traslado" => $_doc->motivo_traslado_descripcion,
@@ -605,6 +619,7 @@ class Cpe extends CI_Controller
                 "numero_de_placa" => $_doc->placa_vehiculo_transporte, //"A01-1254",
                 "items" => $items
             );
+          
             //print_r($_dataCURL); exit();
             $CURLOPT_URL = $_SERVER['APP_CPE_URL'];
             $Authorization_token = $_SERVER['APP_CPE_TOKEN'];
@@ -623,16 +638,18 @@ class Cpe extends CI_Controller
             ));
             //exit();
             $responseAPI = curl_exec($curl);
+           
             curl_close($curl);
             if (!empty($responseAPI)) {
                 $rs = json_decode($responseAPI, true);
                 if (is_array($rs)) {
                     if ($rs['success']) {
                         $external_id = isset($rs['data']['external_id']) ? $rs['data']['external_id'] : null;
-                        $estado_api = isset($rs['data']['state_type_description']) ? $rs['data']['state_type_description'] : null;
+                        $estado_api = isset($rs['data']['status']) ? $rs['data']['status'] : null;
+                        //$estado_api = isset($rs['data']['state_type_description']) ? $rs['data']['state_type_description'] : null;
                         //print_r($data);
                         //print_r($where);
-                        $this->guia_model->updateCPE($id, $external_id, 'Registrado');
+                        $this->guia_model->updateCPE($id, $external_id, "Aceptado");
                     }
                 }
                 echo $responseAPI;

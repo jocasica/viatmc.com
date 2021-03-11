@@ -230,7 +230,7 @@
                             break;
                         } ?>
                       <td>
-                      <?php
+                        <?php
                         $tipo = "";
                         if ($row['serie'][0] == "F") {
                           $tipo = "factura";
@@ -247,7 +247,7 @@
                                                       echo "warning";
                                                     }
                                                   } ?>"><?= $row['estado_sunat'] ?></label>
-                        <label class="label label-primary btn_estado_sunat" data-facturaid="<?= $row['factura_id'] ?>" data-serie="<?= $row['serie'] ?>" data-tipo="<?php if ($row['serie'][0] == "F") { ?>01<?php } else { ?>03<?php } ?>" data-numero="<?= $row['numero'] ?>" data-fecha="<?php echo $row['fecha_sunat'] ?>" data-total="<?php echo $row['total'] ?>">Buscar</label>
+                        <label class="label label-primary btn_estado_sunat" data-estado_api="<?= $row['estado_api'] ?>" data-facturaid="<?= $row['factura_id'] ?>" data-serie="<?= $row['serie'] ?>" data-tipo="<?php if ($row['serie'][0] == "F") { ?>01<?php } else { ?>03<?php } ?>" data-numero="<?= $row['numero'] ?>" data-fecha="<?php echo $row['fecha_sunat'] ?>" data-total="<?php echo $row['total'] ?>">Buscar</label>
                         <?php
                         if (strtoupper($row['estado_sunat']) == "ACEPTADO") { ?>
                           <br>
@@ -261,7 +261,7 @@
                         <h5 class="m-b-0"><?php echo $row['total'] . ' ' . $row['codigo_moneda']; ?></h5>
                       </td>
                       <td>
-                      
+
                         <a target="_blank" href="<?= base_url('prueba?tipo=' . $tipo . 'A4&id=' . $row['id']) ?>">
                           <i class="fas fa-file-alt"></i> A4
                         </a>
@@ -279,15 +279,15 @@
                           $tipo = "boleta";
                         }
                         ?>
-                        <a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/xml/".$row['external_id'] ?>">
+                        <a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT'] . "/xml/" . $row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> XML
                         </a>
                         <br>
-                        <a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/cdr/".$row['external_id'] ?>">
+                        <a target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT'] . "/cdr/" . $row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> CDR
                         </a>
                         <br>
-                        <a   hidden target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT']."/pdf/".$row['external_id'] ?>">
+                        <a hidden target="_blank" href="<?= $_SERVER['APP_CPE_DOCUMENT'] . "/pdf/" . $row['external_id'] ?>">
                           <i class="fas fa-cloud-download-alt"></i> PDF
                         </a>
                       </td>
