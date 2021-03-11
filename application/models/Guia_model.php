@@ -24,9 +24,11 @@ class Guia_model extends CI_Model {
     }
     
     public function getProductosRemision($id) {
-        return $this->db->query("SELECT p.*
+        return $this->db->query("SELECT p.*,um.descripcion as unidad_medida_nombre,pr.precio_venta
         FROM remision c
         INNER JOIN remision_producto p ON p.remision_id = c.id
+        INNER JOIN producto pr ON p.producto_id = pr.id
+        INNER JOIN unidad_medida um ON pr.unidad_medida_id = um.id
         WHERE c.id = " . $id);
     }
     public function crearRemision($c) {
