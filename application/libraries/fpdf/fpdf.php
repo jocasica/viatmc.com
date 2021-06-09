@@ -367,10 +367,15 @@ function Header()
 function Footer()
 {
      if (isset($this->footer)) {
-    $this->setX(10);
+ 
+		$url="";
+		if (isset($this->url_dir)){
+			$url=$this->url_dir;
+		}
+		$this->setX(10);
     $this->Cell(150, 20, $this->Image('images/imagen-footer.png', $this->GetX(), 268, 150,20), 0, 0, 'C');
     $this->setX(175);
-    $this->Cell(25, 20, $this->Image('plantilla/assets/theme_doc_elect/images/qr.png', $this->GetX(), 268, 25, 20), 0, 0, 'C');
+    $this->Cell(25, 20, $this->Image($url, $this->GetX(), 268, 25, 20), 0, 0, 'C');
      }
 }
 
@@ -2059,4 +2064,3 @@ function NbLines($w,$txt)
 	}
 	return $nl;
 }}
-?>

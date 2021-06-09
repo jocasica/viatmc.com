@@ -158,7 +158,32 @@ class Prueba extends CI_Controller
             $this->load->library('pdfdos');
             $pdf = $this->pdfdos;
             //$compras = $this->Compra_model->getComprasReporte();
-
+            $qr_code_config = array();
+            $qr_code_config['cacheable'] = $this->config->item('cacheable');
+            $qr_code_config['cachedir'] = $this->config->item('cachedir');
+            $qr_code_config['ruta_base'] = $this->config->item('ruta_base');
+            $qr_code_config['errorlog'] = $this->config->item('errorlog');
+            $qr_code_config['ciqrcodelib'] = $this->config->item('ciqrcodelib');
+            $qr_code_config['quality'] = $this->config->item('quality');
+            $qr_code_config['size'] = $this->config->item('size');
+            $qr_code_config['black'] = $this->config->item('black');
+            $qr_code_config['white'] = $this->config->item('white');
+            $this->ci_qr_code->initialize($qr_code_config);
+            $image_name = "qr.png";
+            // create user content
+            $codeContents = $data->serie . '-';
+            $codeContents .= $data->numero . "||";
+            $codeContents .= $data->docum . "||";
+            $codeContents .= $data->created_at . "||";
+            $codeContents .= $data->hash;
+            $params['data'] = $codeContents;
+            $params['level'] = 'H';
+            $params['size'] = 5;
+            $params['savename'] = $this->config->item('ruta_base') . 'archivos_xml_sunat/' . $image_name;
+            $this->ci_qr_code->generate($params);
+            
+            $data->url = $this->config->item('ruta_base') . 'archivos_xml_sunat/' . $image_name;
+         
             $pdf->reporte_factura_A4($data, $prods);
         }
         if ($tipo_cpe == 'factura_nota_creditoA4') {
