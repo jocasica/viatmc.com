@@ -616,7 +616,14 @@ class Venta extends CI_Controller
                 'cliente_ubigeo' => $data['tarjeta_bonus'],
                 'observacion' => $data["observacion_documento"],
                 'guia_remision_ids' => $guia_remision_id,
-                'guia_remision_numeros ' => $guia_remision_serie_numero
+                'guia_remision_numeros ' => $guia_remision_serie_numero,
+
+                // NUEVO CREDITO
+                'condicion_pago' => isset($data["condicion_pago"]) ? $data["condicion_pago"] : null,
+                'credito_con_cuotas' => isset($data["condicion_pago"]) ? ($data["condicion_pago"]!='CREDITO CON CUOTAS' ? null : $data["credito_con_cuotas"]) : null,
+                'credito_metodo_pago' => isset($data["condicion_pago"]) ? ($data["condicion_pago"]!='CREDITO' ? null : $data["credito_metodo_pago"]) : null,
+                'credito_fecha' => isset($data["condicion_pago"]) ? ($data["condicion_pago"]!='CREDITO' ? null : $data["credito_fecha"]) : null,
+                'credito_monto' => isset($data["condicion_pago"]) ? ($data["condicion_pago"]!='CREDITO' ? null : $data["credito_monto"]) : null,
 
             );
             $rutas = array();
@@ -1440,6 +1447,28 @@ class Venta extends CI_Controller
                 "correo_electronico" => "",
                 "telefono" => ""
             );
+
+            // NUEVO CREDITO
+            $cuotas = [];
+            if($_doc->metodo_pago == 'CREDITO') {
+                if($_doc->condicion_pago  == 'CREDITO CON CUOTAS') {
+                    $credito_con_cuotas = json_decode($_doc->credito_con_cuotas);
+                    foreach($credito_con_cuotas as $cuota) {
+                        $cuotas[] = array(
+                            'fecha' => $cuota->fecha,
+                            'codigo_tipo_moneda' => 'PEN',
+                            'monto' => floatval($cuota->monto),
+                        );
+                    }
+                } else if($_doc->condicion_pago  == 'CREDITO') {
+                    $cuotas[] = array(
+                        'fecha' => $_doc->credito_fecha,
+                        'codigo_tipo_moneda' => 'PEN',
+                        'monto' => floatval($_doc->credito_monto),
+                    );
+                }
+            }
+
             $totales = array(
                 "total_exportacion" => 0,
                 "total_operaciones_gravadas" => $total_operaciones_gravadas,
@@ -1451,22 +1480,29 @@ class Venta extends CI_Controller
                 "total_valor" => $total_operaciones_gravadas,
                 "total_venta" => $total
             );
-            $_dataCURL = array(
-                "serie_documento" => $serie_documento,
-                "numero_documento" => $numero_documento,
-                "fecha_de_emision" => $fecha_de_emision, //"2019-09-17"
-                "hora_de_emision" => $hora_de_emision, //"10:11:11"
-                "codigo_tipo_operacion" => "0101",
-                "codigo_tipo_documento" => $codigo_tipo_documento,
-                "codigo_tipo_moneda" => "PEN",
-                "fecha_de_vencimiento" => $fecha_de_vencimiento,
-                "numero_orden_de_compra" => "",
-                "datos_del_cliente_o_receptor" => $datos_del_cliente_o_receptor,
-                "totales" => $totales,
-                "items" => $items,
-                "informacion_adicional" =>  $_doc->observacion,
-                "guias" => $guias
-            );
+
+            // dataCURL
+            $_dataCURL["serie_documento"] = $serie_documento;
+            $_dataCURL["numero_documento"] = $numero_documento;
+            $_dataCURL["fecha_de_emision"] = $fecha_de_emision; //"2019-09-17"
+            $_dataCURL["hora_de_emision"] = $hora_de_emision; //"10:11:11"
+            $_dataCURL["codigo_tipo_operacion"] = "0101";
+            $_dataCURL["codigo_tipo_documento"] = $codigo_tipo_documento;
+            $_dataCURL["codigo_tipo_moneda"] = "PEN";
+            $_dataCURL["fecha_de_vencimiento"] = $fecha_de_vencimiento;
+            $_dataCURL["numero_orden_de_compra"] = "";
+            $_dataCURL["datos_del_cliente_o_receptor"] = $datos_del_cliente_o_receptor;
+            if($_doc->metodo_pago == 'CREDITO') {
+                $_dataCURL["codigo_condicion_de_pago"] = "02";
+                $_dataCURL["cuotas"] = $cuotas;
+            } else {
+                $_dataCURL["codigo_condicion_de_pago"] = "01";
+            }
+            $_dataCURL["totales"] = $totales;
+            $_dataCURL["items"] = $items;
+            $_dataCURL["informacion_adicional"] = isset($_doc->observacion) ? $_doc->observacion : null;
+            $_dataCURL["guias"] = $guias;
+
             //print_r($_dataCURL); exit();
             $CURLOPT_URL = $_SERVER['APP_CPE_URL'];
             $Authorization_token = $_SERVER['APP_CPE_TOKEN'];
