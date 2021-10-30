@@ -655,7 +655,7 @@ class Venta_model extends CI_Model
 
     public function getDatosVentaFacturaA4($venta_id)
     {
-        $result = $this->db->query("select f.estado_api,v.codigo_moneda, f.fecha, f.vencimiento,f.hash, f.ruc docum, f.direccion,f.cliente, f.serie, LPAD(f.numero, 8, '0') numero, v.created_at,v.guia_remision,v.orden_servicio
+        $result = $this->db->query("select f.estado_api,v.codigo_moneda, f.fecha, f.vencimiento,f.hash, f.ruc docum, f.direccion,f.cliente, f.serie, LPAD(f.numero, 8, '0') numero, v.created_at,v.guia_remision,v.orden_servicio, v.condicion_pago, v.credito_con_cuotas, v.credito_metodo_pago, v.credito_fecha, v.credito_monto
     ,case when f.envio = 'enviado' then 'Aceptado'
     when f.envio = 'rechazado' then 'Rechazado' when f.envio = 'pendiente' then 'Pendiente'
     end as envio,v.tipo_venta, v.metodo_pago,v.observacion,v.guia_remision_numeros 
