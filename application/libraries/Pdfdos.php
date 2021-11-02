@@ -1202,6 +1202,24 @@ class Pdfdos
         $pdf->MultiCell(150, 6,  utf8_decode("El comprobante numero " . $data->serie . " - " . $data->numero . " se encuentra " . ($data->estado_api != NULL ? $data->estado_api : 'registrado') . " por SUNAT. " . $data->observacion),  1, 'L');
         $pdf->setY($pdf->GetY() + 10);
 
+        // CONDICION DE PAGO
+        $pdf->SetFont('Arial', 'B', 9.5);
+        // $pdf->Ln(10);
+        $pdf->setX(10);
+        $pdf->setY($pdf->getY());
+        $pdf->Cell(40, 5, utf8_decode('CONDICIÓN DE PAGO: ' . ($data->condicion_pago ? $data->condicion_pago : 'CONTADO')), 0, 0, 'L');
+
+        $pdf->SetFont('Arial', '', 9.5);
+        if($data->condicion_pago == 'CREDITO CON CUOTAS') {
+            $cuotas = json_decode($data->credito_con_cuotas);
+            foreach($cuotas as $index => $cuota) {
+                $pdf->Ln(4.5);
+                $pdf->Cell(40, 5, ' - Cuota #' . ($index + 1) . ' / Fecha: ' . (date('d-m-Y', strtotime($cuota->fecha))) . ' / Monto: S/' . $cuota->monto, 0, 0, 'L');
+            }
+        } else if($data->condicion_pago == 'CREDITO') {
+            $pdf->Ln(4.5);
+            $pdf->Cell(40, 5, ' - Cuota #1' . ' / Fecha: ' . (date('d-m-Y', strtotime($data->credito_fecha))) . ' / Monto: S/' . $data->credito_monto, 0, 0, 'L');
+        }
 
         $pdf->output('', $data->serie . '-' . $data->numero . "_" . $data->cliente . '.pdf');
     }

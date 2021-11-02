@@ -328,7 +328,10 @@
 														</select>
 													</div>
 												</div>
-
+												<div class="col-md-1" id="contenedor_boton_detalle_credito" hidden>
+													<label for="">&nbsp;</label><br>
+													<button type="button" onclick="abrir_modal_detalle_credito()" class="btn btn-info btn-sm"><i class="fa fa-list"></i></button>
+												</div>
 											</div>
 
 											<div class="col-md-12">
@@ -731,6 +734,72 @@
 	</div>
 	<!-- /primary modal -->
 
+	<!-- Modal Detalle de CREDITO -->
+	<div class="modal fade" id="modal_detalles_credito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h5 class="modal-title" id="exampleModalLabel">Credito</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							<label for="credito_condicion_pago">Condición de Pago</label>
+							<select id="credito_condicion_pago" class="form-control">
+								<option value="CREDITO CON CUOTAS">Crédito con cuotas</option>
+								<option value="CREDITO">Credito</option>
+							</select>
+						</div>
+					</div>
+					<br>
+					<div id="contenedor_pago_credito_con_cuotas">
+						<div class="row">
+							<div class="col-md-3">
+								<label>Fecha</label>
+							</div>
+							<div class="col-md-3">
+								<label>Monto</label>
+							</div>
+						</div>
+						<div id="contenedor_credito_con_cuotas">
+							<!-- dinámico -->
+						</div>
+						<div class="row mt-2">
+							<div class="col-md-6">
+								<span onclick="agregar_cuota(true)" class="cursor_pointer"><i class="fa fa-plus text-info"></i> Agregar cuota</span>
+							</div>
+						</div>
+					</div>
+
+					<div id="contenedor_pago_credito" class="mt-1 mb-3" hidden>
+						<div class="row">
+							<div class="col-md-4">
+								<label for="cpe_credito_metodo_pago">Método de pago</label>
+								<select name="cpe_credito_metodo_pago" id="cpe_credito_metodo_pago" class="form-control">
+									<option value="Factura a 30 días">Factura a 30 días</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="cpe_credito_fecha">Fecha</label>
+								<input type="date" name="cpe_credito_fecha" id="cpe_credito_fecha" class="form-control" value="<?= date('Y-m-d') ?>">
+							</div>
+							<div class="col-md-4">
+								<label for="cpe_credito_monto">Monto</label>
+								<input type="number" name="cpe_credito_monto" id="cpe_credito_monto" step="0.01" class="form-control">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-check"></i> Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 <!-- Core JS files -->
 
@@ -960,6 +1029,19 @@
 			value: $('#remision_id option:selected').text()
 		});
 
+		// DATA NUEVO, CASO CREDITO
+		datastring.push({ name: 'condicion_pago', value: $('#credito_condicion_pago').val()});
+		const credito_con_cuotas = [];
+		$('#contenedor_credito_con_cuotas .row').each(function() {
+			const fecha = $(this).find('input[name="cpe_credito_con_cuotas_fecha"]').val();
+			const monto = $(this).find('input[name="cpe_credito_con_cuotas_monto"]').val();
+			credito_con_cuotas.push({fecha, monto});
+		});
+		datastring.push({ name: 'credito_con_cuotas', value: JSON.stringify(credito_con_cuotas)});
+		datastring.push({ name: 'credito_metodo_pago', value: $('#cpe_credito_metodo_pago').val()});
+		datastring.push({ name: 'credito_fecha', value: $('#cpe_credito_fecha').val()});
+		datastring.push({ name: 'credito_monto', value: $('#cpe_credito_monto').val()});
+
 		// console.log(datastring);
 		// console.log($('#guia_remision').val());
 		//return;
@@ -1096,6 +1178,7 @@
 				.text('RUC'));
 			$('#cliente_tipodocumento').trigger("change");
 			$("#serie_comprobante").html('<option value="F001">F001</option><option value="F002">F002</option>');
+			// $("#serie_comprobante").html('<option value="F001">F001</option><option value="F002">F002</option><option value="FB01">FB01</option>');
 			// $(".search_document").show(); // Ya no en factura
 			$('#cliente_numerodocumento').attr('pattern', '.{11,11}');
 			$('#cliente_numerodocumento').attr('title', 'Número de RUC');
@@ -1348,5 +1431,85 @@
 		// Botón REGISTRAR DOCUMENTO ELECTRONICO -> OCULTO
 		$('#btn_guardar_doc_electronic').hide();
 	});
+
+	// NUEVO, CREDITOS
+	let cantidad_cuotas = 0;
+
+	// Seleccionar Condición de Pago
+	$('#credito_condicion_pago').on('change', function () {
+		const condicion_pago = $('#credito_condicion_pago').val();
+		if(condicion_pago == "CREDITO CON CUOTAS") {
+			$('#contenedor_pago_credito_con_cuotas').attr('hidden', false);
+			$('#contenedor_pago_credito').attr('hidden', true);
+		} else if(condicion_pago == "CREDITO") {
+			$('#contenedor_pago_credito_con_cuotas').attr('hidden', true);
+			$('#contenedor_pago_credito').attr('hidden', false);
+		} else {
+			$('#contenedor_pago_credito_con_cuotas').attr('hidden', true);
+			$('#contenedor_pago_credito').attr('hidden', true);
+		}
+	});
+
+	$('#metodo_pago').on('change', function () {
+		const metodo_pago = $('#metodo_pago').val();
+		if(metodo_pago == 'CREDITO') {
+			$(this).parent().parent().attr('class', 'col-md-3');
+			$('#contenedor_boton_detalle_credito').attr('hidden', false);
+			$('#modal_detalles_credito').modal('show');
+		} else {
+			$(this).parent().parent().attr('class', 'col-md-4');
+			$('#contenedor_boton_detalle_credito').attr('hidden', true);
+		}
+	});
+	function abrir_modal_detalle_credito() {
+		$('#modal_detalles_credito').modal('show');
+	}
+
+	// credito con cuotas
+	function agregar_cuota(btn_eliminar = false) {
+		if(cantidad_cuotas == 12) {
+			swal({
+				title: 'Error!',
+				text: 'Solo es permitido tener máximo 12 cuotas.',
+				html: true,
+				type: 'error',
+				confirmButtonText: 'Aceptar',
+				confirmButtonColor: '#3085d6'
+			})
+			return
+		}
+		const es_html = `
+			<div class="row mt-1">
+				<div class="col-md-4">
+					<input type="date" name="cpe_credito_con_cuotas_fecha"  class="form-control" value="<?= date('Y-m-d') ?>">
+				</div>
+				<div class="col-md-${btn_eliminar ? '3':'4'}">
+					<input type="number" name="cpe_credito_con_cuotas_monto" step="0.01" class="form-control">
+				</div>
+				${ btn_eliminar ?
+						`
+						<div class="col-md-1 px-0"><button type="button" class="btn btn-danger px-3 eliminar_credito_con_cuotas"><i class="fa fa-trash mx-0"></i></button></div>
+						`:''
+				}
+			</div>
+		`;
+		$('#contenedor_credito_con_cuotas').append(es_html);
+		contar_cantidad_cuotas();
+		$('.eliminar_credito_con_cuotas').on('click', function () {
+			$(this).parent().parent().remove();
+			contar_cantidad_cuotas();
+		});
+	}
+	function contar_cantidad_cuotas() {
+		cantidad_cuotas = 0;
+		$('#contenedor_credito_con_cuotas .row').each(function() {
+			cantidad_cuotas++;
+		});
+	}
+
+	$(document).ready(function () {
+		agregar_cuota();
+	});
+
 </script>
 </html>
