@@ -375,7 +375,7 @@ function Footer()
 		$this->setX(10);
     $this->Cell(150, 20, $this->Image('images/imagen-footer.png', $this->GetX(), 268, 150,20), 0, 0, 'C');
     $this->setX(175);
-    $this->Cell(25, 20, $this->Image($url, $this->GetX(), 268, 25, 20), 0, 0, 'C');
+    //$this->Cell(25, 20, $this->Image($url, $this->GetX(), 268, 25, 20), 0, 0, 'C');
      }
 }
 
