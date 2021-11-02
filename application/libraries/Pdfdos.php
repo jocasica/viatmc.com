@@ -939,7 +939,7 @@ class Pdfdos
     {
         $pdf = new FPDF($orientation = 'P', $unit = 'mm', 'A4');
         $pdf->footer = true;
-        $pdf->url_dir=$data->url;
+        $pdf->url_dir= "";
         $pdf->AddPage();
         $pdf->SetAutoPageBreak(true, 30);
         $pdf->SetFont('Arial', '', 20);
